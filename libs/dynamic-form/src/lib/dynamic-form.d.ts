@@ -1,9 +1,9 @@
-interface FormConfig {
+type locale = string;
+
+interface DynamicFormConfig {
   fields: Field[];
-  childFields?: Field[];
   values?: { [key: string]: any };
   form?: any;
-  localize?: boolean;
   locales?: locale[];
 }
 
@@ -51,28 +51,33 @@ type FieldTypes =
   | 'checkbox-group';
 
 interface _FieldBase<T> {
+  /* Basics */
   type: FieldTypes;
   key: string;
-  group?: string;
-  title?: string;
+  title: string;
   description?: string;
-  label?: string;
-  asyncCondition?: (form?: any) => any;
-  disabled?: boolean;
-  localisation?: boolean;
-  defaultValue?: T;
-  parent?: FieldParent;
-  value?: T;
-  validation?: FieldValidation;
   placeholder?: string;
   hint?: string;
+  disabled?: boolean;
+  hidden?: boolean;
+  /* Advanced */
+  value?: T;
+  defaultValue?: T;
+  group?: string;
+  localisation?: boolean;
+  validation?: FieldValidation;
+  parent?: FieldParent;
+  /* Functions */
+  asyncCondition?: (form?: any) => any;
 }
 
+/* Fields */
 interface TextField extends _FieldBase<string> {
   type: 'text' | 'number' | 'email';
 }
 interface TextareaField extends _FieldBase<string> {
   type: 'textarea';
+  layout?: 'textarea' | 'editable-div' | 'markdown';
 }
 interface ActionField extends _FieldBase<string> {
   type: 'action';
