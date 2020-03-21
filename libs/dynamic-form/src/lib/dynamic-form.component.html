@@ -1,0 +1,46 @@
+<div *ngIf="form">
+  <ng-container *ngIf="config | async as config">
+    <ng-container *ngFor="let field of config.fields">
+      <div [ngSwitch]="field.type" *ngIf="!(field | fieldParent: form | async)">
+
+        <app-text *ngSwitchCase="'text'" type="text" [control]="getControl(form,field)" [field]="field"></app-text>
+
+        <app-text *ngSwitchCase="'email'" type="email" [control]="getControl(form,field)" [field]="field"></app-text>
+
+        <app-text *ngSwitchCase="'tel'" type="tel" [control]="getControl(form,field)" [field]="field"></app-text>
+        <app-text *ngSwitchCase="'number'" type="number" [control]="getControl(form,field)" [field]="field"></app-text>
+
+        <app-text *ngSwitchCase="'url'" type="url" [control]="getControl(form,field)" [field]="field"></app-text>
+
+        <app-textarea *ngSwitchCase="'textarea'" [control]="getControl(form,field)" [field]="field"></app-textarea>
+
+        <app-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(form,field)" [field]="field"></app-dropdown>
+
+        <app-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(form,field)" [field]="field"></app-checkbox>
+
+        <app-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(form,field)" [field]="field">
+        </app-checkbox-group>
+
+        <app-relation-select *ngSwitchCase="'relation'" [control]="getControl(form,field)" [field]="field">
+        </app-relation-select>
+
+        <app-sub-array-form *ngSwitchCase="'repeater'" [controlsArray]="getControl(form,field)" [field]="field"
+                            [fields]="field.fields">
+        </app-sub-array-form>
+
+        <app-sub-group-form *ngSwitchCase="'map'" [control]="getControl(form,field)" [field]="field"
+                            [fields]="field.fields">
+        </app-sub-group-form>
+
+        <div *ngSwitchDefault>
+          {{field.type}}
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <button *ngIf="!submit.hidden" [disabled]="form.invalid" (click)="submitValues()">Submit</button>
+
+  {{form.valid}}
+
+</div>

@@ -1,0 +1,4 @@
+<label [for]="field.key">
+  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+</label>
+<textarea [name]="field.key" cols="30" rows="10" [placeholder]="field.placeholder" [formControl]="control"></textarea>

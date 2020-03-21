@@ -1,0 +1,11 @@
+<label [for]="field.key">
+  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+</label>
+<select [name]="field.key" [formControl]="control">
+  <option *ngIf="field.placeholder" value="" disabled selected hidden>
+    {{field.placeholder}}
+  </option>
+  <option *ngFor="let option of field.options" [value]="option.key">
+    {{option.title}}
+  </option>
+</select>

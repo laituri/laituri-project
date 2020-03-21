@@ -1,0 +1,11 @@
+<label class="field-locale-label" [for]="field.key">
+  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+</label>
+<div class="preview">
+  <input [name]="field.key" disabled [placeholder]="field.placeholder || 'Value will be shown here'"
+         [formControl]="control">
+  <button *ngIf="control.value" (click)="clear()">Clear</button>
+</div>
+<button class="get" (click)="getValue()">
+  {{field.button}}
+</button>

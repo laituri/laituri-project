@@ -1,0 +1,14 @@
+<p class="title">
+  {{field.title}}
+</p>
+<div class="options-container">
+
+  <div class="option" *ngFor="let option of field.options">
+    <input type="checkbox" [name]="option.key" (change)="handleChange(option.key, $event) "
+           [checked]="getChecked(option.key) | async">
+    <label [for]="option.key">
+      {{option.title}}
+    </label>
+  </div>
+
+</div>

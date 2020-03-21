@@ -1,0 +1,4 @@
+<input type="checkbox" [name]="field.key" [formControl]="control">
+<label [for]="field.key">
+  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+</label>

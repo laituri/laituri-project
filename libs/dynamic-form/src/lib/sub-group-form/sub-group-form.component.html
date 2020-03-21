@@ -1,0 +1,37 @@
+<p class="label">
+  {{field.title}}
+</p>
+
+<ng-container *ngFor="let field of fields">
+  <div [ngSwitch]="field.type" [hidden]="field | fieldParent: control | async">
+
+    <app-text *ngSwitchCase="'text'" type="text" [control]="getControl(control,field)" [field]="field"></app-text>
+
+    <app-text *ngSwitchCase="'email'" type="email" [control]="getControl(control,field)" [field]="field"></app-text>
+
+    <app-text *ngSwitchCase="'tel'" type="tel" [control]="getControl(control,field)" [field]="field"></app-text>
+    <app-text *ngSwitchCase="'number'" type="number" [control]="getControl(control,field)" [field]="field"></app-text>
+
+    <app-text *ngSwitchCase="'url'" type="url" [control]="getControl(control,field)" [field]="field"></app-text>
+
+    <app-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control, field)" [field]="field">
+    </app-dropdown>
+
+    <app-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(control, field)" [field]="field">
+    </app-checkbox>
+
+    <app-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(control,field)" [field]="field">
+    </app-checkbox-group>
+
+    <app-sub-array-form *ngSwitchCase="'repeater'" [controlsArray]="getControl(control, field)" [field]="field"
+                        [fields]="field.fields"></app-sub-array-form>
+
+    <app-sub-group-form *ngSwitchCase="'map'" [control]="getControl(control, field)" [field]="field"
+                        [fields]="field.fields"></app-sub-group-form>
+
+    <div *ngSwitchDefault>
+      {{field.type}}
+    </div>
+
+  </div>
+</ng-container>
