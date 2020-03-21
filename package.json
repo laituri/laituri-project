@@ -1,6 +1,7 @@
 {
   "name": "laituri",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Is it possible to create headless CMS that is open source, serverless and designed for PWAs & JAMStack websites? Yes.",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
