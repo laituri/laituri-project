@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-relation-select',
+  selector: 'dyna-relation-select',
   templateUrl: './relation-select.component.html',
   styleUrls: ['./relation-select.component.scss'],
 })

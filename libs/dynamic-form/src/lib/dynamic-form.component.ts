@@ -12,7 +12,7 @@ import { DynamicFormBase } from './dynamic-form-base.class';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-dynamic-form',
+  selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
 })

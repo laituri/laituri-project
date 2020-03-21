@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 
 @Component({
-  selector: 'app-sub-group-form',
+  selector: 'dyna-sub-group-form',
   templateUrl: './sub-group-form.component.html',
   styleUrls: ['./sub-group-form.component.scss'],
 })

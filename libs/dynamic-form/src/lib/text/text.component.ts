@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-text',
+  selector: 'dyna-text',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
 })

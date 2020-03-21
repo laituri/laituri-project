@@ -3,34 +3,42 @@
     <ng-container *ngFor="let field of config.fields">
       <div [ngSwitch]="field.type" *ngIf="!(field | fieldParent: form | async)">
 
-        <app-text *ngSwitchCase="'text'" type="text" [control]="getControl(form,field)" [field]="field"></app-text>
+        <dyna-text *ngSwitchCase="'text'" type="text" [control]="getControl(form,field)" [field]="field">
+        </dyna-text>
 
-        <app-text *ngSwitchCase="'email'" type="email" [control]="getControl(form,field)" [field]="field"></app-text>
+        <dyna-text *ngSwitchCase="'email'" type="email" [control]="getControl(form,field)" [field]="field">
+        </dyna-text>
 
-        <app-text *ngSwitchCase="'tel'" type="tel" [control]="getControl(form,field)" [field]="field"></app-text>
-        <app-text *ngSwitchCase="'number'" type="number" [control]="getControl(form,field)" [field]="field"></app-text>
+        <dyna-text *ngSwitchCase="'tel'" type="tel" [control]="getControl(form,field)" [field]="field">
+        </dyna-text>
+        <dyna-text *ngSwitchCase="'number'" type="number" [control]="getControl(form,field)" [field]="field">
+        </dyna-text>
 
-        <app-text *ngSwitchCase="'url'" type="url" [control]="getControl(form,field)" [field]="field"></app-text>
+        <dyna-text *ngSwitchCase="'url'" type="url" [control]="getControl(form,field)" [field]="field">
+        </dyna-text>
 
-        <app-textarea *ngSwitchCase="'textarea'" [control]="getControl(form,field)" [field]="field"></app-textarea>
+        <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(form,field)" [field]="field">
+        </dyna-textarea>
 
-        <app-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(form,field)" [field]="field"></app-dropdown>
+        <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(form,field)" [field]="field">
+        </dyna-dropdown>
 
-        <app-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(form,field)" [field]="field"></app-checkbox>
+        <dyna-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(form,field)" [field]="field">
+        </dyna-checkbox>
 
-        <app-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(form,field)" [field]="field">
-        </app-checkbox-group>
+        <dyna-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(form,field)" [field]="field">
+        </dyna-checkbox-group>
 
-        <app-relation-select *ngSwitchCase="'relation'" [control]="getControl(form,field)" [field]="field">
-        </app-relation-select>
+        <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(form,field)" [field]="field">
+        </dyna-relation-select>
 
-        <app-sub-array-form *ngSwitchCase="'repeater'" [controlsArray]="getControl(form,field)" [field]="field"
-                            [fields]="field.fields">
-        </app-sub-array-form>
+        <dyna-sub-array-form *ngSwitchCase="'repeater'" [controlsArray]="getControl(form,field)" [field]="field"
+                             [fields]="field.fields">
+        </dyna-sub-array-form>
 
-        <app-sub-group-form *ngSwitchCase="'map'" [control]="getControl(form,field)" [field]="field"
-                            [fields]="field.fields">
-        </app-sub-group-form>
+        <dyna-sub-group-form *ngSwitchCase="'map'" [control]="getControl(form,field)" [field]="field"
+                             [fields]="field.fields">
+        </dyna-sub-group-form>
 
         <div *ngSwitchDefault>
           {{field.type}}

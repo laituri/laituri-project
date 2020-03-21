@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-textarea',
+  selector: 'dyna-textarea',
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
 })

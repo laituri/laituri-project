@@ -3,7 +3,7 @@ import { FormArray } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 @Component({
-  selector: 'app-sub-array-form',
+  selector: 'dyna-sub-array-form',
   templateUrl: './sub-array-form.component.html',
   styleUrls: ['./sub-array-form.component.scss'],
 })

@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "libs/dynamic-form",
       "sourceRoot": "libs/dynamic-form/src",
-      "prefix": "lib",
+      "prefix": "dyna",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -36,13 +36,12 @@
               "libs/dynamic-form/tsconfig.lib.json",
               "libs/dynamic-form/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
-    }},
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
