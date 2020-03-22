@@ -45,6 +45,8 @@
       <!-- Other fields -->
       <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
 
+      <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
+
       <!-- Sub form fields -->
       <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"
                      [fields]="field.fields">

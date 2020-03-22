@@ -42,7 +42,7 @@ type FieldTypes =
   | 'group'
   | 'repeater'
   | 'relation'
-  | 'date-time'
+  | 'date'
   | 'radio'
   | 'color'
   | 'action';
@@ -124,6 +124,10 @@ interface ColorField extends _FieldBase<string> {
   swatches?: string[];
   opacity?: boolean;
 }
+interface DateField extends _FieldBase<string> {
+  type: 'date';
+  format?: string;
+}
 
 interface RelationItem {
   key: string;
@@ -148,4 +152,5 @@ type Field =
   | CheckboxField
   | ActionField
   | ColorField
+  | DateField
   | CheckboxGroupField;

@@ -27,7 +27,7 @@ export class ColorComponent implements OnInit, OnDestroy {
   @Input()
   control: AbstractControl;
 
-  private pickr: Pickr;
+  private picker: Pickr;
   private colorSet: boolean;
 
   private subscriptions: Subscription[];
@@ -43,7 +43,7 @@ export class ColorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const { output, swatches, opacity } = this.field;
 
-    this.pickr = Pickr.create({
+    this.picker = Pickr.create({
       el: this.pickerElement.nativeElement,
       theme: 'nano', // or 'monolith', or 'nano'
       default: this.control.value || defaultColors[output],
@@ -65,18 +65,18 @@ export class ColorComponent implements OnInit, OnDestroy {
         save: 'Save color',
       },
     });
-    this.pickr.on('show', (color: Pickr.HSVaColor, instance: Pickr) => {
+    this.picker.on('show', (color: Pickr.HSVaColor, instance: Pickr) => {
       this.colorSet = false;
     });
-    this.pickr.on('save', (color: Pickr.HSVaColor, instance: Pickr) => {
+    this.picker.on('save', (color: Pickr.HSVaColor, instance: Pickr) => {
       this.setValue(color);
       this.colorSet = true;
       instance.hide();
     });
-    this.pickr.on('change', (color: Pickr.HSVaColor, instance: Pickr) => {
+    this.picker.on('change', (color: Pickr.HSVaColor, instance: Pickr) => {
       this.setValue(color);
     });
-    this.pickr.on('hide', (instance: Pickr) => {
+    this.picker.on('hide', (instance: Pickr) => {
       if (!this.colorSet) {
         instance.setColor(this.control.value || '');
         this.colorSet = true;
@@ -90,7 +90,7 @@ export class ColorComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(1000))
       .subscribe(() => {
         try {
-          this.pickr.setColor(this.control.value);
+          this.picker.setColor(this.control.value);
         } catch (error) {
           console.error('invalid color input');
         }
@@ -111,9 +111,9 @@ export class ColorComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
-    this.pickr.off('save', () => {});
-    this.pickr.off('change', () => {});
-    this.pickr.off('hide', () => {});
+    this.picker.off('save', () => {});
+    this.picker.off('change', () => {});
+    this.picker.off('hide', () => {});
 
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
