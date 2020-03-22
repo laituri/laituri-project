@@ -32,13 +32,12 @@
         <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(form,field)" [field]="field">
         </dyna-relation-select>
 
-        <dyna-sub-array-form *ngSwitchCase="'repeater'" [controlsArray]="getControl(form,field)" [field]="field"
-                             [fields]="field.fields">
-        </dyna-sub-array-form>
+        <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(form,field)" [field]="field"
+                       [fields]="field.fields">
+        </dyna-repeater>
 
-        <dyna-sub-group-form *ngSwitchCase="'map'" [control]="getControl(form,field)" [field]="field"
-                             [fields]="field.fields">
-        </dyna-sub-group-form>
+        <dyna-group *ngSwitchCase="'map'" [control]="getControl(form,field)" [field]="field" [fields]="field.fields">
+        </dyna-group>
 
         <div *ngSwitchDefault>
           {{field.type}}

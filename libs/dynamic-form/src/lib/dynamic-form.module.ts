@@ -10,13 +10,13 @@ import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.componen
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FieldParentPipe } from './field-parent.pipe';
-import { SubArrayFormComponent } from './sub-array-form/sub-array-form.component';
-import { SubGroupFormComponent } from './sub-group-form/sub-group-form.component';
 import { RelationSelectComponent } from './relation-select/relation-select.component';
 import { DynamicFormService } from './dynamic-form.service';
 import { ActionComponent } from './action/action.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
+import { RepeaterComponent } from './repeater/repeater.component';
+import { GroupComponent } from './group/group.component';
 
 @NgModule({
   declarations: [
@@ -29,10 +29,10 @@ import { MatIconModule } from '@angular/material/icon';
     CheckboxGroupComponent,
     DropdownComponent,
     FieldParentPipe,
-    SubArrayFormComponent,
-    SubGroupFormComponent,
     RelationSelectComponent,
     ActionComponent,
+    RepeaterComponent,
+    GroupComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, DragDropModule, MatIconModule],
   exports: [DynamicFormComponent],

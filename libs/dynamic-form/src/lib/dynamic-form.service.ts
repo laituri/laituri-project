@@ -21,10 +21,12 @@ import {
 const relationFields: Field[] = [
   {
     key: 'type',
+    title: '',
     type: 'text',
     value: 'relation',
   },
   {
+    title: '',
     key: 'key',
     type: 'text',
   },
@@ -40,23 +42,12 @@ export class DynamicFormService {
   private checkedIndex = -1;
   private currentIndex = -1;
 
-  init({
-    form,
-    fields,
-    values,
-    childFields,
-    locales,
-    localize,
-  }: FormConfig): FormGroup {
+  init({ fields, values, locales }: DynamicFormConfig): FormGroup {
     this.locales = locales || [];
-    this.childFields = childFields || [];
-    if (!form) {
-      this.form = form || this.contructForm(fields, values, localize, true);
-    } else {
-      const current = this.form.value;
-      const merged = { ...current, ...values };
-      this.form.setValue(merged);
-    }
+    // this.childFields = childFields || [];
+    const current = this.form.value;
+    const merged = { ...current, ...values };
+    this.form.setValue(merged);
     return this.form;
   }
 
@@ -172,9 +163,13 @@ export class DynamicFormService {
             ...acc,
             [field.key]: value
               ? this.fb.array(
-                  value.map(val =>
-                    this.contructForm(field.fields || this.childFields, val),
-                  ),
+                  value.map(val => {
+                    const childFields =
+                      typeof field.fields === 'function'
+                        ? field.fields()
+                        : field.fields;
+                    return this.contructForm(childFields, val);
+                  }),
                 )
               : this.fb.array([]),
           };

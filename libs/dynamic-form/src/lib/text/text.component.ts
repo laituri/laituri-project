@@ -12,8 +12,7 @@ export class TextComponent implements OnInit {
   @Input()
   control: AbstractControl;
   @Input()
-  type: 'text' | 'email' | 'tel' | 'number' | 'password' | 'search' | 'url' =
-    'text';
+  type: TextFieldTypes = 'text';
   constructor() {}
 
   ngOnInit() {}

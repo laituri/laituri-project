@@ -3,8 +3,8 @@ type locale = string;
 interface DynamicFormConfig {
   fields: Field[];
   values?: { [key: string]: any };
-  form?: any;
-  locales?: locale[];
+  // form?: any;
+  locales: locale[];
 }
 
 interface FieldParent {
@@ -34,21 +34,17 @@ interface FieldOptions {
 }
 
 type FieldTypes =
-  | 'action'
-  | 'text'
-  | 'number'
-  | 'email'
-  | 'url'
-  | 'tel'
+  | TextFieldTypes
   | 'textarea'
   | 'dropdown'
-  | 'map'
+  | 'checkbox'
+  | 'checkbox-group'
+  | 'group'
   | 'repeater'
   | 'relation'
   | 'date-time'
   | 'radio'
-  | 'checkbox'
-  | 'checkbox-group';
+  | 'action';
 
 interface _FieldBase<T> {
   /* Basics */
@@ -63,8 +59,8 @@ interface _FieldBase<T> {
   /* Advanced */
   value?: T;
   defaultValue?: T;
-  group?: string;
-  localisation?: boolean;
+  // tab?: string;
+  localize?: boolean;
   validation?: FieldValidation;
   parent?: FieldParent;
   /* Functions */
@@ -72,8 +68,17 @@ interface _FieldBase<T> {
 }
 
 /* Fields */
+
+type TextFieldTypes =
+  | 'text'
+  | 'email'
+  | 'tel'
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'url';
 interface TextField extends _FieldBase<string> {
-  type: 'text' | 'number' | 'email';
+  type: TextFieldTypes;
 }
 interface TextareaField extends _FieldBase<string> {
   type: 'textarea';
@@ -93,23 +98,15 @@ interface DropdownField extends _FieldBase<string> {
   options: FieldOptions[];
 }
 
-interface MapField extends _FieldBase<object> {
-  type: 'map';
+interface GroupField extends _FieldBase<object> {
+  type: 'group';
   fields?: Field[];
 }
 interface RepeaterField extends _FieldBase<object[]> {
   type: 'repeater';
-  fields?: Field[];
+  fields: () => Field[] | Field[];
 }
-interface TelField extends _FieldBase<string> {
-  type: 'tel';
-}
-interface EmailField extends _FieldBase<string> {
-  type: 'email';
-}
-interface UrlField extends _FieldBase<string> {
-  type: 'url';
-}
+
 interface CheckboxField extends _FieldBase<boolean> {
   type: 'checkbox';
 }
@@ -135,11 +132,8 @@ type Field =
   | TextField
   | TextareaField
   | DropdownField
-  | MapField
+  | GroupField
   | RepeaterField
-  | TelField
-  | EmailField
-  | UrlField
   | RelationField
   | CheckboxField
   | ActionField

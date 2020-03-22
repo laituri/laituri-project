@@ -7,7 +7,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { DynamicFormBase } from './dynamic-form-base.class';
 import { debounceTime } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class DynamicFormComponent extends DynamicFormBase
   @Input()
   disabled = false;
   @Input()
-  config: Observable<FormConfig>;
+  config: DynamicFormConfig | Observable<DynamicFormConfig>;
   @Input()
   submit: { hidden?: boolean; text?: string } = {
     hidden: false,
@@ -37,9 +37,18 @@ export class DynamicFormComponent extends DynamicFormBase
   private subscriptions: Subscription[];
 
   ngOnInit() {
-    const configSubscription = this.config.subscribe(config => {
-      this.form = this.formService.init(config);
-    });
+    let configSubscription: Subscription;
+    if (this.config instanceof Observable) {
+      configSubscription = this.config.subscribe(config => {
+        this.form = this.formService.init(config);
+      });
+    } else {
+      configSubscription = new BehaviorSubject(this.config).subscribe(
+        config => {
+          this.form = this.formService.init(config);
+        },
+      );
+    }
 
     const valueChangeSubscription = this.form.valueChanges
       .pipe(debounceTime(420))
