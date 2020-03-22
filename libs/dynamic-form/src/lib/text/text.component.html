@@ -1,4 +1,4 @@
 <label class="field-locale-label" [for]="field.key">
   {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
 </label>
-<input [name]="field.key" [type]="type" [placeholder]="field.placeholder" [formControl]="control">
+<input [name]="field.key" [type]="type" [placeholder]="field.placeholder || ''" [formControl]="control">

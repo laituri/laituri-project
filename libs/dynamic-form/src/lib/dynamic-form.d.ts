@@ -4,7 +4,7 @@ interface DynamicFormConfig {
   fields: Field[];
   values?: { [key: string]: any };
   // form?: any;
-  locales: locale[];
+  locales?: locale[];
 }
 
 interface FieldParent {

@@ -38,20 +38,17 @@ export class DynamicFormComponent extends DynamicFormBase
   private subscriptions: Subscription[];
 
   ngOnInit() {
-    let configSubscription: Subscription;
+    let configObservable: Observable<DynamicFormConfig>;
     if (this.config instanceof Observable) {
-      configSubscription = this.config.subscribe(config => {
-        this.fields = config.fields;
-        this.form = this.formService.init(config);
-      });
+      configObservable = this.config;
     } else {
-      configSubscription = new BehaviorSubject(this.config).subscribe(
-        config => {
-          this.fields = config.fields;
-          this.form = this.formService.init(config);
-        },
-      );
+      configObservable = new BehaviorSubject(this.config);
     }
+
+    const configSubscription = configObservable.subscribe(config => {
+      this.fields = config.fields;
+      this.form = this.formService.init(config);
+    });
 
     const valueChangeSubscription = this.form.valueChanges
       .pipe(debounceTime(420))

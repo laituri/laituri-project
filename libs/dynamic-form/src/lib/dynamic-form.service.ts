@@ -42,10 +42,14 @@ export class DynamicFormService {
   private currentIndex = -1;
 
   init({ fields, values, locales }: DynamicFormConfig): FormGroup {
-    this.locales = locales || [];
-    const current = this.form.value;
-    const merged = { ...current, ...values };
-    this.form.setValue(merged);
+    if (!this.form) {
+      const localize = locales && locales.length > 0;
+      this.form = this.contructForm(fields, values, localize, true);
+    } else {
+      const current = this.form.value;
+      const merged = { ...current, ...values };
+      this.form.setValue(merged);
+    }
     return this.form;
   }
 
