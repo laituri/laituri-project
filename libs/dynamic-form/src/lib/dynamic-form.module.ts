@@ -17,6 +17,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
 import { RepeaterComponent } from './repeater/repeater.component';
 import { GroupComponent } from './group/group.component';
+import { ColorComponent } from './color/color.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { GroupComponent } from './group/group.component';
     ActionComponent,
     RepeaterComponent,
     GroupComponent,
+    ColorComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, DragDropModule, MatIconModule],
   exports: [DynamicFormComponent],

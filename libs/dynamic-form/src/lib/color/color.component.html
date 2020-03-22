@@ -1,0 +1,8 @@
+<label class="field-locale-label" [for]="field.key">
+  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+</label>
+
+<div class="input-container">
+  <input [name]="field.key" type="text" [placeholder]="field.placeholder || ''" [formControl]="control">
+  <div #picker></div>
+</div>

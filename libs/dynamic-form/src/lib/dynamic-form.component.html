@@ -37,10 +37,13 @@
       <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(control,field)" [field]="field">
       </dyna-relation-select>
 
+
       <!-- Async fields -->
       <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
       </dyna-action>
 
+      <!-- Other fields -->
+      <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
 
       <!-- Sub form fields -->
       <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"

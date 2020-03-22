@@ -44,6 +44,7 @@ type FieldTypes =
   | 'relation'
   | 'date-time'
   | 'radio'
+  | 'color'
   | 'action';
 
 interface _FieldBase<T> {
@@ -65,6 +66,8 @@ interface _FieldBase<T> {
   parent?: FieldParent;
   /* Functions */
   asyncCondition?: (form?: any) => any;
+  /* Misc */
+  fields?: () => Field[] | Field[];
 }
 
 /* Fields */
@@ -114,6 +117,12 @@ interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
   options: FieldOptions[];
 }
+interface ColorField extends _FieldBase<string> {
+  type: 'color';
+  output: 'hex' | 'rgba';
+  swatches?: string[];
+  opacity?: boolean;
+}
 
 interface RelationItem {
   key: string;
@@ -137,4 +146,5 @@ type Field =
   | RelationField
   | CheckboxField
   | ActionField
+  | ColorField
   | CheckboxGroupField;
