@@ -13,6 +13,7 @@
     <div class="fields">
       <div *ngFor="let field of fields" [ngSwitch]="field.type" [hidden]="field | fieldParent: control | async">
 
+        <!-- Short text input fields -->
         <dyna-text *ngSwitchCase="'text'" type="text" [control]="getControl(control,field)" [field]="field">
         </dyna-text>
 
@@ -28,27 +29,36 @@
         <dyna-text *ngSwitchCase="'url'" type="url" [control]="getControl(control,field)" [field]="field">
         </dyna-text>
 
+
+        <!-- Longer text fields -->
         <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
         </dyna-textarea>
 
-        <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control, field)" [field]="field">
+
+        <!-- Option fields -->
+        <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
         </dyna-dropdown>
 
-        <dyna-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(control, field)" [field]="field">
+        <dyna-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(control,field)" [field]="field">
         </dyna-checkbox>
 
         <dyna-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(control,field)" [field]="field">
         </dyna-checkbox-group>
 
+        <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(control,field)" [field]="field">
+        </dyna-relation-select>
+
+        <!-- Async fields -->
         <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
         </dyna-action>
 
-        <dyna-repeater *ngSwitchCase="'repeater'" [field]="field" [controlsArray]="getControl(control, field)"
+
+        <!-- Sub form fields -->
+        <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"
                        [fields]="field.fields">
         </dyna-repeater>
 
-        <dyna-group *ngSwitchCase="'map'" [field]="field" [control]="getControl(control, field)"
-                    [fields]="field.fields">
+        <dyna-group *ngSwitchCase="'map'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
         </dyna-group>
 
         <div *ngSwitchDefault>

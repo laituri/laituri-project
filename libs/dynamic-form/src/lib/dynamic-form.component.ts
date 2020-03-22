@@ -33,6 +33,7 @@ export class DynamicFormComponent extends DynamicFormBase
   valueChange = new EventEmitter<any>();
 
   public form: FormGroup;
+  public fields: Field[];
 
   private subscriptions: Subscription[];
 
@@ -40,11 +41,13 @@ export class DynamicFormComponent extends DynamicFormBase
     let configSubscription: Subscription;
     if (this.config instanceof Observable) {
       configSubscription = this.config.subscribe(config => {
+        this.fields = config.fields;
         this.form = this.formService.init(config);
       });
     } else {
       configSubscription = new BehaviorSubject(this.config).subscribe(
         config => {
+          this.fields = config.fields;
           this.form = this.formService.init(config);
         },
       );

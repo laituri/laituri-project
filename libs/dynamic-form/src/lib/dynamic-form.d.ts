@@ -100,7 +100,7 @@ interface DropdownField extends _FieldBase<string> {
 
 interface GroupField extends _FieldBase<object> {
   type: 'group';
-  fields?: Field[];
+  fields: () => Field[] | Field[];
 }
 interface RepeaterField extends _FieldBase<object[]> {
   type: 'repeater';

@@ -36,7 +36,6 @@ const relationFields: Field[] = [
 export class DynamicFormService {
   private form: FormGroup;
   private locales: locale[];
-  private childFields: Field[];
 
   private history = [];
   private checkedIndex = -1;
@@ -44,7 +43,6 @@ export class DynamicFormService {
 
   init({ fields, values, locales }: DynamicFormConfig): FormGroup {
     this.locales = locales || [];
-    // this.childFields = childFields || [];
     const current = this.form.value;
     const merged = { ...current, ...values };
     this.form.setValue(merged);
@@ -110,7 +108,7 @@ export class DynamicFormService {
     index?: number,
   ): AbstractControl {
     if (localize) {
-      const locale = field.localisation ? 'en-US' : 'common';
+      const locale = field.localize ? 'en-US' : 'common';
       if (index) {
         const group = form.controls[locale].controls[index] as FormGroup;
         return group.controls[field.key];
@@ -139,13 +137,13 @@ export class DynamicFormService {
       const locales = this.locales;
       return this.fb.group({
         common: this.contructForm(
-          fields.filter(f => !f.localisation),
+          fields.filter(f => !f.localize),
           values,
           localize,
         ),
         ...locales.reduce((acc, cur) => {
           acc[cur] = this.contructForm(
-            fields.filter(f => f.localisation),
+            fields.filter(f => f.localize),
             values,
             localize,
           );
@@ -174,8 +172,10 @@ export class DynamicFormService {
               : this.fb.array([]),
           };
         }
-        if (field.type === 'map') {
-          const group = this.contructForm(field.fields, value);
+        if (field.type === 'group') {
+          const childFields =
+            typeof field.fields === 'function' ? field.fields() : field.fields;
+          const group = this.contructForm(childFields, value);
           return {
             ...acc,
             [field.key]: group,
@@ -195,28 +195,29 @@ export class DynamicFormService {
   }
 
   public getValue(
-    { key, type, localisation, value, defaultValue }: Field,
+    field: Field,
     values: { [key: string]: any },
     localize?: boolean,
   ): any {
+    const value = field.value || field.defaultValue || null;
     if (!values) {
-      return value || defaultValue;
+      return value;
     }
-    if (localisation) {
-      return values['en-US'][key] || value || defaultValue;
+    if (field.localize) {
+      return values['en-US'][field.key] || value;
     }
     const path = localize && values.common ? values.common : values;
-    if (path && path[key]) {
-      return path[key] || value || defaultValue;
+    if (path && path[field.key]) {
+      return path[field.key] || value;
     }
-    switch (type) {
+    switch (field.type) {
       case 'repeater':
-        return [] || value || defaultValue;
+        return value || [];
       case 'checkbox-group':
-        return [] || value || defaultValue;
+        return value || [];
 
       default:
-        return value || defaultValue || '';
+        return value;
     }
   }
 
