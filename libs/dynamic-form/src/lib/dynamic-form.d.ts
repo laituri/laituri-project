@@ -36,6 +36,7 @@ interface FieldOptions {
 type FieldTypes =
   | TextFieldTypes
   | 'textarea'
+  | 'markdown'
   | 'dropdown'
   | 'checkbox'
   | 'checkbox-group'
@@ -86,7 +87,10 @@ interface TextField extends _FieldBase<string> {
 }
 interface TextareaField extends _FieldBase<string> {
   type: 'textarea';
-  layout?: 'textarea' | 'editable-div' | 'markdown';
+  layout?: 'textarea' | 'editable-div';
+}
+interface MarkdownField extends _FieldBase<string> {
+  type: 'markdown';
 }
 interface ActionField extends _FieldBase<string> {
   type: 'action';
@@ -149,6 +153,7 @@ interface RelationField extends _FieldBase<string[]> {
 type Field =
   | TextField
   | TextareaField
+  | MarkdownField
   | DropdownField
   | GroupField
   | RepeaterField

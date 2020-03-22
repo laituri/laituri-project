@@ -18,6 +18,7 @@ import { RepeaterComponent } from './repeater/repeater.component';
 import { GroupComponent } from './group/group.component';
 import { ColorComponent } from './color/color.component';
 import { DateComponent } from './date/date.component';
+import { MarkdownComponent } from './markdown/markdown.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { DateComponent } from './date/date.component';
     GroupComponent,
     ColorComponent,
     DateComponent,
+    MarkdownComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, DragDropModule, MatIconModule],
   exports: [DynamicFormComponent],

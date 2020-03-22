@@ -23,6 +23,9 @@
       <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
       </dyna-textarea>
 
+      <dyna-markdown *ngSwitchCase="'markdown'" [control]="getControl(control,field)" [field]="field">
+      </dyna-markdown>
+
       <!-- Other fields -->
 
       <dyna-radio *ngSwitchCase="'radio'" [control]="getControl(control,field)" [field]="field"></dyna-radio>

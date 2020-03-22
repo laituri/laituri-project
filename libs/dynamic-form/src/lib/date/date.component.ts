@@ -15,13 +15,11 @@ export class DateComponent implements OnInit {
   @Input()
   control: AbstractControl;
 
-  @ViewChild('inputFieldElement', { static: true })
-  inputFieldElement: ElementRef<HTMLInputElement>;
   @ViewChild('pickerElement', { static: true }) pickerElement: ElementRef<
     HTMLInputElement
   >;
 
-  private picker: datepicker;
+  private picker: any;
 
   constructor(private datePipe: DatePipe) {}
 
