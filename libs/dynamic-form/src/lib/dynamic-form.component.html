@@ -23,6 +23,14 @@
       <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
       </dyna-textarea>
 
+      <!-- Other fields -->
+
+      <dyna-radio *ngSwitchCase="'radio'" [control]="getControl(control,field)" [field]="field"></dyna-radio>
+
+      <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
+
+      <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
+
 
       <!-- Option fields -->
       <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
@@ -42,10 +50,7 @@
       <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
       </dyna-action>
 
-      <!-- Other fields -->
-      <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
 
-      <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
 
       <!-- Sub form fields -->
       <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"

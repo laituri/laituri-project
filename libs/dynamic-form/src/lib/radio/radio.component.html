@@ -1,1 +1,14 @@
-<p>radio works!</p>
+<p class="title">
+  {{field.title}}
+</p>
+<div class="options-container">
+
+  <div class="option" *ngFor="let option of field.options">
+    <input type="radio" [name]="option.key" (change)="handleChange(option.key) "
+           [checked]="getChecked(option.key) | async">
+    <label [for]="option.key">
+      {{option.title}}
+    </label>
+  </div>
+
+</div>

@@ -1,0 +1,31 @@
+:host {
+  padding: 4px;
+  align-items: center;
+  .title {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .options-container {
+    .option {
+      display: flex;
+      flex-flow: row nowrap;
+      label {
+        font-size: 14px;
+        margin-bottom: 2px;
+      }
+      input {
+        border-radius: 2px;
+        padding: 4px;
+        border: 1px solid #444;
+        transition: 250ms;
+        outline: none;
+        &:hover {
+          border-color: rgb(147, 147, 245);
+        }
+        &:focus {
+          border-color: rgb(58, 58, 223);
+        }
+      }
+    }
+  }
+}

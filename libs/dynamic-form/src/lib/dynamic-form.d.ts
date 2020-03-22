@@ -118,6 +118,10 @@ interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
   options: FieldOptions[];
 }
+interface RadioField extends _FieldBase<string[]> {
+  type: 'radio';
+  options: FieldOptions[];
+}
 interface ColorField extends _FieldBase<string> {
   type: 'color';
   output: 'hex' | 'rgba';
@@ -148,6 +152,7 @@ type Field =
   | DropdownField
   | GroupField
   | RepeaterField
+  | RadioField
   | RelationField
   | CheckboxField
   | ActionField
