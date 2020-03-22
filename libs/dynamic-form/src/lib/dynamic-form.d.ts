@@ -68,6 +68,7 @@ interface _FieldBase<T> {
   asyncCondition?: (form?: any) => any;
   /* Misc */
   fields?: () => Field[] | Field[];
+  output?: string;
 }
 
 /* Fields */

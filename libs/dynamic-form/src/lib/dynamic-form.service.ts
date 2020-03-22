@@ -230,6 +230,7 @@ export class DynamicFormService {
     validation,
     parent,
     asyncCondition,
+    output,
   }: Field): [ValidatorFn[], AsyncValidatorFn[]] {
     const validators: ValidatorFn[] = [];
     const asyncValidators: AsyncValidatorFn[] = [];
@@ -237,12 +238,30 @@ export class DynamicFormService {
     if (type === 'email') {
       validators.push(Validators.email);
     }
+    if (type === 'tel') {
+      validators.push(Validators.minLength(5));
+    }
     if (type === 'url') {
       validators.push(
         Validators.pattern(
           '(http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?',
         ),
       );
+    }
+    if (type === 'color') {
+      switch (output) {
+        case 'rgba':
+          validators.push(
+            Validators.pattern(
+              '^(rgba)\\((\\s?\\d{1,3},){3}\\s?\\d(\\.\\d+)*\\)',
+            ),
+          );
+          break;
+
+        default:
+          validators.push(Validators.pattern('^#([\\w\\d]{3,8})'));
+          break;
+      }
     }
 
     if (!validation) {
@@ -259,9 +278,7 @@ export class DynamicFormService {
         validators.push(Validators.required);
       }
     }
-    if (type === 'tel') {
-      validators.push(Validators.minLength(5));
-    }
+
     if (validation.min) {
       validators.push(Validators.min(validation.min));
     }

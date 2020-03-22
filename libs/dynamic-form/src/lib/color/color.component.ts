@@ -8,7 +8,8 @@ import {
 } from '@angular/core';
 import Pickr from '@simonwep/pickr';
 import { AbstractControl } from '@angular/forms';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 const defaultColors = {
   hex: '#0889DA',
@@ -29,19 +30,21 @@ export class ColorComponent implements OnInit, OnDestroy {
   private pickr: Pickr;
   private colorSet: boolean;
 
-  @ViewChild('picker', { static: true }) inputField: ElementRef<
+  private subscriptions: Subscription[];
+
+  @ViewChild('inputFieldElement', { static: true })
+  inputFieldElement: ElementRef<HTMLInputElement>;
+  @ViewChild('pickerElement', { static: true }) pickerElement: ElementRef<
     HTMLInputElement
   >;
 
   constructor() {}
 
   ngOnInit(): void {
-    console.log({ el: this.inputField });
-
     const { output, swatches, opacity } = this.field;
 
     this.pickr = Pickr.create({
-      el: this.inputField.nativeElement,
+      el: this.pickerElement.nativeElement,
       theme: 'nano', // or 'monolith', or 'nano'
       default: this.control.value || defaultColors[output],
       swatches,
@@ -79,6 +82,21 @@ export class ColorComponent implements OnInit, OnDestroy {
         this.colorSet = true;
       }
     });
+
+    const inputTypingSubscription: Subscription = fromEvent(
+      this.inputFieldElement.nativeElement,
+      'keyup',
+    )
+      .pipe(debounceTime(1000))
+      .subscribe(() => {
+        try {
+          this.pickr.setColor(this.control.value);
+        } catch (error) {
+          console.error('invalid color input');
+        }
+      });
+
+    this.subscriptions = [inputTypingSubscription];
   }
 
   private setValue(color: Pickr.HSVaColor) {
@@ -96,5 +114,7 @@ export class ColorComponent implements OnInit, OnDestroy {
     this.pickr.off('save', () => {});
     this.pickr.off('change', () => {});
     this.pickr.off('hide', () => {});
+
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
