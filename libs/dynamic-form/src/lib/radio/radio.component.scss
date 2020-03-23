@@ -1,0 +1,28 @@
+:host {
+  padding: 4px;
+  align-items: center;
+
+  .options-container {
+    .option {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      width: fit-content;
+      margin: 6px 0;
+      padding: 2px 0;
+      & > *:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+      label {
+        font-family: var(--dyna-font-family);
+        font-size: 16px;
+      }
+      input {
+        padding: 4px;
+        transition: 250ms;
+        margin: 0 6px 0 2px;
+      }
+    }
+  }
+}

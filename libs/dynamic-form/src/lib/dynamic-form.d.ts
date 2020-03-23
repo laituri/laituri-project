@@ -1,9 +1,11 @@
 type locale = string;
 
+type SubFields = (() => Field[]) | Field[];
+
 interface DynamicFormConfig {
   fields: Field[];
   values?: { [key: string]: any };
-  form?: any;
+  // form?: any;
   locales?: locale[];
 }
 
@@ -34,21 +36,19 @@ interface FieldOptions {
 }
 
 type FieldTypes =
-  | 'action'
-  | 'text'
-  | 'number'
-  | 'email'
-  | 'url'
-  | 'tel'
+  | TextFieldTypes
   | 'textarea'
+  | 'markdown'
   | 'dropdown'
-  | 'map'
+  | 'checkbox'
+  | 'checkbox-group'
+  | 'group'
   | 'repeater'
   | 'relation'
-  | 'date-time'
+  | 'date'
   | 'radio'
-  | 'checkbox'
-  | 'checkbox-group';
+  | 'color'
+  | 'action';
 
 interface _FieldBase<T> {
   /* Basics */
@@ -63,21 +63,37 @@ interface _FieldBase<T> {
   /* Advanced */
   value?: T;
   defaultValue?: T;
-  group?: string;
-  localisation?: boolean;
+  // tab?: string;
+  localize?: boolean;
   validation?: FieldValidation;
   parent?: FieldParent;
   /* Functions */
   asyncCondition?: (form?: any) => any;
+  /* Misc */
+  fields?: SubFields;
+  output?: string;
+  options?: FieldOptions[];
 }
 
 /* Fields */
+
+type TextFieldTypes =
+  | 'text'
+  | 'email'
+  | 'tel'
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'url';
 interface TextField extends _FieldBase<string> {
-  type: 'text' | 'number' | 'email';
+  type: TextFieldTypes;
 }
 interface TextareaField extends _FieldBase<string> {
   type: 'textarea';
-  layout?: 'textarea' | 'editable-div' | 'markdown';
+  layout?: 'textarea' | 'editable-div';
+}
+interface MarkdownField extends _FieldBase<string> {
+  type: 'markdown';
 }
 interface ActionField extends _FieldBase<string> {
   type: 'action';
@@ -93,29 +109,39 @@ interface DropdownField extends _FieldBase<string> {
   options: FieldOptions[];
 }
 
-interface MapField extends _FieldBase<object> {
-  type: 'map';
-  fields?: Field[];
+interface GroupField extends _FieldBase<object> {
+  type: 'group';
+  fields: SubFields;
 }
 interface RepeaterField extends _FieldBase<object[]> {
   type: 'repeater';
-  fields?: Field[];
+  fields: SubFields;
+  display?: string;
 }
-interface TelField extends _FieldBase<string> {
-  type: 'tel';
-}
-interface EmailField extends _FieldBase<string> {
-  type: 'email';
-}
-interface UrlField extends _FieldBase<string> {
-  type: 'url';
-}
+
 interface CheckboxField extends _FieldBase<boolean> {
   type: 'checkbox';
+  label: string;
 }
 interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
+  output?: 'string-array' | 'boolean-map';
   options: FieldOptions[];
+}
+interface RadioField extends _FieldBase<string[]> {
+  type: 'radio';
+  options: FieldOptions[];
+}
+interface ColorField extends _FieldBase<string> {
+  type: 'color';
+  output: 'hex' | 'rgba';
+  swatches?: string[];
+  opacity?: boolean;
+}
+interface DateField extends _FieldBase<string> {
+  type: 'date';
+  output?: string;
+  display?: string;
 }
 
 interface RelationItem {
@@ -134,13 +160,14 @@ interface RelationField extends _FieldBase<string[]> {
 type Field =
   | TextField
   | TextareaField
+  | MarkdownField
   | DropdownField
-  | MapField
+  | GroupField
   | RepeaterField
-  | TelField
-  | EmailField
-  | UrlField
+  | RadioField
   | RelationField
   | CheckboxField
   | ActionField
+  | ColorField
+  | DateField
   | CheckboxGroupField;

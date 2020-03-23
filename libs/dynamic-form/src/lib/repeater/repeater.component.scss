@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  padding: 12px 0 12px 12px;
+  .container {
+    .sub-array {
+      display: flex;
+      flex-flow: column nowrap;
+      .fields {
+        border-left: 2px solid #f8f8f8;
+        margin: 2px 0;
+        padding: 0 0 0 4px;
+        transition: 420ms;
+        &:focus-within {
+          border-color: var(--dyna-color--focus);
+        }
+      }
+    }
+    &.cdk-drop-list-dragging .sub-array:not(.cdk-drag-placeholder) {
+      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+}
+
+/* 
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABZJREFUeNpi2r9//38gYGAEESAAEGAAasgJOgzOKCoAAAAASUVORK5CYII=);
+*/

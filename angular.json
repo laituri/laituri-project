@@ -45,7 +45,7 @@
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
-      "versionMismatch": false
+      "versionMismatch": true
     },
     "defaultCollection": "@alusta/mint",
     "analytics": "2f64ce2a-4544-413b-818d-8ec4449a7f76"

@@ -21,10 +21,12 @@ import {
 const relationFields: Field[] = [
   {
     key: 'type',
+    title: '',
     type: 'text',
     value: 'relation',
   },
   {
+    title: '',
     key: 'key',
     type: 'text',
   },
@@ -34,24 +36,15 @@ const relationFields: Field[] = [
 export class DynamicFormService {
   private form: FormGroup;
   private locales: locale[];
-  private childFields: Field[];
 
   private history = [];
   private checkedIndex = -1;
   private currentIndex = -1;
 
-  init({
-    form,
-    fields,
-    values,
-    childFields,
-    locales,
-    localize,
-  }: FormConfig): FormGroup {
-    this.locales = locales || [];
-    this.childFields = childFields || [];
-    if (!form) {
-      this.form = form || this.contructForm(fields, values, localize, true);
+  init({ fields, values, locales }: DynamicFormConfig): FormGroup {
+    if (!this.form) {
+      const localize = locales && locales.length > 0;
+      this.form = this.contructForm(fields, values, localize, true);
     } else {
       const current = this.form.value;
       const merged = { ...current, ...values };
@@ -119,7 +112,7 @@ export class DynamicFormService {
     index?: number,
   ): AbstractControl {
     if (localize) {
-      const locale = field.localisation ? 'en-US' : 'common';
+      const locale = field.localize ? 'en-US' : 'common';
       if (index) {
         const group = form.controls[locale].controls[index] as FormGroup;
         return group.controls[field.key];
@@ -148,13 +141,13 @@ export class DynamicFormService {
       const locales = this.locales;
       return this.fb.group({
         common: this.contructForm(
-          fields.filter(f => !f.localisation),
+          fields.filter(f => !f.localize),
           values,
           localize,
         ),
         ...locales.reduce((acc, cur) => {
           acc[cur] = this.contructForm(
-            fields.filter(f => f.localisation),
+            fields.filter(f => f.localize),
             values,
             localize,
           );
@@ -172,19 +165,34 @@ export class DynamicFormService {
             ...acc,
             [field.key]: value
               ? this.fb.array(
-                  value.map(val =>
-                    this.contructForm(field.fields || this.childFields, val),
-                  ),
+                  value.map(val => {
+                    const childFields =
+                      typeof field.fields === 'function'
+                        ? field.fields()
+                        : field.fields;
+                    return this.contructForm(childFields, val);
+                  }),
                 )
               : this.fb.array([]),
           };
         }
-        if (field.type === 'map') {
-          const group = this.contructForm(field.fields, value);
+        if (field.type === 'group') {
+          const childFields =
+            typeof field.fields === 'function' ? field.fields() : field.fields;
+          const group = this.contructForm(childFields, value);
           return {
             ...acc,
             [field.key]: group,
           };
+        }
+        if (field.options) {
+          if (field.output === 'boolean-map') {
+            const group = this.contructControlFromOptions(field.options, value);
+            return {
+              ...acc,
+              [field.key]: group,
+            };
+          }
         }
         if (field.type === 'relation') {
           const group = this.contructForm(relationFields, value);
@@ -199,29 +207,42 @@ export class DynamicFormService {
     );
   }
 
+  private contructControlFromOptions(
+    options: FieldOptions[],
+    values: { [key: string]: boolean },
+  ) {
+    const controls = options.reduce((acc, option) => {
+      const value = values ? values[option.key] : false;
+      return { ...acc, [option.key]: [value || false] };
+    }, {});
+    const g = this.fb.group(controls);
+    return g;
+  }
+
   public getValue(
-    { key, type, localisation, value, defaultValue }: Field,
+    field: Field,
     values: { [key: string]: any },
     localize?: boolean,
   ): any {
+    const value = field.value || field.defaultValue || null;
     if (!values) {
-      return value || defaultValue;
+      return value;
     }
-    if (localisation) {
-      return values['en-US'][key] || value || defaultValue;
+    if (field.localize) {
+      return values['en-US'][field.key] || value;
     }
     const path = localize && values.common ? values.common : values;
-    if (path && path[key]) {
-      return path[key] || value || defaultValue;
+    if (path && path[field.key]) {
+      return path[field.key] || value;
     }
-    switch (type) {
+    switch (field.type) {
       case 'repeater':
-        return [] || value || defaultValue;
+        return value || [];
       case 'checkbox-group':
-        return [] || value || defaultValue;
+        return value || field.output === 'boolean-map' ? {} : [];
 
       default:
-        return value || defaultValue || '';
+        return value;
     }
   }
 
@@ -230,6 +251,7 @@ export class DynamicFormService {
     validation,
     parent,
     asyncCondition,
+    output,
   }: Field): [ValidatorFn[], AsyncValidatorFn[]] {
     const validators: ValidatorFn[] = [];
     const asyncValidators: AsyncValidatorFn[] = [];
@@ -237,12 +259,30 @@ export class DynamicFormService {
     if (type === 'email') {
       validators.push(Validators.email);
     }
+    if (type === 'tel') {
+      validators.push(Validators.minLength(5));
+    }
     if (type === 'url') {
       validators.push(
         Validators.pattern(
           '(http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?',
         ),
       );
+    }
+    if (type === 'color') {
+      switch (output) {
+        case 'rgba':
+          validators.push(
+            Validators.pattern(
+              '^(rgba)\\((\\s?\\d{1,3},){3}\\s?\\d(\\.\\d+)*\\)',
+            ),
+          );
+          break;
+
+        default:
+          validators.push(Validators.pattern('^#([\\w\\d]{3,8})'));
+          break;
+      }
     }
 
     if (!validation) {
@@ -259,9 +299,7 @@ export class DynamicFormService {
         validators.push(Validators.required);
       }
     }
-    if (type === 'tel') {
-      validators.push(Validators.minLength(5));
-    }
+
     if (validation.min) {
       validators.push(Validators.min(validation.min));
     }

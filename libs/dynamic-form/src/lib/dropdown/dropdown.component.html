@@ -1,7 +1,7 @@
-<label [for]="field.key">
-  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+<label [for]="field.key" dyna-label [field]="field">
+  {{field.title}}
 </label>
-<select [name]="field.key" [formControl]="control">
+<select class="dyna-input" [name]="field.key" [formControl]="control">
   <option *ngIf="field.placeholder" value="" disabled selected hidden>
     {{field.placeholder}}
   </option>

@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
 @Component({
-  selector: 'dyna-sub-array-form',
-  templateUrl: './sub-array-form.component.html',
-  styleUrls: ['./sub-array-form.component.scss'],
+  selector: 'dyna-repeater',
+  templateUrl: './repeater.component.html',
+  styleUrls: ['./repeater.component.scss'],
 })
-export class SubArrayFormComponent extends DynamicFormBase implements OnInit {
+export class RepeaterComponent extends DynamicFormBase implements OnInit {
   @Input()
   fields: Field[];
   @Input()
@@ -15,14 +16,14 @@ export class SubArrayFormComponent extends DynamicFormBase implements OnInit {
   @Input()
   controlsArray: FormArray;
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   public addItem() {
     const item = this.contructForm(this.fields, null);
     this.controlsArray.push(item);
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  public drop(event: CdkDragDrop<string[]>) {
     const items: Field[] = this.controlsArray.value;
     moveItemInArray(items, event.previousIndex, event.currentIndex);
     this.controlsArray.setValue(items);
@@ -30,5 +31,17 @@ export class SubArrayFormComponent extends DynamicFormBase implements OnInit {
 
   deleteControlItem(i: number) {
     this.controlsArray.removeAt(i);
+  }
+
+  getDisplayValue(control: FormControl): string {
+    const { display } = this.field;
+    if (!display) {
+      return '';
+    }
+    const value = control.value[display];
+    if (!value) {
+      return '';
+    }
+    return value.toString();
   }
 }

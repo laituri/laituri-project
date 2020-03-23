@@ -1,0 +1,9 @@
+<label [for]="field.key" dyna-label [field]="field">
+  {{field.title}}
+</label>
+
+<div class="input-container">
+  <input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''"
+         [formControl]="control" #inputFieldElement>
+  <div #pickerElement></div>
+</div>
