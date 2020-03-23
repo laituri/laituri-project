@@ -5,15 +5,18 @@
   "peerDependencies": {
     "@angular/common": "^9.0.7",
     "@angular/core": "^9.0.7",
+    "tslib": "^1.10.0"
+  },
+  "dependencies": {
     "@simonwep/pickr": "^1.5.1",
     "js-datepicker": "^5.4.0",
     "quill": "^1.3.7",
-    "tslib": "^1.10.0",
     "turndown": "^6.0.0"
   },
   "private": false,
   "scripts": {
-    "build-production": "ng build dynamic-form --prod",
+    "build-production": "ng build dynamic-form --prod && npm run build-css",
+    "build-css": "sass src/lib/dynamic-form.scss:dist/styles/dynamic-form.css --style compressed",
     "publish": "cd dist && npm publish"
   },
   "publishConfig": {
