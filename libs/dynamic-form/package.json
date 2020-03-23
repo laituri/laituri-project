@@ -11,7 +11,8 @@
     "@simonwep/pickr": "^1.5.1",
     "js-datepicker": "^5.4.0",
     "quill": "^1.3.7",
-    "turndown": "^6.0.0"
+    "turndown": "^6.0.0",
+    "md-to-quill-delta": "^1.0.9"
   },
   "private": false,
   "scripts": {
