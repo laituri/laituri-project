@@ -10,7 +10,7 @@ then
   echo -e "\e[39m"
   {
   lerna version &&
-  lerna run $scoped build &&
+  lerna run $scoped build-production &&
   lerna run $scoped publish &&
   echo -e "\e[92mPublish completed\e[39m\n"
   } || {

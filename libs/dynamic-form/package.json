@@ -13,7 +13,7 @@
   },
   "private": false,
   "scripts": {
-    "build": "ng build dynamic-form",
+    "build-production": "ng build dynamic-form --prod",
     "publish": "cd dist && npm publish"
   },
   "publishConfig": {
