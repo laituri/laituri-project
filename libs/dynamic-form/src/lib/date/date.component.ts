@@ -26,10 +26,17 @@ export class DateComponent implements OnInit {
   ngOnInit(): void {
     this.picker = datepicker(this.pickerElement.nativeElement, {
       formatter: (input: HTMLInputElement, date: Date) => {
-        const format = this.field.format || 'y-MM-dd';
-        const value = this.datePipe.transform(date, format);
-        input.value = value;
+        const output = this.field.output || 'y-MM-dd';
+        const outputValue = this.datePipe.transform(date, output);
+        this.setValue(outputValue);
+        const display = this.field.display || 'fullDate';
+        const displayValue = this.datePipe.transform(date, display);
+        input.value = displayValue;
       },
     });
+  }
+
+  private setValue(value: string) {
+    this.control.setValue(value);
   }
 }

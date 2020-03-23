@@ -19,6 +19,7 @@ import { GroupComponent } from './group/group.component';
 import { ColorComponent } from './color/color.component';
 import { DateComponent } from './date/date.component';
 import { MarkdownComponent } from './markdown/markdown.component';
+import { DynaLabelDirective } from './dyna-label';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MarkdownComponent } from './markdown/markdown.component';
     ColorComponent,
     DateComponent,
     MarkdownComponent,
+    DynaLabelDirective,
   ],
   imports: [CommonModule, ReactiveFormsModule, DragDropModule, MatIconModule],
   exports: [DynamicFormComponent],

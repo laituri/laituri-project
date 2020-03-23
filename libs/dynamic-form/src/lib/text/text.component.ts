@@ -6,14 +6,11 @@ import { AbstractControl } from '@angular/forms';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
 })
-export class TextComponent implements OnInit {
+export class TextComponent {
   @Input()
   field: TextField;
   @Input()
   control: AbstractControl;
   @Input()
   type: TextFieldTypes = 'text';
-  constructor() {}
-
-  ngOnInit() {}
 }

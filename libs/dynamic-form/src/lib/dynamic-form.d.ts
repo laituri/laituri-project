@@ -70,6 +70,7 @@ interface _FieldBase<T> {
   /* Misc */
   fields?: () => Field[] | Field[];
   output?: string;
+  options?: FieldOptions[];
 }
 
 /* Fields */
@@ -117,9 +118,11 @@ interface RepeaterField extends _FieldBase<object[]> {
 
 interface CheckboxField extends _FieldBase<boolean> {
   type: 'checkbox';
+  label: string;
 }
 interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
+  output?: 'string-array' | 'boolean-map';
   options: FieldOptions[];
 }
 interface RadioField extends _FieldBase<string[]> {
@@ -134,7 +137,8 @@ interface ColorField extends _FieldBase<string> {
 }
 interface DateField extends _FieldBase<string> {
   type: 'date';
-  format?: string;
+  output?: string;
+  display?: string;
 }
 
 interface RelationItem {

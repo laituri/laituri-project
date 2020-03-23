@@ -185,6 +185,15 @@ export class DynamicFormService {
             [field.key]: group,
           };
         }
+        if (field.options) {
+          if (field.output === 'boolean-map') {
+            const group = this.contructControlFromOptions(field.options, value);
+            return {
+              ...acc,
+              [field.key]: group,
+            };
+          }
+        }
         if (field.type === 'relation') {
           const group = this.contructForm(relationFields, value);
           return {
@@ -196,6 +205,18 @@ export class DynamicFormService {
         return { ...acc, [field.key]: control };
       }, {}),
     );
+  }
+
+  private contructControlFromOptions(
+    options: FieldOptions[],
+    values: { [key: string]: boolean },
+  ) {
+    const controls = options.reduce((acc, option) => {
+      const value = values ? values[option.key] : false;
+      return { ...acc, [option.key]: [value || false] };
+    }, {});
+    const g = this.fb.group(controls);
+    return g;
   }
 
   public getValue(
@@ -218,7 +239,7 @@ export class DynamicFormService {
       case 'repeater':
         return value || [];
       case 'checkbox-group':
-        return value || [];
+        return value || field.output === 'boolean-map' ? {} : [];
 
       default:
         return value;

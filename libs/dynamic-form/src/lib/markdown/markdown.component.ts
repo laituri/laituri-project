@@ -19,8 +19,6 @@ export class MarkdownComponent implements OnInit {
   private markdownEditor: Quill;
   private converter = new Converter();
 
-  constructor() {}
-
   ngOnInit(): void {
     this.markdownEditor = new Quill(this.markdownElement.nativeElement, {
       modules: {

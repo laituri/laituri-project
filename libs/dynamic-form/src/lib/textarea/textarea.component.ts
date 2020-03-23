@@ -6,12 +6,9 @@ import { AbstractControl } from '@angular/forms';
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
 })
-export class TextareaComponent implements OnInit {
+export class TextareaComponent {
   @Input()
   field: TextareaField;
   @Input()
   control: AbstractControl;
-  constructor() {}
-
-  ngOnInit() {}
 }

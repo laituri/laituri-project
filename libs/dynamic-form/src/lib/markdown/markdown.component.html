@@ -1,5 +1,5 @@
-<label [for]="field.key">
-  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+<label [for]="field.key" dyna-label [field]="field">
+  {{field.title}}
 </label>
 <div #markdownElement>
 </div>

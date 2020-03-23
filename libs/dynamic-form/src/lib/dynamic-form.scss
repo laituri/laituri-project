@@ -2,3 +2,79 @@
 @import '~js-datepicker/src/datepicker';
 @import 'quill/dist/quill.core.css';
 @import 'quill/dist/quill.snow.css';
+
+:root {
+  --dyna-font-family: Arial, Helvetica, sans-serif;
+  --dyna-font-size--label: 14px;
+  --dyna-font-size--submit: 16px;
+
+  --dyna-color--label: #444;
+  --dyna-color--border: #ccc;
+  --dyna-color--hover: #9eabe7;
+  --dyna-color--focus: #002fff;
+
+  --dyna-padding--input: 10px 15px;
+  --dyna-padding--submit: 10px 20px;
+}
+
+.dyna-input {
+  font-family: var(--dyna-font-family);
+  padding: var(--dyna-padding--input);
+  border: 1px solid var(--dyna-color--border);
+  font-family: var(--dyna-font-family);
+  transition: 250ms;
+  outline: none;
+  &:hover {
+    border-color: var(--dyna-color--hover);
+  }
+  &:focus {
+    border-color: var(--dyna-color--focus);
+  }
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+    font-style: italic;
+  }
+}
+
+.dyna-label {
+  font-family: var(--dyna-font-family);
+  color: var(--dyna-color--label);
+  font-size: var(--dyna-font-size--label);
+  font-weight: 600;
+  margin: 2px 0 6px;
+  &.required {
+    &::after {
+      content: '*';
+    }
+  }
+}
+
+.dyna-submit {
+  padding: var(--dyna-padding--submit);
+  border: 1px solid var(--dyna-color--border);
+  transition: 250ms;
+  background: #f8f8f8;
+  margin: 4px;
+  &:disabled {
+    color: #888;
+    background: #fff;
+  }
+  &:not(:disabled):hover {
+    border-color: var(--dyna-color--hover);
+    cursor: pointer;
+    background: #eef6ff;
+  }
+  &:focus {
+    border-color: var(--dyna-color--focus);
+  }
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+    font-style: italic;
+  }
+}
+
+// pickr overrides
+.pcr-button {
+  height: 100% !important;
+  width: 42px !important;
+}

@@ -69,8 +69,6 @@
     </div>
   </ng-container>
 
-  <button *ngIf="!submit.hidden" [disabled]="form.invalid" (click)="submitValues()">Submit</button>
-
-  {{form.valid}}
+  <button class="dyna-submit" *ngIf="!submit.hidden" [disabled]="form.invalid" (click)="submitValues()">Submit</button>
 
 </div>

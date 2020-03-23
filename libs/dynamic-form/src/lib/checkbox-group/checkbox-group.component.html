@@ -1,11 +1,9 @@
-<p class="title">
+<p dyna-label [field]="field">
   {{field.title}}
 </p>
 <div class="options-container">
-
-  <div class="option" *ngFor="let option of field.options">
-    <input type="checkbox" [name]="option.key" (change)="handleChange(option.key, $event) "
-           [checked]="getChecked(option.key) | async">
+  <div class="option" *ngFor="let option of field.options" (change)="handleChange(option.key, $event)">
+    <input type="checkbox" [name]="option.key" [checked]="getChecked(option.key) | async">
     <label [for]="option.key">
       {{option.title}}
     </label>

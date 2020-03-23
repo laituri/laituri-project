@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -12,13 +12,15 @@ export class CheckboxGroupComponent implements OnInit {
   @Input()
   field: CheckboxGroupField;
   @Input()
-  control: AbstractControl;
+  control: FormGroup;
   constructor() {}
 
   ngOnInit() {}
 
   handleChange(key: string, ev: { target: { checked: boolean } }) {
-    if (ev.target.checked) {
+    if (this.field.output === 'boolean-map') {
+      this.control.controls[key].setValue(ev.target.checked);
+    } else if (ev.target.checked) {
       const value: string[] = this.control.value || [];
       this.control.setValue([...value, key]);
     } else {
@@ -32,6 +34,9 @@ export class CheckboxGroupComponent implements OnInit {
       startWith(this.control.value),
       map((values: string[]) => {
         if (values) {
+          if (this.field.output === 'boolean-map') {
+            return values[key];
+          }
           return values.includes(key);
         }
         return false;

@@ -1,7 +1,5 @@
-<label class="field-locale-label" [for]="field.key">
+<label [for]="field.key" dyna-label [field]="field">
   {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
 </label>
 
-<div class="input-container">
-  <input [name]="field.key" type="text" [placeholder]="field.placeholder || ''" [formControl]="control" #pickerElement>
-</div>
+<input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''" #pickerElement>
