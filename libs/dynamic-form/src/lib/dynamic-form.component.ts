@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { DynamicFormBase } from './dynamic-form-base.class';
 import { debounceTime } from 'rxjs/operators';
+import { DynamicFormService } from './dynamic-form.service';
 
 @Component({
   selector: 'dynamic-form',
@@ -36,6 +37,10 @@ export class DynamicFormComponent extends DynamicFormBase
   public fields: Field[];
 
   private subscriptions: Subscription[];
+
+  constructor(public dfs: DynamicFormService) {
+    super(dfs);
+  }
 
   ngOnInit() {
     let configObservable: Observable<DynamicFormConfig>;

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
+import { DynamicFormService } from '../dynamic-form.service';
 
 @Component({
   selector: 'dyna-group',
@@ -14,6 +15,10 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   field: GroupField;
   @Input()
   control: FormGroup;
+
+  constructor(public dfs: DynamicFormService) {
+    super(dfs);
+  }
 
   ngOnInit(): void {}
 }

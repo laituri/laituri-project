@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DynamicFormService } from '../dynamic-form.service';
 
 @Component({
   selector: 'dyna-repeater',
@@ -17,6 +18,10 @@ export class RepeaterComponent extends DynamicFormBase implements OnInit {
   controlsArray: FormArray;
 
   ngOnInit(): void {}
+
+  constructor(public dfs: DynamicFormService) {
+    super(dfs);
+  }
 
   public addItem() {
     const item = this.contructForm(this.fields, null);
