@@ -5,7 +5,7 @@
   "assets": [
     "src/lib/dynamic-form.scss",
     "src/lib/dynamic-form.d.ts",
-    "src/lib/_styles"
+    "src/lib/_styles/*.css"
   ],
   "whitelistedNonPeerDependencies": [
     "@simonwep/pickr",
