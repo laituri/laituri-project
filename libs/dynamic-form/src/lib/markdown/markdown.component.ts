@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import Quill from 'quill';
-import { Converter } from 'showdown';
+import turndown from 'turndown';
 
 @Component({
   selector: 'dyna-markdown',
@@ -17,7 +17,7 @@ export class MarkdownComponent implements OnInit {
   markdownElement: ElementRef<HTMLTextAreaElement>;
 
   private markdownEditor: Quill;
-  private converter = new Converter();
+  private converter = new turndown({ headingStyle: 'atx' });
 
   ngOnInit(): void {
     this.markdownEditor = new Quill(this.markdownElement.nativeElement, {
@@ -26,18 +26,27 @@ export class MarkdownComponent implements OnInit {
           [{ header: [1, 2, false] }],
           ['bold', 'italic', 'underline'],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          ['image', 'code-block'],
+          ['code-block'],
         ],
+        keyboard: {
+          bindings: {
+            tab: {
+              key: 9,
+              handler: () => {
+                return true;
+              },
+            },
+          },
+        },
       },
-      placeholder: 'Compose an epic...',
+      readOnly: this.field.disabled,
+      placeholder: this.field.placeholder || 'Compose an epic...',
       theme: 'snow',
     });
 
     this.markdownEditor.on('text-change', (delta, source) => {
       const html = this.markdownEditor.root.innerHTML;
-
-      const markdown = this.converter.makeMarkdown(html);
-
+      const markdown = this.converter.turndown(html);
       this.setValue(markdown);
     });
   }
