@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import Quill from 'quill';
 import turndown from 'turndown';
+import { MarkdownToQuill } from 'md-to-quill-delta';
 
 @Component({
   selector: 'dyna-markdown',
@@ -43,6 +44,9 @@ export class MarkdownComponent implements OnInit {
       placeholder: this.field.placeholder || 'Compose an epic...',
       theme: 'snow',
     });
+    const converter = new MarkdownToQuill({ debug: false });
+    const ops = converter.convert(this.control.value || '');
+    this.markdownEditor.setContents(ops, 'api');
 
     this.markdownEditor.on('text-change', (delta, source) => {
       const html = this.markdownEditor.root.innerHTML;
