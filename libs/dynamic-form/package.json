@@ -16,7 +16,7 @@
   "private": false,
   "scripts": {
     "build-production": "ng build dynamic-form --prod && npm run build-css",
-    "build-css": "sass src/lib/dynamic-form.scss:dist/styles/dynamic-form.css --style compressed",
+    "build-css": "sass src/lib/dynamic-form.scss:dist/dynamic-form.min.css --style compressed",
     "publish": "cd dist && npm publish"
   },
   "publishConfig": {

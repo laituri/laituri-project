@@ -1,8 +1,8 @@
 /* TODO: clean relative paths */
-@import '~js-datepicker/dis/datepicker.min.css';
-@import '@simonwep/pickr/dist/themes/nano.min.css';
-@import 'quill/dist/quill.core.css';
-@import 'quill/dist/quill.snow.css';
+@import '_styles/datepicker.min.css';
+@import '_styles/nano.min.css';
+@import '_styles/quill.core.css';
+@import '_styles/quill.snow.css';
 
 :root {
   --dyna-font-family: Arial, Helvetica, sans-serif;

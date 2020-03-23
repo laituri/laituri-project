@@ -2,7 +2,11 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "dist",
 
-  "assets": ["src/lib/dynamic-form.scss", "src/lib/dynamic-form.d.ts"],
+  "assets": [
+    "src/lib/dynamic-form.scss",
+    "src/lib/dynamic-form.d.ts",
+    "src/lib/_styles"
+  ],
   "whitelistedNonPeerDependencies": [
     "@simonwep/pickr",
     "js-datepicker",
