@@ -54,13 +54,12 @@
       </dyna-action>
 
 
-
       <!-- Sub form fields -->
       <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"
                      [fields]="field.fields">
       </dyna-repeater>
 
-      <dyna-group *ngSwitchCase="'map'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
+      <dyna-group *ngSwitchCase="'group'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
       </dyna-group>
 
       <div *ngSwitchDefault>
@@ -69,6 +68,7 @@
     </div>
   </ng-container>
 
-  <button class="dyna-submit" *ngIf="!submit.hidden" [disabled]="form.invalid" (click)="submitValues()">Submit</button>
+  <button class="dyna-button submit" *ngIf="!submit.hidden" [disabled]="form.invalid"
+          (click)="submitValues()">Submit</button>
 
 </div>

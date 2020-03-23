@@ -1,5 +1,7 @@
 type locale = string;
 
+type SubFields = (() => Field[]) | Field[];
+
 interface DynamicFormConfig {
   fields: Field[];
   values?: { [key: string]: any };
@@ -68,7 +70,7 @@ interface _FieldBase<T> {
   /* Functions */
   asyncCondition?: (form?: any) => any;
   /* Misc */
-  fields?: () => Field[] | Field[];
+  fields?: SubFields;
   output?: string;
   options?: FieldOptions[];
 }
@@ -109,11 +111,12 @@ interface DropdownField extends _FieldBase<string> {
 
 interface GroupField extends _FieldBase<object> {
   type: 'group';
-  fields: () => Field[] | Field[];
+  fields: SubFields;
 }
 interface RepeaterField extends _FieldBase<object[]> {
   type: 'repeater';
-  fields: () => Field[] | Field[];
+  fields: SubFields;
+  display?: string;
 }
 
 interface CheckboxField extends _FieldBase<boolean> {

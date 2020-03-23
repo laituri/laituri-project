@@ -17,15 +17,15 @@ export class CheckboxGroupComponent implements OnInit {
 
   ngOnInit() {}
 
-  handleChange(key: string, ev: { target: { checked: boolean } }) {
+  handleChange(key: string, checked: boolean) {
     if (this.field.output === 'boolean-map') {
-      this.control.controls[key].setValue(ev.target.checked);
-    } else if (ev.target.checked) {
-      const value: string[] = this.control.value || [];
-      this.control.setValue([...value, key]);
-    } else {
+      this.control.controls[key].setValue(!checked);
+    } else if (checked) {
       const value: string[] = this.control.value || [];
       this.control.setValue([...value.filter(val => val !== key)]);
+    } else {
+      const value: string[] = this.control.value || [];
+      this.control.setValue([...value, key]);
     }
   }
 

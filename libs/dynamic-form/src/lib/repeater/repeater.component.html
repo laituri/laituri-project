@@ -1,14 +1,22 @@
-<p>repeater works!</p>
-<p class="label">
+<p dyna-label [field]="field">
   {{field.title}}
 </p>
 <div class="container" cdkDropList (cdkDropListDropped)="drop($event)">
   <div class="sub-array" *ngFor="let control of controlsArray.controls; let i = index" [formGroup]="control" cdkDrag>
-    <div class="actions">
-      <mat-icon class="delete" (click)="deleteControlItem(i)">
-        delete
-      </mat-icon>
-      <div class="handle" cdkDragHandle></div>
+    <div class="item-header">
+      <div class="info" cdkDragHandle>
+        <div class="number">
+          {{i+1}}
+        </div>
+        <h4 class="title">
+          {{getDisplayValue(control)}}
+        </h4>
+      </div>
+      <div class="actions">
+        <button class="dyna-button warning" (click)="deleteControlItem(i)">
+          Delete
+        </button>
+      </div>
     </div>
     <div class="fields">
       <div *ngFor="let field of fields" [ngSwitch]="field.type" [hidden]="field | fieldParent: control | async">
@@ -34,6 +42,17 @@
         <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
         </dyna-textarea>
 
+        <dyna-markdown *ngSwitchCase="'markdown'" [control]="getControl(control,field)" [field]="field">
+        </dyna-markdown>
+
+        <!-- Other fields -->
+
+        <dyna-radio *ngSwitchCase="'radio'" [control]="getControl(control,field)" [field]="field"></dyna-radio>
+
+        <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
+
+        <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
+
 
         <!-- Option fields -->
         <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
@@ -48,6 +67,7 @@
         <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(control,field)" [field]="field">
         </dyna-relation-select>
 
+
         <!-- Async fields -->
         <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
         </dyna-action>
@@ -58,7 +78,8 @@
                        [fields]="field.fields">
         </dyna-repeater>
 
-        <dyna-group *ngSwitchCase="'map'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
+        <dyna-group *ngSwitchCase="'group'" [control]="getControl(control,field)" [field]="field"
+                    [fields]="field.fields">
         </dyna-group>
 
         <div *ngSwitchDefault>
@@ -66,7 +87,6 @@
         </div>
       </div>
     </div>
-    <hr style="margin: 20px;">
   </div>
 </div>
-<button (click)="addItem()">Add new</button>
+<button class="dyna-button" (click)="addItem()">Add new</button>

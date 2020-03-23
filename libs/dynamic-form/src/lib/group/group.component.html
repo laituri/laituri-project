@@ -1,4 +1,4 @@
-<p class="label">
+<p dyna-label [field]="field">
   {{field.title}}
 </p>
 
@@ -26,6 +26,17 @@
     <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
     </dyna-textarea>
 
+    <dyna-markdown *ngSwitchCase="'markdown'" [control]="getControl(control,field)" [field]="field">
+    </dyna-markdown>
+
+    <!-- Other fields -->
+
+    <dyna-radio *ngSwitchCase="'radio'" [control]="getControl(control,field)" [field]="field"></dyna-radio>
+
+    <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
+
+    <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
+
 
     <!-- Option fields -->
     <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
@@ -40,6 +51,7 @@
     <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(control,field)" [field]="field">
     </dyna-relation-select>
 
+
     <!-- Async fields -->
     <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
     </dyna-action>
@@ -50,7 +62,7 @@
                    [fields]="field.fields">
     </dyna-repeater>
 
-    <dyna-group *ngSwitchCase="'map'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
+    <dyna-group *ngSwitchCase="'group'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
     </dyna-group>
 
     <div *ngSwitchDefault>

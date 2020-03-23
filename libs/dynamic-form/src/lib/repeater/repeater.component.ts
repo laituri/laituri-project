@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -31,5 +31,17 @@ export class RepeaterComponent extends DynamicFormBase implements OnInit {
 
   deleteControlItem(i: number) {
     this.controlsArray.removeAt(i);
+  }
+
+  getDisplayValue(control: FormControl): string {
+    const { display } = this.field;
+    if (!display) {
+      return '';
+    }
+    const value = control.value[display];
+    if (!value) {
+      return '';
+    }
+    return value.toString();
   }
 }
