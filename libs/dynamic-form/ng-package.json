@@ -1,7 +1,14 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "dist",
+
   "assets": ["src/lib/dynamic-form.scss", "src/lib/dynamic-form.d.ts"],
+  "whitelistedNonPeerDependencies": [
+    "@simonwep/pickr",
+    "js-datepicker",
+    "quill",
+    "turndown"
+  ],
   "lib": {
     "entryFile": "src/public-api.ts"
   }
