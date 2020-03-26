@@ -1,11 +1,11 @@
-<label class="field-locale-label" [for]="field.key">
-  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+<label [for]="field.key" dyna-label [field]="field">
+  {{field.title}}
 </label>
 <div class="preview">
-  <input [name]="field.key" disabled [placeholder]="field.placeholder || 'Value will be shown here'"
+  <input class="dyna-input" [name]="field.key" disabled [placeholder]="field.placeholder || 'Value will be shown here'"
          [formControl]="control">
-  <button *ngIf="control.value" (click)="clear()">Clear</button>
+  <button class="dyna-button" *ngIf="control.value" (click)="clear()">Clear</button>
 </div>
-<button class="get" (click)="getValue()">
+<button class="dyna-button get-value-button" (click)="getValue()">
   {{field.button}}
 </button>
