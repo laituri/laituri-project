@@ -121,7 +121,6 @@ interface RepeaterField extends _FieldBase<object[]> {
 
 interface CheckboxField extends _FieldBase<boolean> {
   type: 'checkbox';
-  label: string;
 }
 interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
