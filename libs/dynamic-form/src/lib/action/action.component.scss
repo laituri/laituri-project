@@ -1,9 +1,37 @@
 :host {
   display: flex;
   flex-flow: column nowrap;
-  padding: 4px;
-  .preview {
+  padding: 4px 0;
+  .previews-container {
     display: flex;
+    flex-flow: column;
+    & > *:not(:last-child) {
+      margin-top: 12px;
+    }
+    .card-container {
+      display: grid;
+      grid-template-areas: 'id image' 'title image' 'description image';
+      grid-template-columns: 3fr 1fr;
+      grid-template-rows: max-content max-content;
+      padding: 16px;
+      border: 1px solid #ccc;
+      gap: 4px;
+      .id {
+        grid-area: id;
+        margin: 0;
+      }
+      .title {
+        grid-area: title;
+        margin: 0;
+      }
+      .description {
+        grid-area: description;
+        margin: 6px 0 0;
+      }
+      .image {
+        grid-area: image;
+      }
+    }
   }
   .get-value-button {
     margin-top: 6px;
