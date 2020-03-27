@@ -48,6 +48,7 @@ type FieldTypes =
   | 'date'
   | 'radio'
   | 'color'
+  | 'chips'
   | 'action';
 
 interface _FieldBase<T> {
@@ -99,9 +100,53 @@ interface ActionField extends _FieldBase<string> {
   type: 'action';
   attributes: any;
   button: string;
+  preview: ActionFieldLayouts;
   events: {
-    click: (attributes: any, prev: any) => Promise<{ data: string }>;
+    click: (
+      attributes: any,
+      prev: any,
+    ) => Promise<{ [key: string]: any } | { [key: string]: any }[]>;
   };
+}
+
+interface ActionFieldKeys {
+  urlKey?: string;
+  textKey?: string;
+  imageKey?: string;
+  titleKey?: string;
+  idKey?: string;
+  descriptionKey?: string;
+}
+
+type ActionFieldLayouts =
+  | ActionFieldTextPreview
+  | ActionFieldInputPreview
+  | ActionFieldLinkPreview
+  | ActionFieldImagePreview
+  | ActionFieldCardPreview;
+
+interface ActionFieldTextPreview {
+  layout: 'text';
+  textKey: string;
+}
+interface ActionFieldInputPreview {
+  layout: 'input';
+  textKey: string;
+}
+interface ActionFieldLinkPreview {
+  layout: 'link';
+  urlKey: string;
+}
+interface ActionFieldImagePreview {
+  layout: 'image';
+  imageKey: string;
+}
+interface ActionFieldCardPreview {
+  layout: 'card';
+  titleKey: string;
+  idKey?: string;
+  descriptionKey?: string;
+  imageKey?: string;
 }
 
 interface DropdownField extends _FieldBase<string> {
@@ -137,6 +182,9 @@ interface ColorField extends _FieldBase<string> {
   swatches?: string[];
   opacity?: boolean;
 }
+interface ChipsField extends _FieldBase<string> {
+  type: 'chips';
+}
 interface DateField extends _FieldBase<string> {
   type: 'date';
   output?: string;
@@ -169,4 +217,5 @@ type Field =
   | ActionField
   | ColorField
   | DateField
+  | ChipsField
   | CheckboxGroupField;

@@ -20,6 +20,7 @@ import { RelationSelectModule } from './relation-select/relation-select.module';
 import { ColorModule } from './color/color.module';
 import { DateModule } from './date/date.module';
 import { MarkdownModule } from './markdown/markdown.module';
+import { ChipsModule } from './chips/chips.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MarkdownModule } from './markdown/markdown.module';
     ReactiveFormsModule,
     DragDropModule,
     MatIconModule,
+    DynaCommonModule,
     CheckboxModule,
     CheckboxGroupModule,
     ActionModule,
@@ -44,7 +46,7 @@ import { MarkdownModule } from './markdown/markdown.module';
     ColorModule,
     DateModule,
     MarkdownModule,
-    DynaCommonModule, // remove me
+    ChipsModule,
   ],
   exports: [DynamicFormComponent],
   providers: [DynamicFormService],

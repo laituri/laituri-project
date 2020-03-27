@@ -1,0 +1,11 @@
+<label [for]="field.key" dyna-label [field]="field">
+  {{field.title}}
+</label>
+<input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''"
+       [(ngModel)]="currentInputValue" (keyup.enter)="add()" />
+<button class="dyna-input-button" *ngIf="currentInputValue" (click)="add()">Add</button>
+<div class="dyna-chips-container">
+  <div class="dyna-chip" *ngFor="let item of control.value; trackBy:item">
+    {{item}}
+  </div>
+</div>

@@ -6,6 +6,7 @@
 
 :root {
   --dyna-font-family: Arial, Helvetica, sans-serif;
+  --dyna-font-size--chip: 12px;
   --dyna-font-size--label: 14px;
   --dyna-font-size--submit: 16px;
 
@@ -15,6 +16,7 @@
   --dyna-color--hover: #9eabe7;
   --dyna-color--focus-light: rgba(46, 84, 255, 0.3);
   --dyna-color--focus: #002fff;
+  --dyna-color--chip: #0069f3;
 
   --dyna-padding--input: 10px 15px;
   --dyna-padding--button: 6px 15px;
@@ -29,6 +31,7 @@
   transition: 250ms;
   outline: none;
   background: #fff;
+  position: relative;
   &:hover {
     border-color: var(--dyna-color--hover);
   }
@@ -122,6 +125,25 @@
     grid-area: actions;
     display: flex;
     align-items: center;
+  }
+}
+
+.dyna-chips-container {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 8px 0;
+}
+
+.dyna-chip {
+  padding: 2px 8px;
+  background: var(--dyna-color--chip);
+  font-family: var(--dyna-font-family);
+  font-size: var(--dyna-font-size--chip);
+
+  color: #fff;
+  width: fit-content;
+  &:not(:last-of-type) {
+    margin-right: 4px;
   }
 }
 
