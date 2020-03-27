@@ -1,0 +1,12 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ColorComponent } from './color.component';
+import { DynaCommonModule } from '../common/dynamic-form.module';
+
+@NgModule({
+  declarations: [ColorComponent],
+  exports: [ColorComponent],
+  imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
+})
+export class ColorModule {}
