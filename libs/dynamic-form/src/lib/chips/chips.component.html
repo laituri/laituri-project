@@ -11,6 +11,6 @@
       <path d="M0 0h24v24H0z" fill="none" /></svg>
   </button>
 </div>
-<ng-container *ngIf="control.valueChanges | async as values">
-  <dyna-chip-list [chips]="values | generateChips"></dyna-chip-list>
+<ng-container *ngIf="chips | async as chips">
+  <dyna-chip-list [chips]="chips" enableDrag="true" (dropItem)="onDrop($event)"></dyna-chip-list>
 </ng-container>

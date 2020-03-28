@@ -1,5 +1,12 @@
-<div class="dyna-chips-container" *ngIf="chips">
-  <div class="dyna-chip" *ngFor="let chip of chips">
-    {{chip.title}}
+<ng-container *ngIf="chips">
+
+  <div class="dyna-chips-container" [sortablejs]="chips" [sortablejsOptions]="sortableOptions"
+       [ngClass]="{dragable: enableDrag}">
+    <div class="dyna-chip" *ngFor="let chip of chips">
+      <p class="title">
+        {{chip.title}}
+      </p>
+    </div>
   </div>
-</div>
+
+</ng-container>

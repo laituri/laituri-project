@@ -185,6 +185,7 @@ interface ColorField extends _FieldBase<string> {
 }
 interface ChipsField extends _FieldBase<string[]> {
   type: 'chips';
+  uniqueValues?: boolean;
 }
 
 interface ChipItem {
