@@ -26,13 +26,12 @@ interface FieldValidation {
   maxItems?: number;
   allowedTypes?: string[];
 }
-interface FieldOptions {
+interface FieldOption {
   title: string;
   key: string;
-  selected?: boolean;
-  tooltip?: string;
-  color?: string;
+  description?: string;
   hidden?: boolean;
+  data?: any;
 }
 
 type FieldTypes =
@@ -48,6 +47,7 @@ type FieldTypes =
   | 'date'
   | 'radio'
   | 'color'
+  | 'chips'
   | 'action';
 
 interface _FieldBase<T> {
@@ -72,7 +72,7 @@ interface _FieldBase<T> {
   /* Misc */
   fields?: SubFields;
   output?: string;
-  options?: FieldOptions[];
+  options?: FieldOption[];
 }
 
 /* Fields */
@@ -99,14 +99,61 @@ interface ActionField extends _FieldBase<string> {
   type: 'action';
   attributes: any;
   button: string;
+  preview: ActionFieldLayouts;
   events: {
-    click: (attributes: any, prev: any) => Promise<{ data: string }>;
+    click: (
+      attributes: any,
+      prev: any,
+    ) => Promise<{ [key: string]: any } | { [key: string]: any }[]>;
   };
+}
+
+interface ActionFieldKeys {
+  urlKey?: string;
+  textKey?: string;
+  imageKey?: string;
+  titleKey?: string;
+  idKey?: string;
+  descriptionKey?: string;
+}
+
+type ActionFieldLayouts =
+  | ActionFieldTextPreview
+  | ActionFieldInputPreview
+  | ActionFieldLinkPreview
+  | ActionFieldImagePreview
+  | ActionFieldCardPreview;
+
+interface ActionFieldTextPreview {
+  layout: 'text';
+  textKey: string;
+}
+interface ActionFieldInputPreview {
+  layout: 'input';
+  textKey: string;
+}
+interface ActionFieldLinkPreview {
+  layout: 'link';
+  urlKey: string;
+}
+interface ActionFieldImagePreview {
+  layout: 'image';
+  imageKey: string;
+}
+interface ActionFieldCardPreview {
+  layout: 'card';
+  titleKey: string;
+  idKey?: string;
+  descriptionKey?: string;
+  imageKey?: string;
 }
 
 interface DropdownField extends _FieldBase<string> {
   type: 'dropdown';
-  options: FieldOptions[];
+  multiple?: boolean;
+  output?: 'key' | 'data' | 'boolean-map';
+  display?: 'input-only' | 'chips';
+  options: FieldOption[];
 }
 
 interface GroupField extends _FieldBase<object> {
@@ -124,18 +171,27 @@ interface CheckboxField extends _FieldBase<boolean> {
 }
 interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
-  output?: 'string-array' | 'boolean-map';
-  options: FieldOptions[];
+  output?: 'key' | 'data' | 'boolean-map';
+  options: FieldOption[];
 }
 interface RadioField extends _FieldBase<string[]> {
   type: 'radio';
-  options: FieldOptions[];
+  options: FieldOption[];
 }
 interface ColorField extends _FieldBase<string> {
   type: 'color';
   output: 'hex' | 'rgba';
   swatches?: string[];
   opacity?: boolean;
+}
+interface ChipsField extends _FieldBase<string[]> {
+  type: 'chips';
+  uniqueValues?: boolean;
+}
+
+interface ChipItem {
+  key: string | number;
+  title: string;
 }
 interface DateField extends _FieldBase<string> {
   type: 'date';
@@ -169,4 +225,5 @@ type Field =
   | ActionField
   | ColorField
   | DateField
+  | ChipsField
   | CheckboxGroupField;

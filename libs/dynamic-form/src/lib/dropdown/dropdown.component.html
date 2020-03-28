@@ -1,11 +1,19 @@
 <label [for]="field.key" dyna-label [field]="field">
   {{field.title}}
 </label>
-<select class="dyna-input" [name]="field.key" [formControl]="control">
+<!-- <select class="dyna-input" [name]="field.key" [formControl]="control">
   <option *ngIf="field.placeholder" value="" disabled selected hidden>
     {{field.placeholder}}
   </option>
   <option *ngFor="let option of field.options" [value]="option.key">
     {{option.title}}
   </option>
-</select>
+</select> -->
+<div class="input-container" (click)="openDropdown()">
+  <input class="dyna-input" disabled [name]="field.key" type="text" [placeholder]="field.placeholder || 'Select' "
+         #selectElement [value]="selected | async | dropdownInputValue:field.display">
+</div>
+
+<ng-container *ngIf="(field.display === 'chips') && selected | async as chips">
+  <dyna-chip-list [chips]="chips"></dyna-chip-list>
+</ng-container>

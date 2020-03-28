@@ -1,5 +1,5 @@
 :host {
-  padding: 4px;
+  padding: 4px 0;
   align-items: center;
   .options-container {
     .option {
@@ -18,7 +18,7 @@
         font-size: 16px;
       }
       input {
-        padding: 4px;
+        padding: 4px 0;
         transition: 250ms;
         margin: 0 6px 0 2px;
       }

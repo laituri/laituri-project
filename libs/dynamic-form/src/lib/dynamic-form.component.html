@@ -18,6 +18,9 @@
       <dyna-text *ngSwitchCase="'url'" type="url" [control]="getControl(control,field)" [field]="field">
       </dyna-text>
 
+      <dyna-text *ngSwitchCase="'password'" type="password" [control]="getControl(control,field)" [field]="field">
+      </dyna-text>
+
 
       <!-- Longer text fields -->
       <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
@@ -33,6 +36,8 @@
       <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
 
       <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
+
+      <dyna-chips *ngSwitchCase="'chips'" [control]="getControl(control,field)" [field]="field"></dyna-chips>
 
 
       <!-- Option fields -->

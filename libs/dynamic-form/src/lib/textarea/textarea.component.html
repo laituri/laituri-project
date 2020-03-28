@@ -1,5 +1,5 @@
 <label [for]="field.key" dyna-label [field]="field">
   {{field.title}}
 </label>
-<textarea class="dyna-input" [name]="field.key" cols="30" rows="10" [placeholder]="field.placeholder"
+<textarea class="dyna-input" [name]="field.key" cols="30" rows="10" [placeholder]="field.placeholder || 'Lorem ipsum'"
           [formControl]="control"></textarea>

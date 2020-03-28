@@ -11,9 +11,14 @@ export class ActionComponent implements OnInit {
   field: ActionField;
   @Input()
   control: AbstractControl;
+
+  public previewValues: { [key: string]: string | number }[];
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.field.preview);
+  }
 
   async getValue() {
     const current = this.control.value;
@@ -21,10 +26,37 @@ export class ActionComponent implements OnInit {
       this.field.attributes,
       current,
     );
-    this.control.setValue(response.data);
+    this.control.setValue(response);
+    if (Array.isArray(response)) {
+      this.previewValues = response.map(value => this.getPreview(value));
+    } else {
+      this.previewValues = [this.getPreview(response)];
+    }
   }
 
   clear() {
     this.control.setValue('');
+  }
+
+  getPreview(value: {
+    [key: string]: string | number;
+  }): { [key: string]: string | number } {
+    const {
+      textKey,
+      imageKey,
+      titleKey,
+      idKey,
+      urlKey,
+      descriptionKey,
+    }: ActionFieldKeys = this.field.preview;
+
+    return {
+      text: value[textKey] || null,
+      url: value[urlKey] || null,
+      image: value[imageKey] || null,
+      title: value[titleKey] || null,
+      id: value[idKey] || null,
+      description: value[descriptionKey] || null,
+    };
   }
 }
