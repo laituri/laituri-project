@@ -66,6 +66,7 @@ export class ChipsComponent implements OnInit {
     this.wasDragged = true;
     this.control.setValue(values);
   }
+
   private clearCurrentValue() {
     this.currentInputValue = '';
   }

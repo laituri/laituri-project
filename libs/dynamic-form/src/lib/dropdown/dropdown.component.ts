@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { OverlayRef, Overlay } from '@angular/cdk/overlay';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.component';
 import { DropdownService } from './dropdown.service';
-import { skip } from 'rxjs/operators';
+import { skip, startWith, filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'dyna-dropdown',
@@ -24,6 +24,7 @@ export class DropdownComponent implements OnInit {
   private overlayRef: OverlayRef;
   private subscriptions: Subscription[];
   public selected: BehaviorSubject<FieldOption[]>;
+
   constructor(
     private overlay: Overlay,
     private dropdownService: DropdownService,

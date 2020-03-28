@@ -152,6 +152,7 @@ interface DropdownField extends _FieldBase<string> {
   type: 'dropdown';
   multiple?: boolean;
   output?: 'key' | 'data' | 'boolean-map';
+  display?: 'input-only' | 'chips';
   options: FieldOption[];
 }
 

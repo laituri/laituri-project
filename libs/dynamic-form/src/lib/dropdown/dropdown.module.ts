@@ -8,6 +8,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { DropdownService } from './dropdown.service';
 import { DropdownInputValuePipe } from './dropdown-input-value.pipe';
 import { DropdownOptionSelectedPipe } from './dropdown-overlay/dropdown-option-selected.pipe';
+import { ChipListModule } from '../chip-list/chip-list.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,12 @@ import { DropdownOptionSelectedPipe } from './dropdown-overlay/dropdown-option-s
   exports: [DropdownComponent],
   providers: [DropdownService],
   entryComponents: [DropdownOverlayComponent],
-  imports: [CommonModule, DynaCommonModule, ReactiveFormsModule, OverlayModule],
+  imports: [
+    CommonModule,
+    DynaCommonModule,
+    ReactiveFormsModule,
+    OverlayModule,
+    ChipListModule,
+  ],
 })
 export class DropdownModule {}
