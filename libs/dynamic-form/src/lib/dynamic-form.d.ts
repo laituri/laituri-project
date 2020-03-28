@@ -183,8 +183,13 @@ interface ColorField extends _FieldBase<string> {
   swatches?: string[];
   opacity?: boolean;
 }
-interface ChipsField extends _FieldBase<string> {
+interface ChipsField extends _FieldBase<string[]> {
   type: 'chips';
+}
+
+interface ChipItem {
+  key: string | number;
+  title: string;
 }
 interface DateField extends _FieldBase<string> {
   type: 'date';

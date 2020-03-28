@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'dyna-chips',
@@ -28,5 +30,19 @@ export class ChipsComponent implements OnInit {
 
   private clearCurrentValue() {
     this.currentInputValue = '';
+  }
+
+  getChips(): Observable<ChipItem[]> {
+    return this.control.valueChanges.pipe(
+      map((values: string[]): ChipItem[] => {
+        if (!values) {
+          return null;
+        }
+        return values.map((item, i) => {
+          const chip: ChipItem = { key: i, title: item };
+          return chip;
+        });
+      }),
+    );
   }
 }

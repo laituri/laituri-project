@@ -11,8 +11,6 @@
       <path d="M0 0h24v24H0z" fill="none" /></svg>
   </button>
 </div>
-<div class="dyna-chips-container">
-  <div class="dyna-chip" *ngFor="let item of control.value">
-    {{item}}
-  </div>
-</div>
+<ng-container *ngIf="control.valueChanges | async as values">
+  <dyna-chip-list [chips]="values | generateChips"></dyna-chip-list>
+</ng-container>
