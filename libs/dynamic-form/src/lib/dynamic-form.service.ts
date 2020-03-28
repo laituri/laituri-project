@@ -187,6 +187,8 @@ export class DynamicFormService {
         }
         if (field.options) {
           if (field.output === 'boolean-map') {
+            console.log('on boolmap', value);
+
             const group = this.contructControlFromOptions(field.options, value);
             return {
               ...acc,
@@ -208,7 +210,7 @@ export class DynamicFormService {
   }
 
   private contructControlFromOptions(
-    options: FieldOptions[],
+    options: FieldOption[],
     values: { [key: string]: boolean },
   ) {
     const controls = options.reduce((acc, option) => {
@@ -225,25 +227,33 @@ export class DynamicFormService {
     localize?: boolean,
   ): any {
     const value = field.value || field.defaultValue || null;
-    if (!values) {
-      return value;
+    if (values) {
+      if (field.localize) {
+        return values['en-US'][field.key] || value;
+      }
+      const path = localize && values.common ? values.common : values;
+      if (path && path[field.key]) {
+        return path[field.key] || value;
+      }
     }
-    if (field.localize) {
-      return values['en-US'][field.key] || value;
-    }
-    const path = localize && values.common ? values.common : values;
-    if (path && path[field.key]) {
-      return path[field.key] || value;
+    switch (field.output) {
+      case 'boolean-map':
+        return value || {};
+
+      default:
+        break;
     }
     switch (field.type) {
       case 'repeater':
         return value || [];
+      /* 
       case 'checkbox-group':
-        return value || field.output === 'boolean-map' ? {} : [];
+        return value || field.output === 'boolean-map' ? {} : []; */
 
       default:
-        return value;
+        break;
     }
+    return value;
   }
 
   private _getValidators({

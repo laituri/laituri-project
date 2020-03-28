@@ -26,13 +26,12 @@ interface FieldValidation {
   maxItems?: number;
   allowedTypes?: string[];
 }
-interface FieldOptions {
+interface FieldOption {
   title: string;
   key: string;
-  selected?: boolean;
-  tooltip?: string;
-  color?: string;
+  description?: string;
   hidden?: boolean;
+  data?: any;
 }
 
 type FieldTypes =
@@ -73,7 +72,7 @@ interface _FieldBase<T> {
   /* Misc */
   fields?: SubFields;
   output?: string;
-  options?: FieldOptions[];
+  options?: FieldOption[];
 }
 
 /* Fields */
@@ -151,7 +150,9 @@ interface ActionFieldCardPreview {
 
 interface DropdownField extends _FieldBase<string> {
   type: 'dropdown';
-  options: FieldOptions[];
+  multiple?: boolean;
+  output?: 'key' | 'data' | 'boolean-map';
+  options: FieldOption[];
 }
 
 interface GroupField extends _FieldBase<object> {
@@ -169,12 +170,12 @@ interface CheckboxField extends _FieldBase<boolean> {
 }
 interface CheckboxGroupField extends _FieldBase<string[]> {
   type: 'checkbox-group';
-  output?: 'string-array' | 'boolean-map';
-  options: FieldOptions[];
+  output?: 'key' | 'data' | 'boolean-map';
+  options: FieldOption[];
 }
 interface RadioField extends _FieldBase<string[]> {
   type: 'radio';
-  options: FieldOptions[];
+  options: FieldOption[];
 }
 interface ColorField extends _FieldBase<string> {
   type: 'color';
