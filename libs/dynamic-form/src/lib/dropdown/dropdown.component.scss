@@ -8,7 +8,8 @@
       cursor: pointer;
     }
     &::after {
-      content: '▼';
+      cursor: pointer;
+      content: url('./dropdown-arrow.svg');
       opacity: 0.8;
       position: absolute;
       right: 10px;
