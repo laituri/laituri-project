@@ -3,8 +3,19 @@
   flex-flow: column nowrap;
   padding: 4px 0;
   .input-container {
+    position: relative;
     input {
       cursor: pointer;
+    }
+    &::after {
+      content: '▼';
+      opacity: 0.8;
+      position: absolute;
+      right: 10px;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
     }
   }
 }
