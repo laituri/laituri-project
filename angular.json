@@ -36,7 +36,154 @@
               "libs/dynamic-form/tsconfig.lib.json",
               "libs/dynamic-form/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "dynamic-form-playground": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/dynamic-form-playground",
+      "sourceRoot": "apps/dynamic-form-playground/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/dynamic-form-playground",
+            "index": "apps/dynamic-form-playground/src/index.html",
+            "main": "apps/dynamic-form-playground/src/main.ts",
+            "polyfills": "apps/dynamic-form-playground/src/polyfills.ts",
+            "tsConfig": "apps/dynamic-form-playground/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/dynamic-form-playground/src/favicon.ico",
+              "apps/dynamic-form-playground/src/assets"
+            ],
+            "styles": [
+              "apps/dynamic-form-playground/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/dynamic-form-playground/src/environments/environment.ts",
+                  "with": "apps/dynamic-form-playground/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/public/src/environments/environment.ts",
+                  "with": "apps/public/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "dynamic-form-playground:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "dynamic-form-playground:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dynamic-form-playground:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/dynamic-form-playground/src/test.ts",
+            "polyfills": "apps/dynamic-form-playground/src/polyfills.ts",
+            "tsConfig": "apps/dynamic-form-playground/tsconfig.spec.json",
+            "karmaConfig": "apps/dynamic-form-playground/karma.conf.js",
+            "assets": [
+              "apps/dynamic-form-playground/src/favicon.ico",
+              "apps/dynamic-form-playground/src/assets"
+            ],
+            "styles": [
+              "apps/dynamic-form-playground/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/dynamic-form-playground/tsconfig.app.json",
+              "apps/dynamic-form-playground/tsconfig.spec.json",
+              "apps/dynamic-form-playground/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/dynamic-form-playground/e2e/protractor.conf.js",
+            "devServerTarget": "dynamic-form-playground:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dynamic-form-playground:serve:production"
+            }
           }
         }
       }

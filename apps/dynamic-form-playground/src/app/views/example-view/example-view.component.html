@@ -1,0 +1,25 @@
+<div class="display-menu">
+  <button (click)="setDisplay('form')" [ngClass]="{active: display === 'form'}">Form</button>
+  <button (click)="setDisplay('fields')" [ngClass]="{active: display === 'fields'}">Fields</button>
+  <button (click)="setDisplay('result')" [ngClass]="{active: display === 'result'}"
+          [disabled]="!(result | async)">Result</button>
+</div>
+<ng-container *ngIf="display === 'form' && fields | async as fields">
+  <dynamic-form [config]="{fields: fields}" (valueChange)="updateResult($event)"></dynamic-form>
+</ng-container>
+
+<ng-container *ngIf="display === 'fields' && fieldsJson | async as fieldsJson">
+  <div class="code-container">
+    <code>
+    {{fieldsJson}}
+    </code>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="display === 'result' && result | async as result">
+  <div class="code-container">
+    <code>
+    {{result}}
+    </code>
+  </div>
+</ng-container>

@@ -3,12 +3,7 @@
   "version": "0.0.1",
   "description": "Is it possible to create headless CMS that is open source, serverless and designed for PWAs & JAMStack websites? Yes.",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
+    "serve:dynamic-form-playground": "ng serve dynamic-form-playground",
     "publish": "publish.sh"
   },
   "private": true,
