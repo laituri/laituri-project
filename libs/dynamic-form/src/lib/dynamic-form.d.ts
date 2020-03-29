@@ -158,6 +158,7 @@ interface DropdownField extends _FieldBase<string> {
 
 interface GroupField extends _FieldBase<object> {
   type: 'group';
+  flat?: boolean;
   fields: SubFields;
 }
 interface RepeaterField extends _FieldBase<object[]> {

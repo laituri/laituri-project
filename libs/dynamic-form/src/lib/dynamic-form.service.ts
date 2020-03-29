@@ -127,6 +127,9 @@ export class DynamicFormService {
     if (!form.controls) {
       return form;
     }
+    if (field.type === 'group' && field.flat) {
+      return form;
+    }
 
     return form.controls[field.key];
   }
@@ -180,6 +183,12 @@ export class DynamicFormService {
           const childFields =
             typeof field.fields === 'function' ? field.fields() : field.fields;
           const group = this.contructForm(childFields, value);
+          if (field.flat) {
+            return {
+              ...acc,
+              ...group.controls,
+            };
+          }
           return {
             ...acc,
             [field.key]: group,
@@ -187,8 +196,6 @@ export class DynamicFormService {
         }
         if (field.options) {
           if (field.output === 'boolean-map') {
-            console.log('on boolmap', value);
-
             const group = this.contructControlFromOptions(field.options, value);
             return {
               ...acc,
@@ -246,9 +253,6 @@ export class DynamicFormService {
     switch (field.type) {
       case 'repeater':
         return value || [];
-      /* 
-      case 'checkbox-group':
-        return value || field.output === 'boolean-map' ? {} : []; */
 
       default:
         break;
