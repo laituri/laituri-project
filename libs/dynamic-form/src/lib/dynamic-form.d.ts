@@ -52,10 +52,10 @@ type FieldTypes =
   | 'chips'
   | 'action';
 
-interface _FieldBase<T> {
+interface FieldTemplate<T> {
   /* Basics */
   type: FieldTypes;
-  key: string;
+  key?: string;
   title?: string;
   description?: string;
   placeholder?: string;
@@ -71,11 +71,13 @@ interface _FieldBase<T> {
   parent?: FieldParent;
   /* Functions */
   asyncCondition?: (form?: any) => any;
-  /* Misc */
   fields?: SubFields;
   output?: string;
   options?: FieldOption[];
   flat?: boolean;
+}
+interface FieldBase<T> extends FieldTemplate<T> {
+  key: string;
 }
 
 /* Fields */
@@ -88,17 +90,17 @@ type TextFieldTypes =
   | 'password'
   | 'search'
   | 'url';
-interface TextField extends _FieldBase<string> {
+interface TextField extends FieldBase<string> {
   type: TextFieldTypes;
 }
-interface TextareaField extends _FieldBase<string> {
+interface TextareaField extends FieldBase<string> {
   type: 'textarea';
   layout?: 'textarea' | 'editable-div';
 }
-interface MarkdownField extends _FieldBase<string> {
+interface MarkdownField extends FieldBase<string> {
   type: 'markdown';
 }
-interface ActionField extends _FieldBase<string> {
+interface ActionField extends FieldBase<string> {
   type: 'action';
   attributes: any;
   button: string;
@@ -151,7 +153,7 @@ interface ActionFieldCardPreview {
   imageKey?: string;
 }
 
-interface DropdownField extends _FieldBase<string> {
+interface DropdownField extends FieldBase<string> {
   type: 'dropdown';
   multiple?: boolean;
   output?: 'key' | 'data' | 'boolean-map';
@@ -159,40 +161,40 @@ interface DropdownField extends _FieldBase<string> {
   options: FieldOption[];
 }
 
-interface GroupField extends _FieldBase<object> {
+interface GroupField extends FieldBase<object> {
   type: 'group';
   flat?: boolean;
   fields: SubFields;
 }
-interface ContainerField extends _FieldBase<object> {
+interface ContainerField extends FieldBase<object> {
   type: 'container';
   fields: SubFields;
 }
-interface RepeaterField extends _FieldBase<object[]> {
+interface RepeaterField extends FieldBase<object[]> {
   type: 'repeater';
   fields: SubFields;
   display?: string;
 }
 
-interface CheckboxField extends _FieldBase<boolean> {
+interface CheckboxField extends FieldBase<boolean> {
   type: 'checkbox';
 }
-interface CheckboxGroupField extends _FieldBase<string[]> {
+interface CheckboxGroupField extends FieldBase<string[]> {
   type: 'checkbox-group';
   output?: 'key' | 'data' | 'boolean-map';
   options: FieldOption[];
 }
-interface RadioField extends _FieldBase<string[]> {
+interface RadioField extends FieldBase<string[]> {
   type: 'radio';
   options: FieldOption[];
 }
-interface ColorField extends _FieldBase<string> {
+interface ColorField extends FieldBase<string> {
   type: 'color';
   output: 'hex' | 'rgba';
   swatches?: string[];
   opacity?: boolean;
 }
-interface ChipsField extends _FieldBase<string[]> {
+interface ChipsField extends FieldBase<string[]> {
   type: 'chips';
   uniqueValues?: boolean;
 }
@@ -201,7 +203,7 @@ interface ChipItem {
   key: string | number;
   title: string;
 }
-interface DateField extends _FieldBase<string> {
+interface DateField extends FieldBase<string> {
   type: 'date';
   output?: string;
   display?: string;
@@ -212,7 +214,7 @@ interface RelationItem {
   title: string;
   typeName?: string;
 }
-interface RelationField extends _FieldBase<string[]> {
+interface RelationField extends FieldBase<string[]> {
   type: 'relation';
   items: RelationItem[];
   actions?: {
@@ -220,13 +222,14 @@ interface RelationField extends _FieldBase<string[]> {
   };
 }
 
-interface InfoField {
+interface InfoField extends FieldTemplate<null> {
   type: 'info';
   body: string;
 }
 
-type Field =
-  | InfoField
+type Field = InfoField | FormField;
+
+type FormField =
   | TextField
   | TextareaField
   | MarkdownField
