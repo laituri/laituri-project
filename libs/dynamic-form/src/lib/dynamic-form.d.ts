@@ -42,6 +42,8 @@ type FieldTypes =
   | 'checkbox'
   | 'checkbox-group'
   | 'group'
+  | 'container'
+  | 'info'
   | 'repeater'
   | 'relation'
   | 'date'
@@ -54,7 +56,7 @@ interface _FieldBase<T> {
   /* Basics */
   type: FieldTypes;
   key: string;
-  title: string;
+  title?: string;
   description?: string;
   placeholder?: string;
   hint?: string;
@@ -73,6 +75,7 @@ interface _FieldBase<T> {
   fields?: SubFields;
   output?: string;
   options?: FieldOption[];
+  flat?: boolean;
 }
 
 /* Fields */
@@ -161,6 +164,10 @@ interface GroupField extends _FieldBase<object> {
   flat?: boolean;
   fields: SubFields;
 }
+interface ContainerField extends _FieldBase<object> {
+  type: 'container';
+  fields: SubFields;
+}
 interface RepeaterField extends _FieldBase<object[]> {
   type: 'repeater';
   fields: SubFields;
@@ -213,12 +220,19 @@ interface RelationField extends _FieldBase<string[]> {
   };
 }
 
+interface InfoField {
+  type: 'info';
+  body: string;
+}
+
 type Field =
+  | InfoField
   | TextField
   | TextareaField
   | MarkdownField
   | DropdownField
   | GroupField
+  | ContainerField
   | RepeaterField
   | RadioField
   | RelationField

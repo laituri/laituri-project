@@ -13,7 +13,8 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "libs/dynamic-form/tsconfig.lib.json",
-            "project": "libs/dynamic-form/ng-package.json"
+            "project": "libs/dynamic-form/ng-package.json",
+            "scripts": ["node_modules/marked/lib/marked.js"]
           },
           "configurations": {
             "production": {
@@ -36,9 +37,7 @@
               "libs/dynamic-form/tsconfig.lib.json",
               "libs/dynamic-form/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -68,9 +67,14 @@
               "apps/dynamic-form-playground/src/assets"
             ],
             "styles": [
-              "apps/dynamic-form-playground/src/styles.scss"
+              "apps/dynamic-form-playground/src/styles.scss",
+              "apps/dynamic-form-playground/src/prism-material-light.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-json.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -155,9 +159,7 @@
               "apps/dynamic-form-playground/src/favicon.ico",
               "apps/dynamic-form-playground/src/assets"
             ],
-            "styles": [
-              "apps/dynamic-form-playground/src/styles.scss"
-            ],
+            "styles": ["apps/dynamic-form-playground/src/styles.scss"],
             "scripts": []
           }
         },
@@ -169,9 +171,7 @@
               "apps/dynamic-form-playground/tsconfig.spec.json",
               "apps/dynamic-form-playground/e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

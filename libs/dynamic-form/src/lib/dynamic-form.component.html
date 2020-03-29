@@ -39,6 +39,8 @@
 
       <dyna-chips *ngSwitchCase="'chips'" [control]="getControl(control,field)" [field]="field"></dyna-chips>
 
+      <dyna-info *ngSwitchCase="'info'" [field]="field"></dyna-info>
+
 
       <!-- Option fields -->
       <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
@@ -65,6 +67,10 @@
       </dyna-repeater>
 
       <dyna-group *ngSwitchCase="'group'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
+      </dyna-group>
+
+      <dyna-group *ngSwitchCase="'container'" [control]="getControl(control,field)" [field]="field"
+                  [fields]="field.fields">
       </dyna-group>
 
       <div *ngSwitchDefault>

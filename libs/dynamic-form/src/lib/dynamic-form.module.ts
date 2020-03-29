@@ -21,6 +21,7 @@ import { ColorModule } from './color/color.module';
 import { DateModule } from './date/date.module';
 import { MarkdownModule } from './markdown/markdown.module';
 import { ChipsModule } from './chips/chips.module';
+import { InfoModule } from './info/info.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ChipsModule } from './chips/chips.module';
     DateModule,
     MarkdownModule,
     ChipsModule,
+    InfoModule,
   ],
   exports: [DynamicFormComponent],
   providers: [DynamicFormService],

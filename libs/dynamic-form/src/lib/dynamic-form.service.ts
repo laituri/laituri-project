@@ -127,11 +127,15 @@ export class DynamicFormService {
     if (!form.controls) {
       return form;
     }
-    if (field.type === 'group' && field.flat) {
+    if (field.type === 'container' || field.flat) {
       return form;
     }
 
-    return form.controls[field.key];
+    try {
+      return form.controls[field.key];
+    } catch (error) {
+      return form;
+    }
   }
 
   public contructForm(
@@ -163,6 +167,9 @@ export class DynamicFormService {
       fields.reduce((acc, field) => {
         const value = this.getValue(field, values, localize);
         const validators = this._getValidators(field);
+        if (field.type === 'info') {
+          return acc;
+        }
         if (field.type === 'repeater') {
           return {
             ...acc,
@@ -179,11 +186,11 @@ export class DynamicFormService {
               : this.fb.array([]),
           };
         }
-        if (field.type === 'group') {
+        if (field.type === 'group' || field.type === 'container') {
           const childFields =
             typeof field.fields === 'function' ? field.fields() : field.fields;
           const group = this.contructForm(childFields, value);
-          if (field.flat) {
+          if (field.flat || field.type === 'container') {
             return {
               ...acc,
               ...group.controls,
