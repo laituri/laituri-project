@@ -14,4 +14,12 @@ export class TextComponent extends DynamicFormFieldBase {
   control: AbstractControl;
   @Input()
   type: TextFieldTypes = 'text';
+
+  change(value: string) {
+    if (this.field.type === 'number') {
+      this.control.setValue(Number(value));
+    } else {
+      this.control.setValue(value);
+    }
+  }
 }

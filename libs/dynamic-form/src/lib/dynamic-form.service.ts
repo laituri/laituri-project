@@ -177,19 +177,17 @@ export class DynamicFormService {
             ...acc,
             [field.key]: value
               ? this.fb.array(
-                  value.map(
-                    val => {
-                      const childFields =
-                        typeof field.fields === 'function'
-                          ? field.fields()
-                          : field.fields;
-                      return this.contructForm(childFields, val);
-                    },
-                    validation,
-                    asyncValidation,
-                  ),
+                  value.map(val => {
+                    const childFields =
+                      typeof field.fields === 'function'
+                        ? field.fields()
+                        : field.fields;
+                    return this.contructForm(childFields, val);
+                  }),
+                  validation,
+                  asyncValidation,
                 )
-              : this.fb.array(null, validation, asyncValidation),
+              : this.fb.array([], validation, asyncValidation),
           };
         }
         if (field.type === 'group' || field.type === 'container') {
@@ -263,13 +261,13 @@ export class DynamicFormService {
       default:
         break;
     }
-    switch (field.type) {
-      case 'repeater':
-        return value || [];
+    /*     switch (field.type) {
+      case 'number':
+        return value || 0;
 
       default:
         break;
-    }
+    } */
     return value;
   }
 

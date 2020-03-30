@@ -98,7 +98,7 @@ type TextFieldTypes =
   | 'password'
   | 'search'
   | 'url';
-interface TextField extends FieldBase<string> {
+interface TextField extends FieldBase<string | number> {
   type: TextFieldTypes;
 }
 interface TextareaField extends FieldBase<string> {
