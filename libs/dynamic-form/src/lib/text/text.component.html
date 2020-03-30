@@ -2,8 +2,11 @@
   {{field.title}}
 </label>
 <input class="dyna-input" [name]="field.key" [type]="type" [placeholder]="field.placeholder || ''"
-       [value]="control.value" (keyup)="change(input.value)" #input>
+       [formControl]="control">
 
 <dyna-hint [field]="field" [control]="control">
   {{field.hint}}
 </dyna-hint>
+
+
+<!-- [value]="control.value" (keyup)="change(input.value)" #input -->

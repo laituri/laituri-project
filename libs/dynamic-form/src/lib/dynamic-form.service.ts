@@ -287,6 +287,9 @@ export class DynamicFormService {
     if (type === 'tel') {
       validators.push(Validators.minLength(5));
     }
+    if (type === 'number') {
+      validators.push(this._numberValidation());
+    }
     if (type === 'url') {
       validators.push(
         Validators.pattern(
@@ -317,7 +320,7 @@ export class DynamicFormService {
     /* From validators */
     if (validation.required) {
       if (parent) {
-        validators.push(this.requiredWithParent(parent));
+        validators.push(this._requiredWithParent(parent));
       } else {
         validators.push(Validators.required);
       }
@@ -384,7 +387,7 @@ export class DynamicFormService {
     return new Promise(resolve => resolve(null));
   }
 
-  private requiredWithParent(
+  private _requiredWithParent(
     // group: FormGroup,
     parent: FieldParent,
     // control: AbstractControl,
@@ -412,6 +415,19 @@ export class DynamicFormService {
       }
 
       return { minLengthArray: { valid: false } };
+    };
+  }
+
+  private _numberValidation(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      if (!Number(control.value)) {
+        return { number: 'Value is not a number' };
+      }
+      if (typeof control.value !== 'number') {
+        control.setValue(Number(control.value));
+        return null;
+      }
+      return null;
     };
   }
 }
