@@ -13,8 +13,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "libs/dynamic-form/tsconfig.lib.json",
-            "project": "libs/dynamic-form/ng-package.json",
-            "scripts": ["node_modules/marked/lib/marked.js"]
+            "project": "libs/dynamic-form/ng-package.json"
           },
           "configurations": {
             "production": {
