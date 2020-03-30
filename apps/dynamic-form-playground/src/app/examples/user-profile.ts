@@ -10,6 +10,17 @@ export const UserProfileFields: Field[] = [
     },
   },
   {
+    title: 'Age',
+    key: 'age',
+    type: 'number',
+    placeholder: '18',
+    hint: '18+',
+    validation: {
+      required: true,
+      min: 18,
+    },
+  },
+  {
     title: 'Email',
     key: 'email',
     type: 'email',
