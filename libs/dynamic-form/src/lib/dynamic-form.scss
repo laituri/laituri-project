@@ -18,6 +18,7 @@
   --dyna-color--focus-light: rgba(46, 84, 255, 0.3);
   --dyna-color--focus: #002fff;
   --dyna-color--chip: #0069f3;
+  --dyna-color--chip-focus: #0c57b8;
 
   --dyna-padding--small: 10px;
   --dyna-padding--input: 10px 15px;
@@ -200,6 +201,24 @@ dyna-hint {
     color: #fff;
     padding: 2px 8px;
     margin: 0;
+  }
+  .delete-item {
+    background: none;
+    border: none;
+    padding: 4px;
+    height: 16px;
+    box-sizing: content-box;
+    outline-color: rgba(238, 238, 238, 0.562);
+    transition: 200ms;
+    cursor: pointer;
+    .x-icon {
+      width: 16px;
+      height: 16px;
+    }
+    &:hover,
+    &:focus {
+      background: var(--dyna-color--chip-focus);
+    }
   }
 }
 

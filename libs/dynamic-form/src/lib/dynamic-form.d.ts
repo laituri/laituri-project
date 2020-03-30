@@ -213,7 +213,7 @@ interface ColorField extends FieldBase<string> {
 }
 interface ChipsField extends FieldBase<string[]> {
   type: 'chips';
-  uniqueValues?: boolean;
+  allowDuplicates?: boolean;
 }
 
 interface ChipItem {

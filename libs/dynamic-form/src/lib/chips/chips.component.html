@@ -13,7 +13,8 @@
 </div>
 
 <ng-container *ngIf="chips | async as chips">
-  <dyna-chip-list [chips]="chips" enableDrag="true" (dropItem)="onDrop($event)"></dyna-chip-list>
+  <dyna-chip-list [chips]="chips" enableDrag="true" (dropItem)="onDrop($event)" (deleteItem)="onDelete($event)">
+  </dyna-chip-list>
 </ng-container>
 
 <dyna-hint [field]="field" [control]="control">

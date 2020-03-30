@@ -10,6 +10,7 @@ export class ChipListComponent implements OnInit {
   @Input() enableDrag: boolean;
 
   @Output() dropItem = new EventEmitter<ChipItem[]>();
+  @Output() deleteItem = new EventEmitter<string | number>();
 
   public sortableOptions: SortableOptions;
 
@@ -26,5 +27,9 @@ export class ChipListComponent implements OnInit {
         this.dropItem.emit(this.chips);
       },
     };
+  }
+
+  delete(key: string | number) {
+    this.deleteItem.emit(key);
   }
 }

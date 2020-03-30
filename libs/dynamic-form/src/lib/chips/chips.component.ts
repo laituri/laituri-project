@@ -24,7 +24,9 @@ export class ChipsComponent implements OnInit {
 
   public chips: Observable<ChipItem[]>;
 
+  /* Since there is some black magic bug with sortable, we need to do some hacks to get list's working correctly */
   private wasDragged: boolean;
+  private chipsCopy: ChipItem[];
 
   constructor() {}
 
@@ -42,10 +44,12 @@ export class ChipsComponent implements OnInit {
         if (!values) {
           return null;
         }
-        return values.map((item, i) => {
-          const chip: ChipItem = { key: i, title: item };
+        const chips = values.map((item, i) => {
+          const chip: ChipItem = { key: `${i}-${item}`, title: item };
           return chip;
         });
+        this.chipsCopy = chips;
+        return chips;
       }),
     );
   }
@@ -53,7 +57,10 @@ export class ChipsComponent implements OnInit {
   add() {
     const values: string[] =
       (Array.isArray(this.control.value) && this.control.value) || [];
-    if (this.field.uniqueValues && values.includes(this.currentInputValue)) {
+    if (
+      !this.field.allowDuplicates &&
+      values.includes(this.currentInputValue)
+    ) {
       return;
     }
     values.push(this.currentInputValue);
@@ -65,6 +72,12 @@ export class ChipsComponent implements OnInit {
     const values = chips.map(chip => chip.title);
     this.wasDragged = true;
     this.control.setValue(values);
+  }
+  onDelete(key: string) {
+    const filteredValues = this.chipsCopy
+      .filter(chip => chip.key !== key)
+      .map(chip => chip.title);
+    this.control.setValue(filteredValues);
   }
 
   private clearCurrentValue() {
