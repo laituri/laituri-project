@@ -31,6 +31,7 @@ export class ExampleViewComponent implements OnInit {
   }
 
   updateResult(values: any) {
+    console.log('Value change:', values);
     const result = JSON.stringify(values, null, 2);
     this.result.next(result);
   }

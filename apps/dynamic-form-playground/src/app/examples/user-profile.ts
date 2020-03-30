@@ -4,6 +4,7 @@ export const UserProfileFields: Field[] = [
     key: 'name',
     type: 'text',
     placeholder: 'John Doe',
+    hint: 'Firstname Lastname',
     validation: {
       required: true,
     },
@@ -11,7 +12,7 @@ export const UserProfileFields: Field[] = [
   {
     title: 'Email',
     key: 'email',
-    type: 'text',
+    type: 'email',
     placeholder: 'john@laituri.dev',
     validation: {
       required: true,
@@ -22,11 +23,17 @@ export const UserProfileFields: Field[] = [
     key: 'bio',
     type: 'textarea',
     placeholder: 'Lorem ipsum',
+    hint: '5-200 characters',
+    validation: {
+      minLength: 5,
+      maxLength: 200,
+    },
   },
   {
     title: 'Skills',
     key: 'skills',
     type: 'repeater',
+    display: 'title',
     fields: [
       {
         title: 'Title',

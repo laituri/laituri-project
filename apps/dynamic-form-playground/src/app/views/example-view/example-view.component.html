@@ -10,16 +10,14 @@
 
 <ng-container *ngIf="display === 'fields' && fieldsJson | async as fieldsJson">
   <div class="code-container">
-    <code>
-    {{fieldsJson}}
-    </code>
+    <markdown class="code" [data]="fieldsJson | language : 'json'" ngPreserveWhitespaces>
+    </markdown>
   </div>
 </ng-container>
 
 <ng-container *ngIf="display === 'result' && result | async as result">
   <div class="code-container">
-    <code>
-    {{result}}
-    </code>
+    <markdown class="code" [data]="result | language : 'json'" ngPreserveWhitespaces>
+    </markdown>
   </div>
 </ng-container>
