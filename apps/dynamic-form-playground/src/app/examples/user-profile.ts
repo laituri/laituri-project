@@ -5,6 +5,7 @@ export const UserProfileFields: Field[] = [
     type: 'text',
     placeholder: 'John Doe',
     hint: 'Firstname Lastname',
+    value: 'John Doe',
     validation: {
       required: true,
     },

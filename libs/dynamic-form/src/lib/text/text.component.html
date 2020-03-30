@@ -2,7 +2,7 @@
   {{field.title}}
 </label>
 <input class="dyna-input" [name]="field.key" [type]="type" [placeholder]="field.placeholder || ''"
-       (keyup)="change(input.value)" #input>
+       [value]="control.value" (keyup)="change(input.value)" #input>
 
 <dyna-hint [field]="field" [control]="control">
   {{field.hint}}
