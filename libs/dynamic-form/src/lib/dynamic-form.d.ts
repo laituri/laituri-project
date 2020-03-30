@@ -75,7 +75,15 @@ interface FieldTemplate<T> {
   output?: string;
   options?: FieldOption[];
   flat?: boolean;
+  style?: FieldStyleBase;
 }
+
+interface FieldStyleBase {
+  grow?: number;
+  className?: string;
+  css?: string;
+}
+
 interface FieldBase<T> extends FieldTemplate<T> {
   key: string;
 }
@@ -165,11 +173,19 @@ interface GroupField extends FieldBase<object> {
   type: 'group';
   flat?: boolean;
   fields: SubFields;
+  style?: ContainerFieldStyle;
 }
-interface ContainerField extends FieldBase<object> {
+interface ContainerField extends FieldTemplate<null> {
   type: 'container';
   fields: SubFields;
+  style?: ContainerFieldStyle;
 }
+
+interface ContainerFieldStyle extends FieldStyleBase {
+  direction?: 'column' | 'row';
+  wrap?: boolean;
+}
+
 interface RepeaterField extends FieldBase<object[]> {
   type: 'repeater';
   fields: SubFields;
@@ -178,6 +194,7 @@ interface RepeaterField extends FieldBase<object[]> {
 
 interface CheckboxField extends FieldBase<boolean> {
   type: 'checkbox';
+  title: string;
 }
 interface CheckboxGroupField extends FieldBase<string[]> {
   type: 'checkbox-group';
@@ -227,15 +244,12 @@ interface InfoField extends FieldTemplate<null> {
   body: string;
 }
 
-type Field = InfoField | FormField;
-
 type FormField =
   | TextField
   | TextareaField
   | MarkdownField
   | DropdownField
   | GroupField
-  | ContainerField
   | RepeaterField
   | RadioField
   | RelationField
@@ -245,3 +259,5 @@ type FormField =
   | DateField
   | ChipsField
   | CheckboxGroupField;
+
+type Field = InfoField | ContainerField | FormField;

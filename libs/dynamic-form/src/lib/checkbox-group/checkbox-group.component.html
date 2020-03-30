@@ -1,4 +1,4 @@
-<p dyna-label [field]="field">
+<p *ngIf="field.title" dyna-label [field]="field">
   {{field.title}}
 </p>
 <div class="options-container">
@@ -10,3 +10,6 @@
   </div>
 
 </div>
+<dyna-hint [field]="field" [control]="control">
+  {{field.hint}}
+</dyna-hint>

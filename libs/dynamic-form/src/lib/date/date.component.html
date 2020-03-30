@@ -1,5 +1,9 @@
-<label [for]="field.key" dyna-label [field]="field">
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
 </label>
 
 <input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''" #pickerElement>
+
+<dyna-hint [field]="field" [control]="control">
+  {{field.hint}}
+</dyna-hint>

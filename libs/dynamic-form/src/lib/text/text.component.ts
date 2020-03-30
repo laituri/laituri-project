@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 
 @Component({
   selector: 'dyna-text',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
 })
-export class TextComponent {
+export class TextComponent extends DynamicFormFieldBase {
   @Input()
   field: TextField;
   @Input()

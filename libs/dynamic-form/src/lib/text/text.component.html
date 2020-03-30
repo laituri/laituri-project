@@ -1,5 +1,9 @@
-<label [for]="field.key" dyna-label [field]="field">
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{field.title}}
 </label>
 <input class="dyna-input" [name]="field.key" [type]="type" [placeholder]="field.placeholder || ''"
        [formControl]="control">
+
+<dyna-hint [field]="field" [control]="control">
+  {{field.hint}}
+</dyna-hint>

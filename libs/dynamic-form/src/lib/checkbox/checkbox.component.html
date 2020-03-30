@@ -2,3 +2,6 @@
 <label [for]="field.key">
   {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
 </label>
+<dyna-hint [field]="field" [control]="control">
+  {{field.hint}}
+</dyna-hint>

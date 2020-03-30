@@ -1,4 +1,4 @@
-<label [for]="field.key" dyna-label [field]="field">
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{field.title}}
 </label>
 <div class="input-container">
@@ -11,6 +11,11 @@
       <path d="M0 0h24v24H0z" fill="none" /></svg>
   </button>
 </div>
+
 <ng-container *ngIf="chips | async as chips">
   <dyna-chip-list [chips]="chips" enableDrag="true" (dropItem)="onDrop($event)"></dyna-chip-list>
 </ng-container>
+
+<dyna-hint [field]="field" [control]="control">
+  {{field.hint}}
+</dyna-hint>

@@ -1,5 +1,9 @@
-<label [for]="field.key" dyna-label [field]="field">
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{field.title}}
 </label>
-<div #markdownElement>
-</div>
+
+<div #markdownElement></div>
+
+<dyna-hint [field]="field" [control]="control">
+  {{field.hint}}
+</dyna-hint>

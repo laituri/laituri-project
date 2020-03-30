@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   AsyncValidatorFn,
   Validators,
+  ValidationErrors,
 } from '@angular/forms';
 import { Observable, BehaviorSubject, fromEvent, combineLatest } from 'rxjs';
 import {
@@ -171,19 +172,24 @@ export class DynamicFormService {
           return acc;
         }
         if (field.type === 'repeater') {
+          const [validation, asyncValidation] = validators;
           return {
             ...acc,
             [field.key]: value
               ? this.fb.array(
-                  value.map(val => {
-                    const childFields =
-                      typeof field.fields === 'function'
-                        ? field.fields()
-                        : field.fields;
-                    return this.contructForm(childFields, val);
-                  }),
+                  value.map(
+                    val => {
+                      const childFields =
+                        typeof field.fields === 'function'
+                          ? field.fields()
+                          : field.fields;
+                      return this.contructForm(childFields, val);
+                    },
+                    validation,
+                    asyncValidation,
+                  ),
                 )
-              : this.fb.array([]),
+              : this.fb.array(null, validation, asyncValidation),
           };
         }
         if (field.type === 'group' || field.type === 'container') {
@@ -312,10 +318,8 @@ export class DynamicFormService {
 
     /* From validators */
     if (validation.required) {
-      if (parent || asyncCondition) {
-        asyncValidators.push(
-          this.requiredIf.bind(this, parent, asyncCondition),
-        );
+      if (parent) {
+        validators.push(this.requiredWithParent(parent));
       } else {
         validators.push(Validators.required);
       }
@@ -350,6 +354,8 @@ export class DynamicFormService {
     asyncCondition: (form: FormGroup) => Observable<boolean>,
     control: AbstractControl,
   ) {
+    console.log([1, group, 2, parent, 3, asyncCondition, 4, control]);
+
     if (asyncCondition) {
       const conditionValue = asyncCondition(group)
         .pipe(first())
@@ -357,6 +363,7 @@ export class DynamicFormService {
       const validation = conditionValue ? { conditionalRequired: true } : null;
       return new Promise(resolve => resolve(validation));
     }
+
     if (parent) {
       const parentControl = group.get(parent.key);
       if (!parentControl) {
@@ -377,6 +384,27 @@ export class DynamicFormService {
     }
 
     return new Promise(resolve => resolve(null));
+  }
+
+  private requiredWithParent(
+    // group: FormGroup,
+    parent: FieldParent,
+    // control: AbstractControl,
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      if (!control.parent || !control.parent.controls[parent.key]) {
+        return null;
+      }
+      const parentValue = control.parent.controls[parent.key].value;
+      const parentIsTrue =
+        typeof parent.values === 'boolean'
+          ? parent.values === parentValue
+          : parent.values.includes(parentValue);
+
+      const validation = parentIsTrue ? { conditionalRequired: true } : null;
+
+      return validation;
+    };
   }
 
   private _minLengthArray(min: number) {

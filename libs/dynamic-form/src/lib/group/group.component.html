@@ -1,73 +1,75 @@
-<p dyna-label [field]="field">
+<p *ngIf="field.title" dyna-label [field]="field">
   {{field.title}}
 </p>
 
-<ng-container *ngFor="let field of fields">
-  <div [ngSwitch]="field.type" [hidden]="field | fieldParent: control | async">
+<section>
+  <ng-container *ngFor="let field of fields">
+    <ng-container [ngSwitch]="field.type" *ngIf="!(field | fieldParent: control | async)">
 
-    <!-- Short text input fields -->
-    <dyna-text *ngSwitchCase="'text'" type="text" [control]="getControl(control,field)" [field]="field">
-    </dyna-text>
+      <!-- Short text input fields -->
+      <dyna-text *ngSwitchCase="'text'" type="text" [control]="getControl(control,field)" [field]="field">
+      </dyna-text>
 
-    <dyna-text *ngSwitchCase="'email'" type="email" [control]="getControl(control,field)" [field]="field">
-    </dyna-text>
+      <dyna-text *ngSwitchCase="'email'" type="email" [control]="getControl(control,field)" [field]="field">
+      </dyna-text>
 
-    <dyna-text *ngSwitchCase="'tel'" type="tel" [control]="getControl(control,field)" [field]="field">
-    </dyna-text>
+      <dyna-text *ngSwitchCase="'tel'" type="tel" [control]="getControl(control,field)" [field]="field">
+      </dyna-text>
 
-    <dyna-text *ngSwitchCase="'number'" type="number" [control]="getControl(control,field)" [field]="field">
-    </dyna-text>
+      <dyna-text *ngSwitchCase="'number'" type="number" [control]="getControl(control,field)" [field]="field">
+      </dyna-text>
 
-    <dyna-text *ngSwitchCase="'url'" type="url" [control]="getControl(control,field)" [field]="field">
-    </dyna-text>
-
-
-    <!-- Longer text fields -->
-    <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
-    </dyna-textarea>
-
-    <dyna-markdown *ngSwitchCase="'markdown'" [control]="getControl(control,field)" [field]="field">
-    </dyna-markdown>
-
-    <!-- Other fields -->
-
-    <dyna-radio *ngSwitchCase="'radio'" [control]="getControl(control,field)" [field]="field"></dyna-radio>
-
-    <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
-
-    <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
+      <dyna-text *ngSwitchCase="'url'" type="url" [control]="getControl(control,field)" [field]="field">
+      </dyna-text>
 
 
-    <!-- Option fields -->
-    <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
-    </dyna-dropdown>
+      <!-- Longer text fields -->
+      <dyna-textarea *ngSwitchCase="'textarea'" [control]="getControl(control,field)" [field]="field">
+      </dyna-textarea>
 
-    <dyna-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(control,field)" [field]="field">
-    </dyna-checkbox>
+      <dyna-markdown *ngSwitchCase="'markdown'" [control]="getControl(control,field)" [field]="field">
+      </dyna-markdown>
 
-    <dyna-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(control,field)" [field]="field">
-    </dyna-checkbox-group>
+      <!-- Other fields -->
 
-    <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(control,field)" [field]="field">
-    </dyna-relation-select>
+      <dyna-radio *ngSwitchCase="'radio'" [control]="getControl(control,field)" [field]="field"></dyna-radio>
 
+      <dyna-color *ngSwitchCase="'color'" [control]="getControl(control,field)" [field]="field"></dyna-color>
 
-    <!-- Async fields -->
-    <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
-    </dyna-action>
+      <dyna-date *ngSwitchCase="'date'" [control]="getControl(control,field)" [field]="field"></dyna-date>
 
 
-    <!-- Sub form fields -->
-    <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"
-                   [fields]="field.fields">
-    </dyna-repeater>
+      <!-- Option fields -->
+      <dyna-dropdown *ngSwitchCase="'dropdown'" [control]="getControl(control,field)" [field]="field">
+      </dyna-dropdown>
 
-    <dyna-group *ngSwitchCase="'group'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
-    </dyna-group>
+      <dyna-checkbox *ngSwitchCase="'checkbox'" [control]="getControl(control,field)" [field]="field">
+      </dyna-checkbox>
 
-    <div *ngSwitchDefault>
-      {{field.type}}
-    </div>
+      <dyna-checkbox-group *ngSwitchCase="'checkbox-group'" [control]="getControl(control,field)" [field]="field">
+      </dyna-checkbox-group>
 
-  </div>
-</ng-container>
+      <dyna-relation-select *ngSwitchCase="'relation'" [control]="getControl(control,field)" [field]="field">
+      </dyna-relation-select>
+
+
+      <!-- Async fields -->
+      <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
+      </dyna-action>
+
+
+      <!-- Sub form fields -->
+      <dyna-repeater *ngSwitchCase="'repeater'" [controlsArray]="getControl(control,field)" [field]="field"
+                     [fields]="field.fields">
+      </dyna-repeater>
+
+      <dyna-group *ngSwitchCase="'group'" [control]="getControl(control,field)" [field]="field" [fields]="field.fields">
+      </dyna-group>
+
+      <div *ngSwitchDefault>
+        {{field.type}}
+      </div>
+
+    </ng-container>
+  </ng-container>
+</section>

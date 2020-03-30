@@ -1,4 +1,4 @@
-<label [for]="field.key" dyna-label [field]="field">
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{field.title}}
 </label>
 <div class="previews-container" *ngIf="previewValues">

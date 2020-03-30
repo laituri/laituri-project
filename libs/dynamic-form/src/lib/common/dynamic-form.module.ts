@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynaLabelDirective } from './dyna-label';
+import { DynaLabelDirective } from './dyna-label.directive';
+import { ValidationHintDirective } from './validation-hint.directive';
 
 @NgModule({
-  declarations: [DynaLabelDirective],
+  declarations: [DynaLabelDirective, ValidationHintDirective],
   imports: [CommonModule],
-  exports: [DynaLabelDirective],
+  exports: [DynaLabelDirective, ValidationHintDirective],
 })
 export class DynaCommonModule {}

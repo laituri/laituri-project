@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
 import { DynamicFormService } from '../dynamic-form.service';
@@ -12,9 +12,13 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   @Input()
   fields: Field[];
   @Input()
-  field: GroupField;
+  field: GroupField | ContainerField;
   @Input()
   control: FormGroup;
+
+  @HostBinding('class.row') get row() {
+    return this.field.style && this.field.style.direction === 'row';
+  }
 
   constructor(public dfs: DynamicFormService) {
     super(dfs);

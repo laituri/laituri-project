@@ -1,9 +1,22 @@
 :host {
   display: block;
-  padding: 12px 0 12px 12px;
+  padding: 12px 0;
+  &.row {
+    section {
+      display: flex;
+      flex-direction: row;
+      & > * {
+        flex-grow: 1;
+        &:not(:last-child) {
+          margin-right: var(--dyna-padding--small);
+        }
+      }
+    }
+  }
+  /*  
   border-left: 2px solid #eee;
   .label {
     font-size: 12px;
     margin: 0 0 2px;
-  }
+  } */
 }
