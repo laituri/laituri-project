@@ -1,6 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-dev
+# firebase files
+.firebase
+.firebaserc
+firebase.json
+
 
 # compiled output
 dist
@@ -55,3 +59,4 @@ Thumbs.db
   # If you want to create an app to test libs etc.
   # ng g app ignore-dev
   /apps/ignored-dev
+
