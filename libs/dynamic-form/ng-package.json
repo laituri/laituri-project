@@ -13,7 +13,8 @@
     "quill",
     "turndown",
     "sortablejs",
-    "ngx-sortablejs"
+    "ngx-sortablejs",
+    "ngx-markdown"
   ],
   "lib": {
     "entryFile": "src/public-api.ts"
