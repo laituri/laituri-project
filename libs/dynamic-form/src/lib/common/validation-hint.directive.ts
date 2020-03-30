@@ -24,8 +24,6 @@ export class ValidationHintDirective implements OnInit {
     this.control.statusChanges
       .pipe(debounceTime(500))
       .subscribe((status: 'VALID' | 'INVALID') => {
-        console.log(this.field.key, this.control, { status });
-
         if (status === 'VALID') {
           this.error = false;
           this.setText(this.field.hint || '');

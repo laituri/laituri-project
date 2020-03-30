@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
@@ -27,6 +27,8 @@ export class ChipsComponent implements OnInit {
   /* Since there is some black magic bug with sortable, we need to do some hacks to get list's working correctly */
   private wasDragged: boolean;
   private chipsCopy: ChipItem[];
+
+  public uniqueWarning: boolean;
 
   constructor() {}
 
@@ -61,8 +63,9 @@ export class ChipsComponent implements OnInit {
       !this.field.allowDuplicates &&
       values.includes(this.currentInputValue)
     ) {
-      return;
+      return (this.uniqueWarning = true);
     }
+    this.uniqueWarning = false;
     values.push(this.currentInputValue);
     this.control.setValue(values);
     this.clearCurrentValue();

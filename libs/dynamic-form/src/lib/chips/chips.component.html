@@ -5,7 +5,8 @@
 
   <input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''"
          [(ngModel)]="currentInputValue" (keyup.enter)="add()" />
-  <button class="dyna-button input-action plus-icon" [disabled]="!currentInputValue" (click)="add()">
+  <button class="dyna-button input-action plus-icon" [disabled]="!currentInputValue" (click)="add()"
+          [ngClass]="{uniqueWarning: uniqueWarning}">
     <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20">
       <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" class="plus" />
       <path d="M0 0h24v24H0z" fill="none" /></svg>

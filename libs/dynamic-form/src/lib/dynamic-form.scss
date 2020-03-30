@@ -26,6 +26,15 @@
   --dyna-padding--submit: 10px 20px;
 }
 
+@keyframes dyna-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .dyna-label {
   font-family: var(--dyna-font-family);
   color: var(--dyna-color--label);

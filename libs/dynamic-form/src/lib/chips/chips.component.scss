@@ -5,8 +5,22 @@
   .input-container {
     width: 100%;
     display: flex;
-    input {
+    .dyna-input {
       flex-grow: 1;
+    }
+    .dyna-button {
+      position: relative;
+      &.uniqueWarning {
+        &::before {
+          content: 'This value already exists!';
+          display: inline-block;
+          position: absolute;
+          right: 56px;
+          width: max-content;
+          color: var(--dyna-color--warning);
+          animation: fadein 500ms;
+        }
+      }
     }
   }
 }

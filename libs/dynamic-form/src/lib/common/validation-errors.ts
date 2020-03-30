@@ -1,7 +1,7 @@
 import { ValidationErrors } from '@angular/forms';
 
 export const errorMessages = {
-  required: 'Field is required',
+  required: 'This field is required!',
   pattern: 'Invalid pattern!',
   email: 'Value is not a valid email address!',
   minlength: 'Answer is too short!',
