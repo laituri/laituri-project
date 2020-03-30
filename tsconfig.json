@@ -14,7 +14,10 @@
     "target": "es2015",
     "lib": ["es2018", "dom"],
     "paths": {
-      "dynamic-form": ["dist/dynamic-form/dynamic-form", "dist/dynamic-form"]
+      "dynamic-form": [
+        "libs/dynamic-form/dist/dynamic-form",
+        "libs/dynamic-form/dist"
+      ]
     }
   },
   "angularCompilerOptions": {
