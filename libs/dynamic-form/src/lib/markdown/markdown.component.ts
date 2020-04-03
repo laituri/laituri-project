@@ -4,6 +4,18 @@ import Quill from 'quill';
 import turndown from 'turndown';
 import { MarkdownToQuill } from 'md-to-quill-delta';
 
+const defaultElements: MarkdownElements = {
+  headings: [1, 2, 3, 4, 5, 6],
+  blockquote: true,
+  bold: true,
+  bulletList: true,
+  code: true,
+  italic: true,
+  orderedList: true,
+  strike: true,
+  underline: true,
+};
+
 @Component({
   selector: 'dyna-markdown',
   templateUrl: './markdown.component.html',
@@ -11,7 +23,7 @@ import { MarkdownToQuill } from 'md-to-quill-delta';
 })
 export class MarkdownComponent implements OnInit {
   @Input()
-  field: TextareaField;
+  field: MarkdownField;
   @Input()
   control: AbstractControl;
   @ViewChild('markdownElement', { static: true })
@@ -23,12 +35,7 @@ export class MarkdownComponent implements OnInit {
   ngOnInit(): void {
     this.markdownEditor = new Quill(this.markdownElement.nativeElement, {
       modules: {
-        toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['code-block'],
-        ],
+        toolbar: this._constructToolbar(),
         keyboard: {
           bindings: {
             tab: {
@@ -57,5 +64,23 @@ export class MarkdownComponent implements OnInit {
 
   private setValue(value: string) {
     this.control.setValue(value);
+  }
+
+  /* Really need to clean this up :D */
+  private _constructToolbar() {
+    const elements = { ...defaultElements, ...this.field.elements };
+    const toolbar = [
+      [{ header: [...elements.headings, false] }],
+      ['bold', 'italic', 'underline', 'strike'].filter(
+        (type) => elements[type],
+      ),
+      ['blockquote', 'code-block'].filter((type) => elements[type]),
+      [{ list: 'ordered' }, { list: 'bullet' }].filter(
+        (listType) => elements.lists[listType.list],
+      ),
+      ['clean'],
+    ];
+
+    return toolbar;
   }
 }

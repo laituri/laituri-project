@@ -105,8 +105,26 @@ interface TextareaField extends FieldBase<string> {
   type: 'textarea';
   layout?: 'textarea' | 'editable-div';
 }
+
+type HeadingSizes = 1 | 2 | 3 | 4 | 5 | 6;
+
+interface MarkdownElements {
+  headings?: HeadingSizes[];
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+  strike?: boolean;
+  blockquote?: boolean;
+  code?: boolean;
+  lists?: {
+    ordered?: boolean;
+    bullet?: boolean;
+  };
+}
+
 interface MarkdownField extends FieldBase<string> {
   type: 'markdown';
+  elements?: MarkdownElements;
 }
 interface ActionField extends FieldBase<string> {
   type: 'action';
