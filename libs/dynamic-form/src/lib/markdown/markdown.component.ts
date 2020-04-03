@@ -8,12 +8,11 @@ const defaultElements: MarkdownElements = {
   headings: [1, 2, 3, 4, 5, 6],
   blockquote: true,
   bold: true,
-  bulletList: true,
   code: true,
   italic: true,
-  orderedList: true,
   strike: true,
   underline: true,
+  lists: { bullet: true, ordered: true },
 };
 
 @Component({
