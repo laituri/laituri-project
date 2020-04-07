@@ -1,5 +1,22 @@
 export const UserProfileFields: Field[] = [
   {
+    title: 'Your image',
+    key: 'image',
+    type: 'file',
+    output: 'data',
+    multiple: true,
+    hint: 'Must be an image',
+    // accept: 'image/*',
+    events: {
+      drop: (files) => {
+        return new Promise((resolve) => {
+          const fileNames = files.map((file) => file.name);
+          resolve(fileNames);
+        });
+      },
+    },
+  },
+  {
     title: 'Full name',
     key: 'name',
     type: 'text',

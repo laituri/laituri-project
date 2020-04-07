@@ -19,9 +19,14 @@ export const getErrorMessages = (errors: ValidationErrors): string | null => {
   }
 
   const errorKeys = Object.keys(errors);
+  const activeErrorKey = errorKeys[0];
+
+  if (activeErrorKey === 'message') {
+    return errors[activeErrorKey];
+  }
 
   const activeError =
-    errorMessages[errorKeys[0]] || 'This field has something wrong!';
+    errorMessages[activeErrorKey] || 'This field has something wrong!';
 
   return activeError;
 };

@@ -15,6 +15,7 @@ import { getErrorMessages } from './validation-errors';
 export class ValidationHintDirective implements OnInit {
   @Input() control: AbstractControl;
   @Input() field: Field;
+  @Input() hint: string;
 
   @HostBinding('class.dyna-error-message') error = false;
 
@@ -26,7 +27,7 @@ export class ValidationHintDirective implements OnInit {
       .subscribe((status: 'VALID' | 'INVALID') => {
         if (status === 'VALID') {
           this.error = false;
-          this.setText(this.field.hint || '');
+          this.setText(this.hint || this.field.hint || '');
         }
         if (status === 'INVALID') {
           this.error = true;

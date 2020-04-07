@@ -50,6 +50,7 @@ type FieldTypes =
   | 'radio'
   | 'color'
   | 'chips'
+  | 'file'
   | 'action';
 
 interface FieldTemplate<T> {
@@ -125,6 +126,20 @@ interface MarkdownElements {
 interface MarkdownField extends FieldBase<string> {
   type: 'markdown';
   elements?: MarkdownElements;
+}
+interface FileField extends FieldBase<string> {
+  type: 'file';
+  output: 'file' | 'data';
+  multiple?: boolean;
+  accept?: string;
+  preview?: {
+    type: 'string' | 'string-array' | 'object' | 'object-array';
+    isImage?: boolean;
+    urlKey?: string;
+  };
+  events?: {
+    drop?: (files: File[]) => Promise<any>;
+  };
 }
 interface ActionField extends FieldBase<string> {
   type: 'action';
@@ -276,6 +291,7 @@ type FormField =
   | ColorField
   | DateField
   | ChipsField
+  | FileField
   | CheckboxGroupField;
 
 type Field = InfoField | ContainerField | FormField;

@@ -57,6 +57,9 @@
 
 
       <!-- Async fields -->
+      <dyna-file *ngSwitchCase="'file'" [control]="getControl(control, field)" [field]="field">
+      </dyna-file>
+
       <dyna-action *ngSwitchCase="'action'" [control]="getControl(control, field)" [field]="field">
       </dyna-action>
 

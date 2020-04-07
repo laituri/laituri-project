@@ -22,6 +22,7 @@ import { DateModule } from './date/date.module';
 import { MarkdownModule } from './markdown/markdown.module';
 import { ChipsModule } from './chips/chips.module';
 import { InfoModule } from './info/info.module';
+import { FileModule } from './file/file.module';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { InfoModule } from './info/info.module';
     MarkdownModule,
     ChipsModule,
     InfoModule,
+    FileModule,
   ],
   exports: [DynamicFormComponent],
   providers: [DynamicFormService],
