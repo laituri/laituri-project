@@ -186,6 +186,46 @@
           }
         }
       }
+    },
+    "mockdat": {
+      "projectType": "library",
+      "root": "libs/mockdat",
+      "sourceRoot": "libs/mockdat/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "libs/mockdat/tsconfig.lib.json",
+            "project": "libs/mockdat/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/mockdat/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/mockdat/src/test.ts",
+            "tsConfig": "libs/mockdat/tsconfig.spec.json",
+            "karmaConfig": "libs/mockdat/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/mockdat/tsconfig.lib.json",
+              "libs/mockdat/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -17,7 +17,8 @@
       "dynamic-form": [
         "libs/dynamic-form/dist/dynamic-form",
         "libs/dynamic-form/dist"
-      ]
+      ],
+      "mockdat": ["libs/mockdat/dist/mockdat", "libs/mockdat/dist"]
     }
   },
   "angularCompilerOptions": {

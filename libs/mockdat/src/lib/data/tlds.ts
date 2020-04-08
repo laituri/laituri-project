@@ -1,0 +1,16 @@
+export const tlds = [
+  'com',
+  'org',
+  'net',
+  'info',
+  'edu',
+  'gov',
+  'co',
+  'biz',
+  'name',
+  'me',
+  'mobi',
+  'club',
+  'xyz',
+  'eu',
+];

@@ -1,0 +1,21 @@
+{
+  "name": "@laituri/mockdat",
+  "version": "0.0.0",
+  "main": "./src/lib/cli.js",
+  "peerDependencies": {
+    "@angular/common": "^9.0.7",
+    "@angular/core": "^9.0.7",
+    "tslib": "^1.10.0"
+  },
+  "private": false,
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.lib.json",
+    "publish": "cd dist && npm publish"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "mockdat": "./src/lib/cli.js"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "declaration": true,
+    "types": ["node"],
+    "lib": ["dom", "es2018"],
+    "moduleResolution": "Node",
+    "resolveJsonModule": true
+  },
+  "include": ["package.json", "src/**/*.ts"],
+  "exclude": ["src/test.ts", "**/*.spec.ts", "dist"]
+}
