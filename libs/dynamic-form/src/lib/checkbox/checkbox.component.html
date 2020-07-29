@@ -1,7 +1,21 @@
-<input type="checkbox" [name]="field.key" [formControl]="control">
-<label [for]="field.key">
-  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
-</label>
+<div
+  class="dyna-checkbox-container"
+  (click)="handleChange(checkbox.checked)"
+  [ngClass]="{ checked: getChecked() | async }"
+>
+  <input
+    type="checkbox"
+    [name]="field.key"
+    [checked]="getChecked() | async"
+    #checkbox
+  />
+  <button class="dyna-checkbox">
+    <div class="dyna-checkbox-inner-icon"></div>
+  </button>
+  <label [for]="field.key">
+    {{ field.title }}
+  </label>
+</div>
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>
