@@ -12,7 +12,9 @@
     "js-datepicker",
     "quill",
     "turndown",
-    "ngx-markdown"
+    "ngx-markdown",
+    "@angular/cdk",
+    "@angular/material"
   ],
   "lib": {
     "entryFile": "src/public-api.ts"
