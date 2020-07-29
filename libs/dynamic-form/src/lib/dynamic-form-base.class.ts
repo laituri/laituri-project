@@ -1,8 +1,9 @@
-import { Input } from '@angular/core';
+import { Input, Directive } from '@angular/core';
 import { FormGroup, AbstractControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DynamicFormService } from './dynamic-form.service';
 
+@Directive()
 export class DynamicFormBase {
   @Input()
   values: Observable<{ [key: string]: any }>;

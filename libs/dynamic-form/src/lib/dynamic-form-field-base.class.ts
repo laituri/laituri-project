@@ -1,5 +1,6 @@
-import { Input, HostBinding } from '@angular/core';
+import { Input, HostBinding, Directive } from '@angular/core';
 
+@Directive()
 export class DynamicFormFieldBase {
   @Input()
   field: Field;
