@@ -72,14 +72,15 @@ export class ChipsComponent implements OnInit {
   }
 
   onDrop(chips: ChipItem[]) {
-    const values = chips.map(chip => chip.title);
+    const values = chips.map((chip) => chip.title);
     this.wasDragged = true;
     this.control.setValue(values);
   }
+
   onDelete(key: string) {
     const filteredValues = this.chipsCopy
-      .filter(chip => chip.key !== key)
-      .map(chip => chip.title);
+      .filter((chip) => chip.key !== key)
+      .map((chip) => chip.title);
     this.control.setValue(filteredValues);
   }
 

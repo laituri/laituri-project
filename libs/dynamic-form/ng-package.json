@@ -12,8 +12,6 @@
     "js-datepicker",
     "quill",
     "turndown",
-    "sortablejs",
-    "ngx-sortablejs",
     "ngx-markdown"
   ],
   "lib": {

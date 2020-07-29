@@ -1,18 +1,44 @@
-<ng-container *ngIf="chips">
-
-  <div class="dyna-chips-container" [sortablejs]="chips" [sortablejsOptions]="sortableOptions"
-       [ngClass]="{dragable: enableDrag}">
-    <div class="dyna-chip" *ngFor="let chip of chips">
+<div
+  class="dyna-chips-container"
+  [ngClass]="{ dragable: enableDrag }"
+  cdkDropListGroup
+>
+  <div
+    cdkDropList
+    [cdkDropListEnterPredicate]="enter"
+    (cdkDropListDropped)="drop()"
+    #placeholder
+  ></div>
+  <div
+    cdkDropList
+    *ngFor="let chip of chips"
+    [cdkDropListEnterPredicate]="enter"
+    (cdkDropListDropped)="drop()"
+    class="dyna-chip-container"
+  >
+    <div cdkDrag class="dyna-chip">
       <p class="title">
-        {{chip.title}}
+        {{ chip.title }}
       </p>
-      <button class="delete-item" (click)="delete(chip.key)" [title]="'Remove ' + chip.title ">
-        <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                fill="#fff" />
-          <path d="M0 0h24v24H0z" fill="none" /></svg>
+      <button
+        class="delete-item"
+        (click)="delete(chip.key)"
+        [title]="'Remove ' + chip.title"
+      >
+        <svg
+          class="x-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+        >
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            fill="#fff"
+          />
+          <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
       </button>
     </div>
   </div>
-
-</ng-container>
+</div>

@@ -190,7 +190,14 @@ dyna-hint {
   display: flex;
   flex-flow: row wrap;
   padding: 8px 0;
-  &.dragable > .dyna-chip {
+  .dyna-chip-container {
+    width: fit-content;
+    margin-bottom: 4px;
+    &:not(:last-of-type) {
+      margin-right: 4px;
+    }
+  }
+  &.dragable > .dyna-chip-container {
     // transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     cursor: grab;
   }
@@ -202,10 +209,7 @@ dyna-hint {
   font-size: var(--dyna-font-size--chip);
   width: fit-content;
   display: flex;
-  margin-bottom: 4px;
-  &:not(:last-of-type) {
-    margin-right: 4px;
-  }
+  align-items: center;
   .title {
     color: #fff;
     padding: 2px 8px;
