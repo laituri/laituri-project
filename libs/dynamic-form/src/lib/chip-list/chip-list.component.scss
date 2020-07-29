@@ -1,7 +1,7 @@
 :host {
   .example-container {
     display: grid;
-    grid-gap: 1rem;
+    gap: 1rem;
     grid-auto-rows: minmax(auto, auto);
     grid-template-columns: repeat(auto-fit, max-content);
   }
