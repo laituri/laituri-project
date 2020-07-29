@@ -1,17 +1,24 @@
 <p *ngIf="field.title" class="title" dyna-label [field]="field">
-  {{field.title}}
+  {{ field.title }}
 </p>
 <div class="options-container">
-
-  <div class="option" *ngFor="let option of field.options" (click)="handleChange(option.key)">
-    <input type="radio" [name]="option.key" [checked]="getChecked(option.key) | async">
+  <div
+    class="option"
+    *ngFor="let option of field.options"
+    (click)="handleChange(option.key)"
+  >
+    <input
+      type="radio"
+      [name]="option.key"
+      [checked]="getChecked(option.key) | async"
+      [disabled]="control.disabled"
+    />
     <label [for]="option.key">
-      {{option.title}}
+      {{ option.title }}
     </label>
   </div>
-
 </div>
 
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>

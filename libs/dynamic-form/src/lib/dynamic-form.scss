@@ -184,7 +184,8 @@ dyna-hint {
       height: 20px;
       transition: 300ms;
     }
-    &:hover {
+    &:hover,
+    &:focus {
       border: 1px solid var(--dyna-color--focus);
       .dyna-checkbox-inner-icon {
         background: var(--dyna-color--focus);
@@ -277,6 +278,7 @@ dyna-hint {
     box-sizing: content-box;
     outline-color: rgba(238, 238, 238, 0.562);
     transition: 200ms;
+    outline: none;
     cursor: pointer;
     .x-icon {
       width: 16px;

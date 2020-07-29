@@ -1,9 +1,17 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
-  {{field.title}} <span *ngIf="field.validation && field.validation.required">*</span>
+  {{ field.title }}
+  <span *ngIf="field.validation && field.validation.required">*</span>
 </label>
 
-<input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''" #pickerElement>
+<input
+  class="dyna-input"
+  [name]="field.key"
+  type="text"
+  [placeholder]="field.placeholder || ''"
+  #pickerElement
+  [disabled]="control.disabled"
+/>
 
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>

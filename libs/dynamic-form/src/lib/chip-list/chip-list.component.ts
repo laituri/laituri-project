@@ -21,6 +21,7 @@ import {
 export class ChipListComponent implements OnInit, AfterViewInit {
   @Input() chips: ChipItem[];
   @Input() enableDrag: boolean;
+  @Input() disabled: boolean;
 
   @Output() dropItem = new EventEmitter<ChipItem[]>();
   @Output() deleteItem = new EventEmitter<string | number>();
@@ -45,7 +46,7 @@ export class ChipListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   public drop() {
-    if (!this.target) {
+    if (!this.target || this.disabled) {
       return;
     }
 
@@ -137,7 +138,9 @@ export class ChipListComponent implements OnInit, AfterViewInit {
   };
 
   delete(key: string | number) {
-    this.deleteItem.emit(key);
+    if (!this.disabled) {
+      this.deleteItem.emit(key);
+    }
   }
 }
 

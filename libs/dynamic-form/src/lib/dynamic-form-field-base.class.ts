@@ -1,15 +1,26 @@
 import { Input, HostBinding, Directive } from '@angular/core';
+import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Directive()
 export class DynamicFormFieldBase {
   @Input()
   field: Field;
+  @Input()
+  control: AbstractControl | FormGroup;
 
   @HostBinding('style.flex-grow') get grow() {
     return this.field.style && this.field.style.grow;
   }
   @HostBinding('class') get className() {
     return this.field.style && this.field.style.className;
+  }
+  /* There might a problem with disabled thingies */
+  @HostBinding('class.valid') get validClass() {
+    return (
+      this.control &&
+      (this.control.valid || this.control.disabled) &&
+      (this.control.value === false || this.control.value)
+    );
   }
   @HostBinding('style') get css() {
     return this.field.style && this.field.style.css;

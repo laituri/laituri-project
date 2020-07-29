@@ -10,6 +10,7 @@ import Pickr from '@simonwep/pickr';
 import { AbstractControl } from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 
 const defaultColors = {
   hex: '#0889DA',
@@ -21,7 +22,8 @@ const defaultColors = {
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.scss'],
 })
-export class ColorComponent implements OnInit, OnDestroy {
+export class ColorComponent extends DynamicFormFieldBase
+  implements OnInit, OnDestroy {
   @Input()
   field: ColorField;
   @Input()
@@ -37,8 +39,6 @@ export class ColorComponent implements OnInit, OnDestroy {
   @ViewChild('pickerElement', { static: true }) pickerElement: ElementRef<
     HTMLInputElement
   >;
-
-  constructor() {}
 
   ngOnInit(): void {
     const { output, swatches, opacity } = this.field;
@@ -100,14 +100,16 @@ export class ColorComponent implements OnInit, OnDestroy {
   }
 
   private setValue(color: Pickr.HSVaColor) {
-    switch (this.field.output) {
-      case 'rgba':
-        this.control.setValue(color.toRGBA().toString(0));
-        break;
+    if (!this.control.disabled) {
+      switch (this.field.output) {
+        case 'rgba':
+          this.control.setValue(color.toRGBA().toString(0));
+          break;
 
-      default:
-        this.control.setValue(color.toHEXA().toString());
-        break;
+        default:
+          this.control.setValue(color.toHEXA().toString());
+          break;
+      }
     }
   }
   ngOnDestroy() {
@@ -115,6 +117,6 @@ export class ColorComponent implements OnInit, OnDestroy {
     this.picker.off('change', () => {});
     this.picker.off('hide', () => {});
 
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

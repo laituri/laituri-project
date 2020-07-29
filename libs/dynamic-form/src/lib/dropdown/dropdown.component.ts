@@ -6,13 +6,14 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.component';
 import { DropdownService } from './dropdown.service';
 import { skip, startWith, filter, map } from 'rxjs/operators';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 
 @Component({
   selector: 'dyna-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   field: DropdownField;
   @Input()
@@ -28,14 +29,16 @@ export class DropdownComponent implements OnInit {
   constructor(
     private overlay: Overlay,
     private dropdownService: DropdownService,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.dropdownService.setField(this.field);
     this.selected = this.dropdownService.getSelected();
     const selectedSubscription = this.selected
       .pipe(skip(1))
-      .subscribe(selected => this.setValue(selected));
+      .subscribe((selected) => this.setValue(selected));
     this.subscriptions = [selectedSubscription];
   }
 
@@ -44,8 +47,8 @@ export class DropdownComponent implements OnInit {
     switch (output) {
       /* Boolean map */
       case 'boolean-map':
-        const selectedKeys = selected.map(op => op.key);
-        const allKeys = this.field.options.map(op => op.key);
+        const selectedKeys = selected.map((op) => op.key);
+        const allKeys = this.field.options.map((op) => op.key);
         return allKeys.reduce((acc, key) => {
           acc[key] = selectedKeys.includes(key);
           return acc;
@@ -54,20 +57,22 @@ export class DropdownComponent implements OnInit {
       /* Data array */
       case 'data':
         return multiple
-          ? selected.map(op => op.data)
-          : selected.map(op => op.data)[0];
+          ? selected.map((op) => op.data)
+          : selected.map((op) => op.data)[0];
 
       /* Key array */
       default:
         return multiple
-          ? selected.map(op => op.key)
-          : selected.map(op => op.key)[0];
+          ? selected.map((op) => op.key)
+          : selected.map((op) => op.key)[0];
     }
   }
 
   private setValue(selected: FieldOption[]) {
-    const value = this.contructValue(selected);
-    this.control.setValue(value);
+    if (!this.control.disabled) {
+      const value = this.contructValue(selected);
+      this.control.setValue(value);
+    }
   }
 
   public openDropdown() {

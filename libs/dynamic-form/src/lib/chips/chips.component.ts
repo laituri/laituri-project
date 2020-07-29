@@ -8,13 +8,14 @@ import {
   distinctUntilKeyChanged,
   filter,
 } from 'rxjs/operators';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 
 @Component({
   selector: 'dyna-chips',
   templateUrl: './chips.component.html',
   styleUrls: ['./chips.component.scss'],
 })
-export class ChipsComponent implements OnInit {
+export class ChipsComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   field: ChipsField;
   @Input()
@@ -29,8 +30,6 @@ export class ChipsComponent implements OnInit {
   private chipsCopy: ChipItem[];
 
   public uniqueWarning: boolean;
-
-  constructor() {}
 
   ngOnInit(): void {
     this.chips = this.control.valueChanges.pipe(
@@ -57,31 +56,37 @@ export class ChipsComponent implements OnInit {
   }
 
   add() {
-    const values: string[] =
-      (Array.isArray(this.control.value) && this.control.value) || [];
-    if (
-      !this.field.allowDuplicates &&
-      values.includes(this.currentInputValue)
-    ) {
-      return (this.uniqueWarning = true);
+    if (!this.control.disabled) {
+      const values: string[] =
+        (Array.isArray(this.control.value) && this.control.value) || [];
+      if (
+        !this.field.allowDuplicates &&
+        values.includes(this.currentInputValue)
+      ) {
+        return (this.uniqueWarning = true);
+      }
+      this.uniqueWarning = false;
+      values.push(this.currentInputValue);
+      this.control.setValue(values);
+      this.clearCurrentValue();
     }
-    this.uniqueWarning = false;
-    values.push(this.currentInputValue);
-    this.control.setValue(values);
-    this.clearCurrentValue();
   }
 
   onDrop(chips: ChipItem[]) {
-    const values = chips.map((chip) => chip.title);
-    this.wasDragged = true;
-    this.control.setValue(values);
+    if (!this.control.disabled) {
+      const values = chips.map((chip) => chip.title);
+      this.wasDragged = true;
+      this.control.setValue(values);
+    }
   }
 
   onDelete(key: string) {
-    const filteredValues = this.chipsCopy
-      .filter((chip) => chip.key !== key)
-      .map((chip) => chip.title);
-    this.control.setValue(filteredValues);
+    if (!this.control.disabled) {
+      const filteredValues = this.chipsCopy
+        .filter((chip) => chip.key !== key)
+        .map((chip) => chip.title);
+      this.control.setValue(filteredValues);
+    }
   }
 
   private clearCurrentValue() {
