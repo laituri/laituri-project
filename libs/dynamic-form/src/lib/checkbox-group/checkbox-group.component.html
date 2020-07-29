@@ -1,15 +1,30 @@
 <p *ngIf="field.title" dyna-label [field]="field">
-  {{field.title}}
+  {{ field.title }}
 </p>
-<div class="options-container">
-  <div class="option" *ngFor="let option of field.options" (click)="handleChange(option.key, checkbox.checked)">
-    <input type="checkbox" [name]="option.key" [checked]="getChecked(option.key) | async" #checkbox>
-    <label [for]="option.key">
-      {{option.title}}
-    </label>
-  </div>
-
+<div
+  class="dyna-checkbox-container"
+  *ngFor="let option of field.options"
+  (click)="handleChange(option.key, checkbox.checked)"
+  [ngClass]="{ checked: getChecked(option.key) | async }"
+>
+  <input
+    type="checkbox"
+    [name]="option.key"
+    [checked]="getChecked(option.key) | async"
+    [disabled]="control.disabled"
+    #checkbox
+  />
+  <button
+    class="dyna-checkbox"
+    [disabled]="control.disabled"
+    [title]="'Toggle ' + option.title"
+  >
+    <div class="dyna-checkbox-inner-icon"></div>
+  </button>
+  <label [for]="option.key">
+    {{ option.title }}
+  </label>
 </div>
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>

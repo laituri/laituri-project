@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import datepicker from 'js-datepicker';
 import { DatePipe } from '@angular/common';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 
 @Component({
   selector: 'dyna-date',
@@ -9,7 +10,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./date.component.scss'],
   providers: [DatePipe],
 })
-export class DateComponent implements OnInit {
+export class DateComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   field: DateField;
   @Input()
@@ -21,7 +22,9 @@ export class DateComponent implements OnInit {
 
   private picker: any;
 
-  constructor(private datePipe: DatePipe) {}
+  constructor(private datePipe: DatePipe) {
+    super();
+  }
 
   ngOnInit(): void {
     this.picker = datepicker(this.pickerElement.nativeElement, {
@@ -37,6 +40,8 @@ export class DateComponent implements OnInit {
   }
 
   private setValue(value: string) {
-    this.control.setValue(value);
+    if (!this.control.disabled) {
+      this.control.setValue(value);
+    }
   }
 }

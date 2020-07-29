@@ -1,12 +1,19 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
-  {{field.title}}
+  {{ field.title }}
 </label>
 
 <div class="input-container">
-  <input class="dyna-input" [name]="field.key" type="text" [placeholder]="field.placeholder || ''"
-         [formControl]="control" #inputFieldElement>
+  <input
+    class="dyna-input"
+    [name]="field.key"
+    type="text"
+    [placeholder]="field.placeholder || ''"
+    [formControl]="control"
+    #inputFieldElement
+    [disabled]="control.disabled"
+  />
   <div #pickerElement></div>
 </div>
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>

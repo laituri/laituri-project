@@ -5,6 +5,8 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
@@ -18,7 +20,7 @@ import { DynamicFormService } from './dynamic-form.service';
   styleUrls: ['./dynamic-form.component.scss'],
 })
 export class DynamicFormComponent extends DynamicFormBase
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy, OnChanges {
   @Input()
   disabled = false;
   @Input()
@@ -50,14 +52,14 @@ export class DynamicFormComponent extends DynamicFormBase
       configObservable = new BehaviorSubject(this.config);
     }
 
-    const configSubscription = configObservable.subscribe(config => {
+    const configSubscription = configObservable.subscribe((config) => {
       this.fields = config.fields;
       this.form = this.formService.init(config);
     });
 
     const valueChangeSubscription = this.form.valueChanges
       .pipe(debounceTime(420))
-      .subscribe(values => {
+      .subscribe((values) => {
         this.valueChange.emit(values);
       });
 
@@ -70,15 +72,25 @@ export class DynamicFormComponent extends DynamicFormBase
     ];
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.disabled && this.form) {
+      if (changes.disabled.currentValue === true) {
+        this.form.disable({ emitEvent: false });
+      }
+      if (changes.disabled.currentValue !== true) {
+        this.form.enable({ emitEvent: false });
+      }
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscriptions) {
-      this.subscriptions.forEach(sub => sub.unsubscribe());
+      this.subscriptions.forEach((sub) => sub.unsubscribe());
     }
   }
 
   public submitValues() {
     const values = this.form.value;
-    console.log('on submit', values);
     this.submitForm.emit(values);
   }
 }

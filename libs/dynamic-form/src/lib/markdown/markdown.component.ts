@@ -3,6 +3,11 @@ import { AbstractControl } from '@angular/forms';
 import Quill from 'quill';
 import turndown from 'turndown';
 import { MarkdownToQuill } from 'md-to-quill-delta';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
+
+/* TODO:
+- How to implement disabled?
+*/
 
 const defaultElements: MarkdownElements = {
   headings: [1, 2, 3, 4, 5, 6],
@@ -20,7 +25,7 @@ const defaultElements: MarkdownElements = {
   templateUrl: './markdown.component.html',
   styleUrls: ['./markdown.component.scss'],
 })
-export class MarkdownComponent implements OnInit {
+export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   field: MarkdownField;
   @Input()
@@ -62,7 +67,9 @@ export class MarkdownComponent implements OnInit {
   }
 
   private setValue(value: string) {
-    this.control.setValue(value);
+    if (!this.control.disabled) {
+      this.control.setValue(value);
+    }
   }
 
   /* Really need to clean this up :D */
