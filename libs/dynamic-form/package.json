@@ -20,7 +20,7 @@
   "private": false,
   "scripts": {
     "build-production": "ng build dynamic-form --prod",
-    "publish": "cd dist && npm publish --otp && rm -rf ./dist"
+    "publish": "publish-package.sh"
   },
   "publishConfig": {
     "access": "public"
