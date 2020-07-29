@@ -3,9 +3,10 @@
 </p>
 <div class="options-container">
   <div
-    class="option"
+    class="dyna-radio-container"
     *ngFor="let option of field.options"
     (click)="handleChange(option.key)"
+    [ngClass]="{ checked: getChecked(option.key) | async }"
   >
     <input
       type="radio"
@@ -13,6 +14,13 @@
       [checked]="getChecked(option.key) | async"
       [disabled]="control.disabled"
     />
+    <button
+      class="dyna-radio"
+      [disabled]="control.disabled"
+      [title]="'Toggle ' + option.title"
+    >
+      <div class="dyna-radio-inner-icon"></div>
+    </button>
     <label [for]="option.key">
       {{ option.title }}
     </label>
