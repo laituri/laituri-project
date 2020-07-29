@@ -1,7 +1,7 @@
 {
   "name": "@laituri/dynamic-form",
   "description": "Create forms from json in Angular",
-  "version": "0.0.20-alpha.0",
+  "version": "0.0.21-alpha.0",
   "peerDependencies": {
     "@angular/common": "^10.0.6",
     "@angular/core": "^10.0.6",
