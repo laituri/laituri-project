@@ -17,7 +17,7 @@ export class ActionComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.field.preview);
+    // console.log(this.field.preview);
   }
 
   async getValue() {
@@ -28,7 +28,7 @@ export class ActionComponent implements OnInit {
     );
     this.control.setValue(response);
     if (Array.isArray(response)) {
-      this.previewValues = response.map(value => this.getPreview(value));
+      this.previewValues = response.map((value) => this.getPreview(value));
     } else {
       this.previewValues = [this.getPreview(response)];
     }

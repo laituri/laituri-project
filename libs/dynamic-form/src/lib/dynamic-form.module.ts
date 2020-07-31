@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FieldParentPipe } from './field-parent.pipe';
 import { DynamicFormService } from './dynamic-form.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatIconModule } from '@angular/material/icon';
 import { RepeaterComponent } from './repeater/repeater.component';
 import { GroupComponent } from './group/group.component';
 import { CheckboxModule } from './checkbox/checkbox.module';
@@ -35,7 +34,6 @@ import { FileModule } from './file/file.module';
     CommonModule,
     ReactiveFormsModule,
     DragDropModule,
-    MatIconModule,
     DynaCommonModule,
     CheckboxModule,
     CheckboxGroupModule,

@@ -17,10 +17,9 @@ export class RelationSelectComponent implements OnInit {
 
   asd(e: any) {
     const key = e.target.value;
-    const value = this.field.items.find(item => item.key === key);
-    console.log(key);
-
-    console.log(this.control);
+    const value = this.field.items.find((item) => item.key === key);
+    // console.log(key);
+    // console.log(this.control);
 
     this.control.controls.key.setValue(key);
   }

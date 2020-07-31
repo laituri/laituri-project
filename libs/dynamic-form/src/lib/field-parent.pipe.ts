@@ -7,7 +7,7 @@ import {
   scan,
   distinctUntilChanged,
 } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 
 @Pipe({
   name: 'fieldParent',
@@ -30,7 +30,7 @@ export class FieldParentPipe implements PipeTransform {
     return parentControl.valueChanges.pipe(
       startWith(parentControl.value),
       distinctUntilChanged(),
-      map(value => {
+      map((value) => {
         if (typeof parent.values === 'boolean') {
           return !parent.values === value;
         }
@@ -41,7 +41,7 @@ export class FieldParentPipe implements PipeTransform {
         return true;
       }),
       distinctUntilChanged(),
-      tap(bool => {
+      tap((bool) => {
         if (bool) {
           form.get(key).reset();
         }

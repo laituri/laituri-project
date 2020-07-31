@@ -17,6 +17,15 @@
     "@angular/material"
   ],
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@simonwep/pickr": "Pickr",
+      "js-datepicker": "datepicker",
+      "quill": "Quill",
+      "turndown": "turndown",
+      "md-to-quill-delta": "mdToQuillDelta",
+      "ngx-markdown": "ngxMarkdown",
+      "turndown/lib/turndown.browser.umd.js": "turndown"
+    }
   }
 }

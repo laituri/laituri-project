@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import Quill from 'quill';
-import turndown from 'turndown';
+import turndown from 'turndown/lib/turndown.browser.umd.js';
 import { MarkdownToQuill } from 'md-to-quill-delta';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import 'marked/lib/marked';
 
 @Component({
   selector: 'dyna-info',
