@@ -1,3 +1,5 @@
+import { Field } from 'dynamic-form';
+
 export const RecipeFields: Field[] = [
   {
     title: `Receipe's name`,

@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import datepicker from 'js-datepicker';
 import { DatePipe } from '@angular/common';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
+import { DateField } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-date',

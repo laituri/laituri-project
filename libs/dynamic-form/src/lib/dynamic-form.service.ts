@@ -18,6 +18,13 @@ import {
   tap,
   debounceTime,
 } from 'rxjs/operators';
+import {
+  Field,
+  locale,
+  DynamicFormConfig,
+  FieldOption,
+  FieldParent,
+} from './dynamic-form.types';
 
 const relationFields: Field[] = [
   {
@@ -68,7 +75,7 @@ export class DynamicFormService {
       ),
       this.form.valueChanges.pipe(
         debounceTime(420),
-        mergeMap(values => {
+        mergeMap((values) => {
           if (this.checkedIndex !== this.currentIndex) {
             this.checkedIndex = this.currentIndex;
           } else {
@@ -149,13 +156,13 @@ export class DynamicFormService {
       const locales = this.locales;
       return this.fb.group({
         common: this.contructForm(
-          fields.filter(f => !f.localize),
+          fields.filter((f) => !f.localize),
           values,
           localize,
         ),
         ...locales.reduce((acc, cur) => {
           acc[cur] = this.contructForm(
-            fields.filter(f => f.localize),
+            fields.filter((f) => f.localize),
             values,
             localize,
           );
@@ -177,7 +184,7 @@ export class DynamicFormService {
             ...acc,
             [field.key]: value
               ? this.fb.array(
-                  value.map(val => {
+                  value.map((val) => {
                     const childFields =
                       typeof field.fields === 'function'
                         ? field.fields()
@@ -358,17 +365,15 @@ export class DynamicFormService {
     console.log([1, group, 2, parent, 3, asyncCondition, 4, control]);
 
     if (asyncCondition) {
-      const conditionValue = asyncCondition(group)
-        .pipe(first())
-        .toPromise();
+      const conditionValue = asyncCondition(group).pipe(first()).toPromise();
       const validation = conditionValue ? { conditionalRequired: true } : null;
-      return new Promise(resolve => resolve(validation));
+      return new Promise((resolve) => resolve(validation));
     }
 
     if (parent) {
       const parentControl = group.get(parent.key);
       if (!parentControl) {
-        return new Promise(resolve => resolve(null));
+        return new Promise((resolve) => resolve(null));
       }
       const parentValue = parentControl.value;
 
@@ -381,10 +386,10 @@ export class DynamicFormService {
         parentValue && parentIsTrue && !control.value.length
           ? { conditionalRequired: true }
           : null;
-      return new Promise(resolve => resolve(validation));
+      return new Promise((resolve) => resolve(validation));
     }
 
-    return new Promise(resolve => resolve(null));
+    return new Promise((resolve) => resolve(null));
   }
 
   private _requiredWithParent(

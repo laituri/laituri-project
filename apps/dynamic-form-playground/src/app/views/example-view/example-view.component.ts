@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Field } from 'dynamic-form';
 
 @Component({
   selector: 'app-example-view',
@@ -18,11 +19,11 @@ export class ExampleViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.fields = this.route.data.pipe(
-      map(data => Object.values(data)),
+      map((data) => Object.values(data)),
     ) as Observable<Field[]>;
 
     this.fieldsJson = this.fields.pipe(
-      map(fields => JSON.stringify(fields, null, 2)),
+      map((fields) => JSON.stringify(fields, null, 2)),
     );
   }
 

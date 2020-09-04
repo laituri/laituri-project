@@ -11,6 +11,7 @@ import { AbstractControl } from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
+import { ColorField } from '../dynamic-form.types';
 
 const defaultColors = {
   hex: '#0889DA',

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
 import { DynamicFormService } from '../dynamic-form.service';
+import { Field, GroupField, ContainerField } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-group',

@@ -3,6 +3,7 @@ import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DynamicFormService } from '../dynamic-form.service';
+import { Field, RepeaterField } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-repeater',

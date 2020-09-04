@@ -13,6 +13,7 @@ import {
   CdkDrag,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+import { ChipItem } from '../dynamic-form.types';
 @Component({
   selector: 'dyna-chip-list',
   templateUrl: './chip-list.component.html',

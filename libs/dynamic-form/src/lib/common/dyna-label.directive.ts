@@ -1,5 +1,6 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { Field } from '../dynamic-form.types';
 
 @Directive({
   selector: '[dyna-label]',

@@ -8,6 +8,7 @@ import {
 import { AbstractControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { getErrorMessages } from './validation-errors';
+import { Field } from '../dynamic-form.types';
 
 @Directive({
   selector: 'dyna-hint',

@@ -8,6 +8,7 @@ import {
   distinctUntilChanged,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Field } from './dynamic-form.types';
 
 @Pipe({
   name: 'fieldParent',

@@ -9,6 +9,7 @@ import {
   filter,
 } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
+import { ChipsField, ChipItem } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-chips',

@@ -2,8 +2,10 @@ import { Input, Directive } from '@angular/core';
 import { FormGroup, AbstractControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DynamicFormService } from './dynamic-form.service';
+import { Field, locale } from './dynamic-form.types';
 
 @Directive()
+// tslint:disable-next-line: directive-class-suffix
 export class DynamicFormBase {
   @Input()
   values: Observable<{ [key: string]: any }>;

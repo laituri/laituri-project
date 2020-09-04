@@ -1,7 +1,9 @@
 import { Input, HostBinding, Directive } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
+import { Field } from './dynamic-form.types';
 
 @Directive()
+// tslint:disable-next-line: directive-class-suffix
 export class DynamicFormFieldBase {
   @Input()
   field: Field;

@@ -1,3 +1,5 @@
+import { Field } from 'dynamic-form';
+
 export const UserProfileFields: Field[] = [
   {
     title: 'Your image',

@@ -7,6 +7,7 @@ import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.co
 import { DropdownService } from './dropdown.service';
 import { skip, startWith, filter, map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
+import { DropdownField, FieldOption } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-dropdown',

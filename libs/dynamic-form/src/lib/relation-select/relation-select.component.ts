@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { RelationField } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-relation-select',

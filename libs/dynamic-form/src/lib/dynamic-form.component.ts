@@ -13,6 +13,7 @@ import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { DynamicFormBase } from './dynamic-form-base.class';
 import { debounceTime } from 'rxjs/operators';
 import { DynamicFormService } from './dynamic-form.service';
+import { DynamicFormConfig, Field } from './dynamic-form.types';
 
 @Component({
   selector: 'dynamic-form',

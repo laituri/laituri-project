@@ -3,6 +3,7 @@ import { DropdownService } from '../dropdown.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { map } from 'rxjs/operators';
+import { DropdownField, FieldOption } from '../../dynamic-form.types';
 
 @Component({
   selector: 'dyna-dropdown-overlay',
@@ -20,7 +21,7 @@ export class DropdownOverlayComponent implements OnInit {
     this.overlayRef = this.dropdownService.getOverlayRef();
     this.selectedKeys = this.dropdownService
       .getSelected()
-      .pipe(map(options => (options ? options.map(op => op.key) : [])));
+      .pipe(map((options) => (options ? options.map((op) => op.key) : [])));
   }
 
   select(option: FieldOption) {

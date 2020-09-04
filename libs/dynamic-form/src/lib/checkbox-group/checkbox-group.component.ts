@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
+import { CheckboxGroupField } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-checkbox-group',
