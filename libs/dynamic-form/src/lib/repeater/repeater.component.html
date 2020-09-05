@@ -8,7 +8,7 @@
     [formGroup]="control"
     cdkDrag
   >
-    <div class="item-header">
+    <div class="item-header" (click)="hideItemFields(fieldsElement)">
       <div class="info" cdkDragHandle>
         <div class="number">
           {{ i + 1 }}
@@ -23,7 +23,7 @@
         </button>
       </div>
     </div>
-    <div class="fields">
+    <div class="fields" #fieldsElement>
       <div
         *ngFor="let field of fields"
         [ngSwitch]="field.type"
@@ -166,7 +166,7 @@
     </div>
   </div>
 </div>
-<button class="dyna-button" (click)="addItem()">Add new</button>
+<button class="dyna-button add-item" (click)="addItem()">Add new</button>
 
 <dyna-hint [field]="field" [control]="controlsArray">
   {{ field.hint }}

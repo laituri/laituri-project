@@ -4,6 +4,13 @@ import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DynamicFormService } from '../dynamic-form.service';
 import { FieldTemplate, RepeaterField, Field } from '../dynamic-form.types';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'dyna-repeater',
@@ -49,5 +56,48 @@ export class RepeaterComponent extends DynamicFormBase implements OnInit {
       return '';
     }
     return value.toString();
+  }
+
+  hideItemFields(el: HTMLDivElement) {
+    const collapse = el.style.maxHeight !== '0px';
+    let start: number;
+    const totalTime = 300;
+    if (collapse) {
+      const maxHeight = el.clientHeight;
+      function collapseStep(timestamp) {
+        if (start === undefined) {
+          start = timestamp;
+        }
+        const elapsedTime = timestamp - start;
+        const elapsedPercent =
+          Math.round(((timestamp - start) / totalTime) * 100) / 100;
+
+        el.style.maxHeight = `${Math.floor(
+          maxHeight * (1 - elapsedPercent),
+        )}px`;
+        el.style.opacity = `${1 - elapsedPercent}`;
+
+        if (elapsedTime < totalTime) {
+          window.requestAnimationFrame(collapseStep);
+        }
+      }
+      window.requestAnimationFrame(collapseStep);
+    } else {
+      el.style.maxHeight = `initial`;
+      function expandStep(timestamp) {
+        if (start === undefined) {
+          start = timestamp;
+        }
+        const elapsedTime = timestamp - start;
+        const elapsedPercent =
+          Math.round(((timestamp - start) / totalTime) * 100) / 100;
+        el.style.opacity = `${elapsedPercent}`;
+
+        if (elapsedTime < totalTime) {
+          window.requestAnimationFrame(expandStep);
+        }
+      }
+      window.requestAnimationFrame(expandStep);
+    }
   }
 }
