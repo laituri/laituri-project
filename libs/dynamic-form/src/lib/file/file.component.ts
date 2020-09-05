@@ -97,7 +97,33 @@ export class FileComponent implements OnInit {
   private _getInitialFiles(): File[] {
     const { preview } = this.field;
     if (!preview) {
-      return null;
+      if (this.control.value instanceof File) {
+        this.files = [this.control.value];
+        const list = new DataTransfer();
+        list.items.add(this.control.value);
+        this.fileList = list.files;
+      }
+      if (
+        Array.isArray(this.control.value) &&
+        this.control.value[0] instanceof File
+      ) {
+        this.files = this.control.value;
+        const list = new DataTransfer();
+        this.files.forEach((file) => {
+          list.items.add(file);
+        });
+        this.fileList = list.files;
+      }
+      if (this.control.value instanceof FileList) {
+        const files = [];
+        for (let i = 0; i < this.control.value.length; i++) {
+          const file = this.control.value.item(i);
+          files.push(file);
+        }
+        this.files = files;
+        this.fileList = this.control.value;
+      }
+      return this.files;
     }
     if (preview.type === 'string' && typeof this.control.value === 'string') {
       try {

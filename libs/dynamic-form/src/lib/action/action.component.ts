@@ -18,7 +18,12 @@ export class ActionComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // console.log(this.field.preview);
+    const values = this.control.value;
+    if (Array.isArray(values)) {
+      this.previewValues = values.map((value) => this.getPreview(value));
+    } else {
+      this.previewValues = [this.getPreview(values)];
+    }
   }
 
   async getValue() {
@@ -39,9 +44,10 @@ export class ActionComponent implements OnInit {
     this.control.setValue('');
   }
 
-  getPreview(value: {
-    [key: string]: string | number;
-  }): { [key: string]: string | number } {
+  getPreview(value: any): { [key: string]: string | number } {
+    if (!value) {
+      return null;
+    }
     const {
       textKey,
       imageKey,

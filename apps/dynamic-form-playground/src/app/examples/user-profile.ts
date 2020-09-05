@@ -5,7 +5,7 @@ export const UserProfileFields: Field[] = [
     title: 'Your image',
     key: 'image',
     type: 'file',
-    output: 'data',
+    output: 'file',
     multiple: true,
     hint: 'Must be an image',
     // accept: 'image/*',

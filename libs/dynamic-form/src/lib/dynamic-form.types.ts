@@ -162,7 +162,7 @@ export interface MarkdownField extends FormFieldBase<string> {
   elements?: MarkdownElements;
   validation?: FieldValidationText;
 }
-export interface FileField extends FormFieldBase<string> {
+export interface FileField extends FormFieldBase<any> {
   type: 'file';
   output: 'file' | 'data';
   multiple?: boolean;
