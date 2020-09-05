@@ -5,6 +5,7 @@
   "scripts": {
     "serve:dynamic-form-playground": "ng serve dynamic-form-playground",
     "build:dynamic-form-playground": "ng build --prod dynamic-form-playground",
+    "deploy:dynamic-form-playground": "npm run build:dynamic-form && npm run build:dynamic-form-playground && firebase deploy",
     "build:dynamic-form": "ng build dynamic-form --prod",
     "publish": "publish.sh"
   },
