@@ -1,38 +1,11 @@
-export type locale = string;
-
-export type SubFields = (() => Field[]) | Field[];
-
-export interface DynamicFormConfig {
-  fields: Field[];
-  values?: { [key: string]: any };
-  // form?: any;
-  locales?: locale[];
-}
-
-export interface FieldParent {
-  key: string;
-  values: any[] | boolean;
-  fromParent?: boolean;
-}
-
-export interface FieldValidation {
-  required?: boolean;
-  min?: any;
-  max?: any;
-  minLength?: any;
-  maxLength?: any;
-  pattern?: string;
-  minItems?: number;
-  maxItems?: number;
-  allowedTypes?: string[];
-}
-export interface FieldOption {
-  title: string;
-  key: string;
-  description?: string;
-  hidden?: boolean;
-  data?: any;
-}
+export type TextFieldTypes =
+  | 'text'
+  | 'email'
+  | 'tel'
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'url';
 
 export type FieldTypes =
   | TextFieldTypes
@@ -53,58 +26,119 @@ export type FieldTypes =
   | 'file'
   | 'action';
 
-export interface FieldTemplate<T> {
-  /* Basics */
-  type: FieldTypes;
-  key?: string;
+export type SubFields = Field[] | (() => Field[]);
+
+export type FormField =
+  | TextField
+  | TextareaField
+  | MarkdownField
+  | DropdownField
+  | GroupField
+  | RepeaterField
+  | RadioField
+  | RelationField
+  | CheckboxField
+  | ActionField
+  | ColorField
+  | DateField
+  | ChipsField
+  | FileField
+  | CheckboxGroupField;
+
+export type DisplayField = InfoField | ContainerField;
+
+export type Field = DisplayField | FormField;
+
+export interface DynamicFormConfig {
+  fields: Field[];
+  values?: { [key: string]: any };
+  // form?: any;
+  locales?: string[];
+}
+
+export interface FieldBase {
   title?: string;
+  type: FieldTypes;
+  style?: FieldStyleBase;
+  validation?: FieldValidationBase;
+  condition?: FieldParentValueCondition;
+}
+
+export interface FormFieldBase<T> extends FieldBase {
+  key: string;
   description?: string;
   placeholder?: string;
   hint?: string;
   disabled?: boolean;
   hidden?: boolean;
-  /* Advanced */
   value?: T;
   defaultValue?: T;
-  // tab?: string;
+}
+
+export interface FieldTemplate extends FormFieldBase<any> {
+  validation?: FieldValidationTemplate;
+  /* Advanced */
   localize?: boolean;
-  validation?: FieldValidation;
-  parent?: FieldParent;
   /* Functions */
   asyncCondition?: (form?: any) => any;
   fields?: SubFields;
   output?: string;
   options?: FieldOption[];
   flat?: boolean;
-  style?: FieldStyleBase;
 }
 
+/* Check me */
 export interface FieldStyleBase {
   grow?: number;
   className?: string;
   css?: string;
 }
 
-export interface FieldBase<T> extends FieldTemplate<T> {
+export interface FieldParentValueCondition {
   key: string;
+  values?: any[] | boolean;
+  fromParent?: boolean;
+}
+
+export interface FieldValidationBase {
+  required?: boolean;
+  pattern?: string;
+}
+export interface FieldValidationArray extends FieldValidationBase {
+  minItems?: number;
+  maxItems?: number;
+}
+export interface FieldValidationText extends FieldValidationBase {
+  minLength?: any;
+  maxLength?: any;
+}
+export interface FieldValidationNumber extends FieldValidationBase {
+  min?: any;
+  max?: any;
+}
+
+export interface FieldValidationTemplate
+  extends FieldValidationArray,
+    FieldValidationText,
+    FieldValidationNumber {}
+export interface FieldOption {
+  title: string;
+  key: string;
+  description?: string;
+  hidden?: boolean;
+  data?: any;
 }
 
 /* Fields */
 
-export type TextFieldTypes =
-  | 'text'
-  | 'email'
-  | 'tel'
-  | 'number'
-  | 'password'
-  | 'search'
-  | 'url';
-export interface TextField extends FieldBase<string | number> {
+export interface TextField extends FormFieldBase<string | number> {
   type: TextFieldTypes;
+  validation?: FieldValidationText | FieldValidationNumber;
 }
-export interface TextareaField extends FieldBase<string> {
+export interface TextareaField extends FormFieldBase<string> {
   type: 'textarea';
   layout?: 'textarea' | 'editable-div';
+  validation?: FieldValidationText;
 }
 
 export type HeadingSizes = 1 | 2 | 3 | 4 | 5 | 6;
@@ -123,11 +157,12 @@ export interface MarkdownElements {
   };
 }
 
-export interface MarkdownField extends FieldBase<string> {
+export interface MarkdownField extends FormFieldBase<string> {
   type: 'markdown';
   elements?: MarkdownElements;
+  validation?: FieldValidationText;
 }
-export interface FileField extends FieldBase<string> {
+export interface FileField extends FormFieldBase<string> {
   type: 'file';
   output: 'file' | 'data';
   multiple?: boolean;
@@ -141,16 +176,13 @@ export interface FileField extends FieldBase<string> {
     drop?: (files: File[]) => Promise<any>;
   };
 }
-export interface ActionField extends FieldBase<string> {
+export interface ActionField extends FormFieldBase<string> {
   type: 'action';
-  attributes: any;
+  attributes?: any;
   button: string;
   preview: ActionFieldLayouts;
   events: {
-    click: (
-      attributes: any,
-      prev: any,
-    ) => Promise<{ [key: string]: any } | { [key: string]: any }[]>;
+    click: (prev: any, attributes?: any) => Promise<any>;
   };
 }
 
@@ -194,66 +226,71 @@ export interface ActionFieldCardPreview {
   imageKey?: string;
 }
 
-export interface DropdownField extends FieldBase<string> {
+export interface DropdownField extends FormFieldBase<string> {
   type: 'dropdown';
   multiple?: boolean;
   output?: 'key' | 'data' | 'boolean-map';
   display?: 'input-only' | 'chips';
   options: FieldOption[];
+  validation?: FieldValidationBase | FieldValidationArray;
 }
 
-export interface GroupField extends FieldBase<object> {
+export interface GroupField extends FormFieldBase<object> {
   type: 'group';
   flat?: boolean;
   fields: SubFields;
   style?: ContainerFieldStyle;
 }
-export interface ContainerField extends FieldTemplate<null> {
+export interface ContainerField extends FieldBase {
   type: 'container';
   fields: SubFields;
   style?: ContainerFieldStyle;
 }
 
+/* Check me */
 export interface ContainerFieldStyle extends FieldStyleBase {
   direction?: 'column' | 'row';
   wrap?: boolean;
 }
 
-export interface RepeaterField extends FieldBase<object[]> {
+export interface RepeaterField extends FormFieldBase<object[]> {
   type: 'repeater';
   fields: SubFields;
   display?: string;
+  validation?: FieldValidationArray;
 }
 
-export interface CheckboxField extends FieldBase<boolean> {
+export interface CheckboxField extends FormFieldBase<boolean> {
   type: 'checkbox';
   title: string;
 }
-export interface CheckboxGroupField extends FieldBase<string[]> {
+export interface CheckboxGroupField extends FormFieldBase<string[]> {
   type: 'checkbox-group';
   output?: 'key' | 'data' | 'boolean-map';
   options: FieldOption[];
+  validation?: FieldValidationBase | FieldValidationArray;
 }
-export interface RadioField extends FieldBase<string[]> {
+export interface RadioField extends FormFieldBase<string[]> {
   type: 'radio';
   options: FieldOption[];
 }
-export interface ColorField extends FieldBase<string> {
+export interface ColorField extends FormFieldBase<string> {
   type: 'color';
   output: 'hex' | 'rgba';
   swatches?: string[];
   opacity?: boolean;
 }
-export interface ChipsField extends FieldBase<string[]> {
+export interface ChipsField extends FormFieldBase<string[]> {
   type: 'chips';
   allowDuplicates?: boolean;
+  validation?: FieldValidationArray;
 }
 
 export interface ChipItem {
   key: string | number;
   title: string;
 }
-export interface DateField extends FieldBase<string> {
+export interface DateField extends FormFieldBase<string> {
   type: 'date';
   output?: string;
   display?: string;
@@ -264,7 +301,7 @@ export interface RelationItem {
   title: string;
   typeName?: string;
 }
-export interface RelationField extends FieldBase<string[]> {
+export interface RelationField extends FormFieldBase<string[]> {
   type: 'relation';
   items: RelationItem[];
   actions?: {
@@ -272,26 +309,7 @@ export interface RelationField extends FieldBase<string[]> {
   };
 }
 
-export interface InfoField extends FieldTemplate<null> {
+export interface InfoField extends FieldBase {
   type: 'info';
   body: string;
 }
-
-export type FormField =
-  | TextField
-  | TextareaField
-  | MarkdownField
-  | DropdownField
-  | GroupField
-  | RepeaterField
-  | RadioField
-  | RelationField
-  | CheckboxField
-  | ActionField
-  | ColorField
-  | DateField
-  | ChipsField
-  | FileField
-  | CheckboxGroupField;
-
-export type Field = InfoField | ContainerField | FormField;

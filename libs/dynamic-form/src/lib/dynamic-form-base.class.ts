@@ -2,7 +2,7 @@ import { Input, Directive } from '@angular/core';
 import { FormGroup, AbstractControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DynamicFormService } from './dynamic-form.service';
-import { Field, locale } from './dynamic-form.types';
+import { FieldTemplate } from './dynamic-form.types';
 
 @Directive()
 // tslint:disable-next-line: directive-class-suffix
@@ -10,31 +10,31 @@ export class DynamicFormBase {
   @Input()
   values: Observable<{ [key: string]: any }>;
   @Input()
-  childFields: Field[];
+  childFields: FieldTemplate[];
   @Input()
   localize: boolean;
   @Input()
-  locales: locale[];
+  locales: string[];
 
   constructor(public formService: DynamicFormService) {}
 
   public getControl(
     form: FormGroup | FormArray,
-    field: Field,
+    field: FieldTemplate,
     index?: number,
   ): AbstractControl {
     return this.formService.getControl(form, field, this.localize, index);
   }
 
   public contructForm(
-    fields: Field[],
+    fields: FieldTemplate[],
     values?: any,
     root?: boolean,
   ): FormGroup {
     return this.formService.contructForm(fields, values, this.localize, root);
   }
 
-  public getValue(field: Field, values: { [key: string]: any }): any {
+  public getValue(field: FieldTemplate, values: { [key: string]: any }): any {
     return this.formService.getValue(field, values, this.localize);
   }
 }

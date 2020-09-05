@@ -8,6 +8,10 @@
     & > *:not(:last-child) {
       margin-top: 12px;
     }
+    .image {
+      max-width: 100%;
+      max-height: 300px;
+    }
     .card-container {
       display: grid;
       grid-template-areas: 'id image' 'title image' 'description image';
@@ -30,10 +34,13 @@
       }
       .image {
         grid-area: image;
+        max-width: 100%;
+        max-height: 200px;
       }
     }
   }
   .get-value-button {
     margin-top: 6px;
+    width: fit-content;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 import { TextField, TextFieldTypes } from '../dynamic-form.types';

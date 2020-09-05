@@ -24,8 +24,8 @@ export class ActionComponent implements OnInit {
   async getValue() {
     const current = this.control.value;
     const response = await this.field.events.click(
-      this.field.attributes,
       current,
+      this.field.attributes,
     );
     this.control.setValue(response);
     if (Array.isArray(response)) {
@@ -51,13 +51,23 @@ export class ActionComponent implements OnInit {
       descriptionKey,
     }: ActionFieldKeys = this.field.preview;
 
+    if (typeof value === 'object') {
+      return {
+        text: value[textKey] || null,
+        url: value[urlKey] || null,
+        image: value[imageKey] || null,
+        title: value[titleKey] || null,
+        id: value[idKey] || null,
+        description: value[descriptionKey] || null,
+      };
+    }
     return {
-      text: value[textKey] || null,
-      url: value[urlKey] || null,
-      image: value[imageKey] || null,
-      title: value[titleKey] || null,
-      id: value[idKey] || null,
-      description: value[descriptionKey] || null,
+      text: value || null,
+      url: value || null,
+      image: value || null,
+      title: value || null,
+      id: value || null,
+      description: value || null,
     };
   }
 }

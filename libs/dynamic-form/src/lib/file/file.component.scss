@@ -31,6 +31,10 @@
         font-size: 18px;
         text-align: center;
         margin: 0;
+        white-space: pre-line;
+        .info-size {
+          font-size: 14px;
+        }
       }
       .info-upload-icon,
       .info-files-icon {
@@ -79,9 +83,7 @@
     }
 
     &.imagePreview {
-      background: url(
-        data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAKElEQVQoU2O8ePHifwY0wM/Pjy7EwDgUFD548ADDMx8/fsT0zBBQCAAWdDJg0ZidnAAAAABJRU5ErkJggg==
-   )
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAKElEQVQoU2O8ePHifwY0wM/Pjy7EwDgUFD548ADDMx8/fsT0zBBQCAAWdDJg0ZidnAAAAABJRU5ErkJggg==)
         repeat;
     }
   }

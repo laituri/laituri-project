@@ -3,7 +3,7 @@ import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DynamicFormService } from '../dynamic-form.service';
-import { Field, RepeaterField } from '../dynamic-form.types';
+import { FieldTemplate, RepeaterField, Field } from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-repeater',
@@ -12,7 +12,7 @@ import { Field, RepeaterField } from '../dynamic-form.types';
 })
 export class RepeaterComponent extends DynamicFormBase implements OnInit {
   @Input()
-  fields: Field[];
+  fields: FieldTemplate[];
   @Input()
   field: RepeaterField;
   @Input()
@@ -25,7 +25,7 @@ export class RepeaterComponent extends DynamicFormBase implements OnInit {
   }
 
   public addItem() {
-    const item = this.contructForm(this.fields, null);
+    const item = this.contructForm(this.fields as FieldTemplate[], null);
     this.controlsArray.push(item);
   }
 

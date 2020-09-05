@@ -19,7 +19,7 @@ export class FileComponent implements OnInit {
   public hint: string;
   public imagePreview: SafeResourceUrl;
   public files: File[];
-  // public fileList: FileList;
+  public fileList: FileList;
 
   constructor(private sanitizer: DomSanitizer) {}
 
@@ -29,6 +29,7 @@ export class FileComponent implements OnInit {
   }
 
   async onDrop(fileList: FileList) {
+    this.fileList = fileList;
     this._constructFiles(fileList);
     this.imagePreview = this._getImagePreview();
     if (this.error) {
@@ -95,6 +96,9 @@ export class FileComponent implements OnInit {
 
   private _getInitialFiles(): File[] {
     const { preview } = this.field;
+    if (!preview) {
+      return null;
+    }
     if (preview.type === 'string' && typeof this.control.value === 'string') {
       try {
         const file = new File([], this.control.value);

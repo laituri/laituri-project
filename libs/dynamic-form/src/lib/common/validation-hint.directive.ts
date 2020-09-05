@@ -8,14 +8,14 @@ import {
 import { AbstractControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { getErrorMessages } from './validation-errors';
-import { Field } from '../dynamic-form.types';
+import { FieldTemplate } from '../dynamic-form.types';
 
 @Directive({
   selector: 'dyna-hint',
 })
 export class ValidationHintDirective implements OnInit {
   @Input() control: AbstractControl;
-  @Input() field: Field;
+  @Input() field: FieldTemplate;
   @Input() hint: string;
 
   @HostBinding('class.dyna-error-message') error = false;

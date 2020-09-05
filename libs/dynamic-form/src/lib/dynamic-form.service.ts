@@ -19,14 +19,13 @@ import {
   debounceTime,
 } from 'rxjs/operators';
 import {
-  Field,
-  locale,
+  FieldTemplate,
   DynamicFormConfig,
   FieldOption,
-  FieldParent,
+  FieldParentValueCondition,
 } from './dynamic-form.types';
 
-const relationFields: Field[] = [
+const relationFieldTemplates: FieldTemplate[] = [
   {
     key: 'type',
     title: '',
@@ -43,7 +42,7 @@ const relationFields: Field[] = [
 @Injectable()
 export class DynamicFormService {
   private form: FormGroup;
-  private locales: locale[];
+  private locales: string[];
 
   private history = [];
   private checkedIndex = -1;
@@ -52,7 +51,12 @@ export class DynamicFormService {
   init({ fields, values, locales }: DynamicFormConfig): FormGroup {
     if (!this.form) {
       const localize = locales && locales.length > 0;
-      this.form = this.contructForm(fields, values, localize, true);
+      this.form = this.contructForm(
+        fields as FieldTemplate[],
+        values,
+        localize,
+        true,
+      );
     } else {
       const current = this.form.value;
       const merged = { ...current, ...values };
@@ -115,7 +119,7 @@ export class DynamicFormService {
 
   public getControl(
     form: FormGroup | FormArray,
-    field: Field,
+    field: FieldTemplate,
     localize?: boolean,
     index?: number,
   ): AbstractControl {
@@ -147,7 +151,7 @@ export class DynamicFormService {
   }
 
   public contructForm(
-    fields: Field[],
+    fields: FieldTemplate[],
     values?: any,
     localize?: boolean,
     root?: boolean,
@@ -185,11 +189,14 @@ export class DynamicFormService {
             [field.key]: value
               ? this.fb.array(
                   value.map((val) => {
-                    const childFields =
+                    const childFieldTemplates =
                       typeof field.fields === 'function'
                         ? field.fields()
                         : field.fields;
-                    return this.contructForm(childFields, val);
+                    return this.contructForm(
+                      childFieldTemplates as FieldTemplate[],
+                      val,
+                    );
                   }),
                   validation,
                   asyncValidation,
@@ -198,9 +205,12 @@ export class DynamicFormService {
           };
         }
         if (field.type === 'group' || field.type === 'container') {
-          const childFields =
+          const childFieldTemplates =
             typeof field.fields === 'function' ? field.fields() : field.fields;
-          const group = this.contructForm(childFields, value);
+          const group = this.contructForm(
+            childFieldTemplates as FieldTemplate[],
+            value,
+          );
           if (field.flat || field.type === 'container') {
             return {
               ...acc,
@@ -222,7 +232,7 @@ export class DynamicFormService {
           }
         }
         if (field.type === 'relation') {
-          const group = this.contructForm(relationFields, value);
+          const group = this.contructForm(relationFieldTemplates, value);
           return {
             ...acc,
             [field.key]: group,
@@ -247,7 +257,7 @@ export class DynamicFormService {
   }
 
   public getValue(
-    field: Field,
+    field: FieldTemplate,
     values: { [key: string]: any },
     localize?: boolean,
   ): any {
@@ -281,10 +291,10 @@ export class DynamicFormService {
   private _getValidators({
     type,
     validation,
-    parent,
+    condition,
     asyncCondition,
     output,
-  }: Field): [ValidatorFn[], AsyncValidatorFn[]] {
+  }: FieldTemplate): [ValidatorFn[], AsyncValidatorFn[]] {
     const validators: ValidatorFn[] = [];
     const asyncValidators: AsyncValidatorFn[] = [];
     /* From type */
@@ -326,8 +336,8 @@ export class DynamicFormService {
 
     /* From validators */
     if (validation.required) {
-      if (parent) {
-        validators.push(this._requiredWithParent(parent));
+      if (condition) {
+        validators.push(this._requiredWithParent(condition));
       } else {
         validators.push(Validators.required);
       }
@@ -358,7 +368,7 @@ export class DynamicFormService {
 
   private requiredIf(
     group: FormGroup,
-    parent: FieldParent,
+    parent: FieldParentValueCondition,
     asyncCondition: (form: FormGroup) => Observable<boolean>,
     control: AbstractControl,
   ) {
@@ -394,18 +404,21 @@ export class DynamicFormService {
 
   private _requiredWithParent(
     // group: FormGroup,
-    parent: FieldParent,
+    condition: FieldParentValueCondition,
     // control: AbstractControl,
   ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {
-      if (!control.parent || !control.parent.controls[parent.key]) {
+      if (!control.parent || !control.parent.controls[condition.key]) {
         return null;
       }
-      const parentValue = control.parent.controls[parent.key].value;
+      const parentValue = control.parent.controls[condition.key].value;
+      if (!condition.values && typeof condition.values !== 'boolean') {
+        return null;
+      }
       const parentIsTrue =
-        typeof parent.values === 'boolean'
-          ? parent.values === parentValue
-          : parent.values.includes(parentValue);
+        typeof condition.values === 'boolean'
+          ? condition.values === parentValue
+          : condition.values.includes(parentValue);
 
       const validation = parentIsTrue ? { conditionalRequired: true } : null;
 

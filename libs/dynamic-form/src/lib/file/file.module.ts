@@ -4,9 +4,15 @@ import { FileComponent } from './file.component';
 import { DropzoneDirective } from './dropzone.directive';
 import { DropdownPreviewTextPipe } from './dropdown-preview-text.pipe';
 import { DynaCommonModule } from '../common/dynamic-form.module';
+import { DropdownPreviewSizePipe } from './dropdown-preview-size.pipe';
 
 @NgModule({
-  declarations: [FileComponent, DropzoneDirective, DropdownPreviewTextPipe],
+  declarations: [
+    FileComponent,
+    DropzoneDirective,
+    DropdownPreviewTextPipe,
+    DropdownPreviewSizePipe,
+  ],
   imports: [CommonModule, DynaCommonModule],
   exports: [FileComponent],
 })

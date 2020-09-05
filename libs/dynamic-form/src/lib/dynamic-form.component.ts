@@ -13,14 +13,15 @@ import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { DynamicFormBase } from './dynamic-form-base.class';
 import { debounceTime } from 'rxjs/operators';
 import { DynamicFormService } from './dynamic-form.service';
-import { DynamicFormConfig, Field } from './dynamic-form.types';
+import { DynamicFormConfig, FieldTemplate } from './dynamic-form.types';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent extends DynamicFormBase
+export class DynamicFormComponent
+  extends DynamicFormBase
   implements OnInit, OnDestroy, OnChanges {
   @Input()
   disabled = false;
@@ -37,7 +38,7 @@ export class DynamicFormComponent extends DynamicFormBase
   valueChange = new EventEmitter<any>();
 
   public form: FormGroup;
-  public fields: Field[];
+  public fields: FieldTemplate[];
 
   private subscriptions: Subscription[];
 
@@ -54,7 +55,7 @@ export class DynamicFormComponent extends DynamicFormBase
     }
 
     const configSubscription = configObservable.subscribe((config) => {
-      this.fields = config.fields;
+      this.fields = config.fields as FieldTemplate[];
       this.form = this.formService.init(config);
     });
 

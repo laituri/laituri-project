@@ -30,7 +30,7 @@
 
       <!-- Image layout -->
       <div *ngSwitchCase="'image'">
-        <img [src]="item.image" alt="Preview image" />
+        <img class="image" [src]="item.image" alt="Preview image" />
       </div>
 
       <!-- Card layout -->
@@ -60,3 +60,7 @@
 >
   {{ field.button }}
 </button>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>
