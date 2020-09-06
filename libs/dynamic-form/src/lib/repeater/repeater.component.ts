@@ -1,23 +1,26 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  AfterViewInit,
+  ViewChildren,
+  ElementRef,
+  QueryList,
+} from '@angular/core';
 import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DynamicFormService } from '../dynamic-form.service';
 import { FieldTemplate, RepeaterField, Field } from '../dynamic-form.types';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
 
 @Component({
   selector: 'dyna-repeater',
   templateUrl: './repeater.component.html',
   styleUrls: ['./repeater.component.scss'],
 })
-export class RepeaterComponent extends DynamicFormBase implements OnInit {
+export class RepeaterComponent
+  extends DynamicFormBase
+  implements OnInit, AfterViewInit {
   @Input()
   fields: FieldTemplate[];
   @Input()
@@ -25,10 +28,21 @@ export class RepeaterComponent extends DynamicFormBase implements OnInit {
   @Input()
   controlsArray: FormArray;
 
-  ngOnInit(): void {}
+  @ViewChildren('fieldsElement') subFields: QueryList<
+    ElementRef<HTMLDivElement>
+  >;
 
   constructor(public dfs: DynamicFormService) {
     super(dfs);
+  }
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    if (this.field.collapsed) {
+      this.subFields.forEach(({ nativeElement }) => {
+        nativeElement.style.maxHeight = `0px`;
+        nativeElement.style.opacity = `0`;
+      });
+    }
   }
 
   public addItem() {

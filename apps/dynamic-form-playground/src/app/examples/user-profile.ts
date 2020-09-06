@@ -61,10 +61,12 @@ export const UserProfileFields: Field[] = [
     },
   },
   {
-    title: 'Skills',
+    title: 'Skills 1-5',
     key: 'skills',
     type: 'repeater',
+    description: 'describe',
     display: 'title',
+    collapsed: true,
     fields: [
       {
         title: 'Title',
@@ -79,6 +81,7 @@ export const UserProfileFields: Field[] = [
         key: 'description',
         type: 'textarea',
         placeholder: 'Lorem ipsum',
+        rows: 3,
       },
     ],
   },

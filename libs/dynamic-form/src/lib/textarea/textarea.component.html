@@ -1,8 +1,13 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
-  {{field.title}}
+  {{ field.title }}
 </label>
-<textarea class="dyna-input" [name]="field.key" cols="30" rows="10" [placeholder]="field.placeholder || 'Lorem ipsum'"
-          [formControl]="control"></textarea>
+<textarea
+  class="dyna-input"
+  [name]="field.key"
+  [rows]="field.rows || 8"
+  [placeholder]="field.placeholder || 'Lorem ipsum'"
+  [formControl]="control"
+></textarea>
 
 <!-- 
 Need to think about this
@@ -12,5 +17,5 @@ Need to think about this
 -->
 
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>

@@ -138,6 +138,7 @@ export interface TextField extends FormFieldBase<string | number> {
 export interface TextareaField extends FormFieldBase<string> {
   type: 'textarea';
   layout?: 'textarea' | 'editable-div';
+  rows?: number;
   validation?: FieldValidationText;
 }
 
@@ -257,6 +258,7 @@ export interface RepeaterField extends FormFieldBase<object[]> {
   type: 'repeater';
   fields: SubFields;
   display?: string;
+  collapsed?: boolean;
   validation?: FieldValidationArray;
 }
 
