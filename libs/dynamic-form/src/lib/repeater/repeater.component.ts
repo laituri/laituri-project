@@ -56,8 +56,31 @@ export class RepeaterComponent
     this.controlsArray.setValue(items);
   }
 
-  deleteControlItem(i: number) {
-    this.controlsArray.removeAt(i);
+  deleteControlItem(i: number, el: HTMLDivElement) {
+    /* const deleteConfirmation = confirm('Confirm removal');
+    if (deleteConfirmation) { */
+    let start: number;
+    const totalTime = 300;
+    const maxHeight = el.clientHeight;
+    const collapseStep = (timestamp) => {
+      if (start === undefined) {
+        start = timestamp;
+      }
+      const elapsedTime = timestamp - start;
+      const elapsedPercent =
+        Math.round(((timestamp - start) / totalTime) * 100) / 100;
+
+      el.style.maxHeight = `${Math.floor(maxHeight * (1 - elapsedPercent))}px`;
+      el.style.opacity = `${1 - elapsedPercent}`;
+
+      if (elapsedTime < totalTime) {
+        window.requestAnimationFrame(collapseStep);
+      } else {
+        this.controlsArray.removeAt(i);
+      }
+    };
+    window.requestAnimationFrame(collapseStep);
+    /* } */
   }
 
   getDisplayValue(control: FormControl): string {
