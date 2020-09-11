@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Is it possible to create headless CMS that is open source, serverless and designed for PWAs & JAMStack websites? Yes.",
   "scripts": {
-    "serve:dynamic-form-playground": "ng serve dynamic-form-playground",
+    "serve:dynamic-form-playground": "npm run build:dynamic-form && ng serve dynamic-form-playground",
     "build:dynamic-form-playground": "ng build --prod dynamic-form-playground",
     "deploy:dynamic-form-playground": "npm run build:dynamic-form && npm run build:dynamic-form-playground && firebase deploy",
     "build:dynamic-form": "ng build dynamic-form --prod",
