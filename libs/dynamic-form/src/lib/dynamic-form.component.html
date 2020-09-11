@@ -1,6 +1,10 @@
-<div *ngIf="form as control">
+<div *ngIf="form as control" class="dynamic-form-container">
   <ng-container *ngFor="let field of fields">
-    <div [ngSwitch]="field.type" *ngIf="!(field | fieldParent: form | async)">
+    <div
+      [ngSwitch]="field.type"
+      *ngIf="!(field | fieldParent: form | async)"
+      class="fields-container"
+    >
       <!-- Short text input fields -->
       <dyna-text
         *ngSwitchCase="'text'"

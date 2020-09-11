@@ -258,7 +258,7 @@ dyna-hint {
   }
 }
 
-.item-header {
+.repeater-child-header {
   background: #f8f8f8;
   display: grid;
   grid-template-areas: 'info actions';
@@ -350,12 +350,12 @@ dyna-hint {
   height: fit-content !important;
   // width: 500px !important;
   cursor: grab !important;
-  .item-header {
+  .repeater-child-header {
     .actions {
       display: none;
     }
   }
-  .fields {
+  .fields-container {
     display: none;
   }
 }

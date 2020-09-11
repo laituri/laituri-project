@@ -1,14 +1,15 @@
 <p *ngIf="field.title" dyna-label [field]="field">
   {{ field.title }}
 </p>
-<div class="container" cdkDropList (cdkDropListDropped)="drop($event)">
+
+<div class="repeater-container" cdkDropList (cdkDropListDropped)="drop($event)">
   <div
-    class="sub-array"
+    class="repeater-child"
     *ngFor="let control of controlsArray.controls; let i = index"
     [formGroup]="control"
     cdkDrag
   >
-    <div class="item-header" (click)="hideItemFields(fieldsElement)">
+    <div class="repeater-child-header" (click)="hideItemFields(fieldsElement)">
       <div class="info" cdkDragHandle>
         <div class="number">
           {{ i + 1 }}
@@ -23,7 +24,7 @@
         </button>
       </div>
     </div>
-    <div class="fields" #fieldsElement>
+    <div class="fields-container" #fieldsElement>
       <div
         *ngFor="let field of fields"
         [ngSwitch]="field.type"

@@ -2,7 +2,12 @@ import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
 import { DynamicFormService } from '../dynamic-form.service';
-import { Field, GroupField, ContainerField } from '../dynamic-form.types';
+import {
+  Field,
+  GroupField,
+  ContainerField,
+  FieldTemplate,
+} from '../dynamic-form.types';
 
 @Component({
   selector: 'dyna-group',
@@ -11,7 +16,7 @@ import { Field, GroupField, ContainerField } from '../dynamic-form.types';
 })
 export class GroupComponent extends DynamicFormBase implements OnInit {
   @Input()
-  fields: Field[];
+  fields: FieldTemplate[];
   @Input()
   field: GroupField | ContainerField;
   @Input()

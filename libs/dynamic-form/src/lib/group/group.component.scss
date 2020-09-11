@@ -1,14 +1,21 @@
 :host {
   display: block;
   padding: 12px 0;
+  .group-container {
+    .fields-container {
+      display: grid;
+    }
+  }
   &.row {
-    section {
-      display: flex;
-      flex-direction: row;
-      & > * {
-        flex-grow: 1;
-        &:not(:last-child) {
-          margin-right: var(--dyna-padding--small);
+    .group-container {
+      .fields-container {
+        display: flex;
+        flex-direction: row;
+        & > * {
+          flex-grow: 1;
+          &:not(:last-child) {
+            margin-right: var(--dyna-padding--small);
+          }
         }
       }
     }
