@@ -36,6 +36,7 @@
 
         <!-- Card layout -->
         <div class="card-container" *ngSwitchCase="'card'">
+          <img class="image" [src]="item.image" alt="Preview image" />
           <div class="id" *ngIf="item.id">
             {{ item.id }}
           </div>

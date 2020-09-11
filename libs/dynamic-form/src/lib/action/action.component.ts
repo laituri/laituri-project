@@ -30,6 +30,7 @@ export class ActionComponent implements OnInit {
     const current = this.control.value;
     const response = await this.field.events.click(
       current,
+      this.control.root,
       this.field.attributes,
     );
     this.control.setValue(response);

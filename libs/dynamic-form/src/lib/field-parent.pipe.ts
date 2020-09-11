@@ -34,7 +34,14 @@ export class FieldParentPipe implements PipeTransform {
     return parentControl.valueChanges.pipe(
       startWith(parentControl.value),
       distinctUntilChanged(),
-      map((value) => {
+      map((initialValue) => {
+        const value =
+          initialValue &&
+          condition.objectKey &&
+          typeof initialValue === 'object'
+            ? initialValue[condition.objectKey]
+            : initialValue;
+
         if (!condition.values && typeof condition.values !== 'boolean') {
           return !value;
         }

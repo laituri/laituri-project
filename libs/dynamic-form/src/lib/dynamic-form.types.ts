@@ -1,3 +1,5 @@
+import { AbstractControl } from '@angular/forms';
+
 export type TextFieldTypes =
   | 'text'
   | 'email'
@@ -96,6 +98,7 @@ export interface FieldStyleBase {
 
 export interface FieldParentValueCondition {
   key: string;
+  objectKey?: string;
   values?: any[] | boolean;
   fromParent?: boolean;
 }
@@ -183,7 +186,7 @@ export interface ActionField extends FormFieldBase<string> {
   button: string;
   preview: ActionFieldLayouts;
   events: {
-    click: (prev: any, attributes?: any) => Promise<any>;
+    click: (prev: any, form: AbstractControl, attributes: any) => Promise<any>;
   };
 }
 
