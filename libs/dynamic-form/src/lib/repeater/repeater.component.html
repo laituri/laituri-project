@@ -2,6 +2,9 @@
   {{ field.title }}
 </p>
 
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <div class="repeater-container" cdkDropList (cdkDropListDropped)="drop($event)">
   <div
     class="repeater-child"

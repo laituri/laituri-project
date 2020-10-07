@@ -1,6 +1,10 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{ field.title }}
 </label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <textarea
   class="dyna-input"
   [name]="field.key"
@@ -11,11 +15,18 @@
 
 <!-- 
 Need to think about this
-<div class="letterCounter" *ngIf="field.validation && field.validation.maxLength">
-{{control.value ? control.value.length : 0}} / {{field.validation.maxLength}}
-</div> 
 -->
 
-<dyna-hint [field]="field" [control]="control">
-  {{ field.hint }}
-</dyna-hint>
+<div class="bottom-container">
+  <dyna-hint [field]="field" [control]="control">
+    {{ field.hint }}
+  </dyna-hint>
+
+  <div
+    class="letterCounter"
+    *ngIf="field.validation && field.validation.maxLength"
+  >
+    {{ control.value ? control.value.length : 0 }} /
+    {{ field.validation.maxLength }}
+  </div>
+</div>

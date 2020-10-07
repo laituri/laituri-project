@@ -1,6 +1,10 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{ field.title }}
 </label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <div class="previews-container" *ngIf="previewValues">
   <ng-container *ngFor="let item of previewValues">
     <ng-container *ngIf="item">

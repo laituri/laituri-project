@@ -1,9 +1,13 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
-  {{field.title}}
+  {{ field.title }}
 </label>
+
+<p *ngIf="field.description" class="dyna-description">
+  {{ field.description }}
+</p>
 
 <div #markdownElement></div>
 
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>

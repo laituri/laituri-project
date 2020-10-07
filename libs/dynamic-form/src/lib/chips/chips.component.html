@@ -1,6 +1,10 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
   {{ field.title }}
 </label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <div class="input-container">
   <input
     class="dyna-input"

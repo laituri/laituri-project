@@ -1,6 +1,10 @@
 <p *ngIf="field.title" class="title" dyna-label [field]="field">
   {{ field.title }}
 </p>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <div class="options-container">
   <div
     class="dyna-radio-container"

@@ -2,6 +2,9 @@
   {{ field.title }}
 </label>
 
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <div
   class="dropzone"
   dynaDropzone

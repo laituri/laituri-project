@@ -3,6 +3,9 @@
   <span *ngIf="field.validation && field.validation.required">*</span>
 </label>
 
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <input
   class="dyna-input"
   [name]="field.key"

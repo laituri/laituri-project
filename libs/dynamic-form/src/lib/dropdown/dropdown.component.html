@@ -1,6 +1,10 @@
 <label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
-  {{field.title}}
+  {{ field.title }}
 </label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
 <!-- <select class="dyna-input" [name]="field.key" [formControl]="control">
   <option *ngIf="field.placeholder" value="" disabled selected hidden>
     {{field.placeholder}}
@@ -10,14 +14,21 @@
   </option>
 </select> -->
 <div class="input-container" (click)="openDropdown()">
-  <input class="dyna-input" disabled [name]="field.key" type="text" [placeholder]="field.placeholder || 'Select' "
-         #selectElement [value]="selected | async | dropdownInputValue:field.display">
+  <input
+    class="dyna-input"
+    disabled
+    [name]="field.key"
+    type="text"
+    [placeholder]="field.placeholder || 'Select'"
+    #selectElement
+    [value]="selected | async | dropdownInputValue: field.display"
+  />
 </div>
 
 <dyna-hint [field]="field" [control]="control">
-  {{field.hint}}
+  {{ field.hint }}
 </dyna-hint>
 
-<ng-container *ngIf="(field.display === 'chips') && selected | async as chips">
+<ng-container *ngIf="field.display === 'chips' && selected | async as chips">
   <dyna-chip-list [chips]="chips"></dyna-chip-list>
 </ng-container>

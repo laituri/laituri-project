@@ -36,11 +36,12 @@
 }
 
 .dyna-label {
+  display: block;
   font-family: var(--dyna-font-family);
   color: var(--dyna-color--label);
   font-size: var(--dyna-font-size--label);
   font-weight: 600;
-  margin: 2px 0 6px;
+  margin: 4px 0 6px;
   &.required {
     &::after {
       content: '*';
@@ -48,9 +49,17 @@
   }
 }
 
+.dyna-description-body {
+  margin: 0 0 12px 0;
+  * {
+    margin: 0;
+    font-size: var(--dyna-font-size--label);
+  }
+}
+
 dyna-hint,
 .letterCounter {
-  margin: 2px 0 0;
+  margin: 4px 0;
   font-size: 12px;
   color: var(--dyna-color--hint);
 }
@@ -116,6 +125,7 @@ dyna-hint {
     }
   }
   &.submit {
+    margin-top: 12px;
     padding: var(--dyna-padding--submit);
   }
   &:disabled {
