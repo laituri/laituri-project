@@ -58,9 +58,11 @@ export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
     });
     const converter = new MarkdownToQuill({ debug: false });
     const ops = converter.convert(this.control.value || '');
-    this.markdownEditor.setContents(ops, 'api');
+    const delta = this.markdownEditor.getContents();
+    delta.ops = ops;
+    this.markdownEditor.setContents(delta, 'api');
 
-    this.markdownEditor.on('text-change', (delta, source) => {
+    this.markdownEditor.on('text-change', () => {
       const html = this.markdownEditor.root.innerHTML;
       const markdown = this.converter.turndown(html);
       this.setValue(markdown);
