@@ -113,6 +113,14 @@
           [field]="field"
         ></dyna-date>
 
+        <dyna-chips
+          *ngSwitchCase="'chips'"
+          [control]="getControl(control, field)"
+          [field]="field"
+        ></dyna-chips>
+
+        <dyna-info *ngSwitchCase="'info'" [field]="field"></dyna-info>
+
         <!-- Option fields -->
         <dyna-dropdown
           *ngSwitchCase="'dropdown'"
@@ -149,6 +157,13 @@
           [field]="field"
         >
         </dyna-action>
+
+        <dyna-file
+          *ngSwitchCase="'file'"
+          [control]="getControl(control, field)"
+          [field]="field"
+        >
+        </dyna-file>
 
         <!-- Sub form fields -->
         <dyna-repeater
