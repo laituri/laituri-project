@@ -154,6 +154,14 @@
       >
       </dyna-group>
 
+      <dyna-group
+        *ngSwitchCase="'container'"
+        [control]="getControl(control, field)"
+        [field]="field"
+        [fields]="field.fields"
+      >
+      </dyna-group>
+
       <div *ngSwitchDefault>
         {{ field.type }}
       </div>

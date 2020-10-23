@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostBinding,
+  ElementRef,
+} from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
 import { DynamicFormService } from '../dynamic-form.service';
@@ -25,10 +31,16 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   @HostBinding('class.row') get row() {
     return this.field.style && this.field.style.direction === 'row';
   }
-
-  constructor(public dfs: DynamicFormService) {
+  constructor(
+    public dfs: DynamicFormService,
+    private elementRef: ElementRef<HTMLElement>,
+  ) {
     super(dfs);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.field.style.className) {
+      this.elementRef.nativeElement.classList.add(this.field.style.className);
+    }
+  }
 }

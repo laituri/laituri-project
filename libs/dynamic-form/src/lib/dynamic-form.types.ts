@@ -254,6 +254,7 @@ export interface ContainerField extends FieldBase {
 /* Check me */
 export interface ContainerFieldStyle extends FieldStyleBase {
   direction?: 'column' | 'row';
+  className?: string;
   wrap?: boolean;
 }
 
