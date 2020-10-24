@@ -46,7 +46,7 @@ export class ActionComponent implements OnInit {
   }
 
   getPreview(value: any): { [key: string]: string | number } {
-    if (!value) {
+    if (!value || this.field.preview.layout === 'button') {
       return null;
     }
     const {

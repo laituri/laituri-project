@@ -200,6 +200,7 @@ export interface ActionFieldKeys {
 }
 
 export type ActionFieldLayouts =
+  | ActionFieldButtonOnly
   | ActionFieldTextPreview
   | ActionFieldInputPreview
   | ActionFieldLinkPreview
@@ -209,6 +210,9 @@ export type ActionFieldLayouts =
 export interface ActionFieldTextPreview {
   layout: 'text';
   textKey: string;
+}
+export interface ActionFieldButtonOnly {
+  layout: 'button';
 }
 export interface ActionFieldInputPreview {
   layout: 'input';

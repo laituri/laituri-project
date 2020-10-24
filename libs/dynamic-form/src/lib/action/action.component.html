@@ -5,10 +5,16 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<div class="previews-container" *ngIf="previewValues">
+<!-- Note: Button layout has no preview -->
+<div
+  class="previews-container"
+  *ngIf="previewValues && field.preview.layout !== 'button'"
+>
   <ng-container *ngFor="let item of previewValues">
     <ng-container *ngIf="item">
       <ng-container [ngSwitch]="field.preview.layout">
+        <!-- Button layout -->
+
         <!-- Text layout -->
         <div *ngSwitchCase="'text'">
           <h2>
