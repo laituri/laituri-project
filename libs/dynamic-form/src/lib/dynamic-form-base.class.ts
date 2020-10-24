@@ -1,12 +1,13 @@
 import { Input, Directive } from '@angular/core';
 import { FormGroup, AbstractControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { DynamicFormFieldBase } from './dynamic-form-field-base.class';
 import { DynamicFormService } from './dynamic-form.service';
 import { FieldTemplate } from './dynamic-form.types';
 
 @Directive()
 // tslint:disable-next-line: directive-class-suffix
-export class DynamicFormBase {
+export class DynamicFormBase extends DynamicFormFieldBase {
   @Input()
   values: Observable<{ [key: string]: any }>;
   @Input()
@@ -16,7 +17,9 @@ export class DynamicFormBase {
   @Input()
   locales: string[];
 
-  constructor(public formService: DynamicFormService) {}
+  constructor(public formService: DynamicFormService) {
+    super();
+  }
 
   public getControl(
     form: FormGroup | FormArray,

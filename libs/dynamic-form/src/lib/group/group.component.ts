@@ -31,16 +31,12 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   @HostBinding('class.row') get row() {
     return this.field.style && this.field.style.direction === 'row';
   }
-  constructor(
-    public dfs: DynamicFormService,
-    private elementRef: ElementRef<HTMLElement>,
-  ) {
+  @HostBinding('attr.group-title') get groupTitle() {
+    return this.field.title;
+  }
+  constructor(public dfs: DynamicFormService) {
     super(dfs);
   }
 
-  ngOnInit(): void {
-    if (this.field.style && this.field.style.className) {
-      this.elementRef.nativeElement.classList.add(this.field.style.className);
-    }
-  }
+  ngOnInit(): void {}
 }

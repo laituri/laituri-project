@@ -93,6 +93,7 @@ export interface FieldTemplate extends FormFieldBase<any> {
 export interface FieldStyleBase {
   grow?: number;
   className?: string;
+  id?: string;
   css?: string;
 }
 
@@ -258,7 +259,7 @@ export interface ContainerField extends FieldBase {
 /* Check me */
 export interface ContainerFieldStyle extends FieldStyleBase {
   direction?: 'column' | 'row';
-  className?: string;
+
   wrap?: boolean;
 }
 

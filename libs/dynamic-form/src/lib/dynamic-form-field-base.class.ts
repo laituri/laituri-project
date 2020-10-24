@@ -16,6 +16,9 @@ export class DynamicFormFieldBase {
   @HostBinding('class') get className() {
     return this.field.style && this.field.style.className;
   }
+  @HostBinding('id') get elementId() {
+    return this.field.style && this.field.style.id;
+  }
   /* There might a problem with disabled thingies */
   @HostBinding('class.valid') get validClass() {
     return (
