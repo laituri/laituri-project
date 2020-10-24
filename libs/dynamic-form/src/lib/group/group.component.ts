@@ -39,7 +39,7 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.field.style.className) {
+    if (this.field.style && this.field.style.className) {
       this.elementRef.nativeElement.classList.add(this.field.style.className);
     }
   }
