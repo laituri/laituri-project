@@ -11,13 +11,16 @@ export class DynamicFormFieldBase {
   control: AbstractControl | FormGroup;
 
   @HostBinding('style.flex-grow') get grow() {
-    return this.field.style && this.field.style.grow;
+    return this.field && this.field.style && this.field.style.grow;
   }
   @HostBinding('class') get className() {
-    return this.field.style && this.field.style.className;
+    return this.field && this.field.style && this.field.style.className;
   }
   @HostBinding('id') get elementId() {
-    return this.field.style && this.field.style.id;
+    return this.field && this.field.style && this.field.style.id;
+  }
+  @HostBinding('style') get css() {
+    return this.field && this.field.style && this.field.style.css;
   }
   /* There might a problem with disabled thingies */
   @HostBinding('class.valid') get validClass() {
@@ -26,8 +29,5 @@ export class DynamicFormFieldBase {
       (this.control.valid || this.control.disabled) &&
       (this.control.value === false || this.control.value)
     );
-  }
-  @HostBinding('style') get css() {
-    return this.field.style && this.field.style.css;
   }
 }
