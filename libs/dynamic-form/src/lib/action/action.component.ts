@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 import { ActionField, ActionFieldKeys } from '../dynamic-form.types';
 
 @Component({
@@ -7,15 +8,13 @@ import { ActionField, ActionFieldKeys } from '../dynamic-form.types';
   templateUrl: './action.component.html',
   styleUrls: ['./action.component.scss'],
 })
-export class ActionComponent implements OnInit {
+export class ActionComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   field: ActionField;
   @Input()
   control: AbstractControl;
 
   public previewValues: { [key: string]: string | number }[];
-
-  constructor() {}
 
   ngOnInit(): void {
     const values = this.control.value;
