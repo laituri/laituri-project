@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicFormComponent } from './dynamic-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FieldParentPipe } from './field-parent.pipe';
+import { FieldConditionPipe } from './field-condition.pipe';
 import { DynamicFormService } from './dynamic-form.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RepeaterComponent } from './repeater/repeater.component';
@@ -26,7 +26,7 @@ import { FileModule } from './file/file.module';
 @NgModule({
   declarations: [
     DynamicFormComponent,
-    FieldParentPipe,
+    FieldConditionPipe,
     RepeaterComponent,
     GroupComponent,
   ],

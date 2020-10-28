@@ -63,7 +63,7 @@ export interface FieldBase {
   type: FieldTypes;
   style?: FieldStyleBase;
   validation?: FieldValidationBase;
-  condition?: FieldParentValueCondition;
+  condition?: FieldConditionValue;
 }
 
 export interface FormFieldBase<T> extends FieldBase {
@@ -97,7 +97,7 @@ export interface FieldStyleBase {
   css?: string;
 }
 
-export interface FieldParentValueCondition {
+export interface FieldConditionValue {
   key: string;
   objectKey?: string;
   values?: any[] | boolean;

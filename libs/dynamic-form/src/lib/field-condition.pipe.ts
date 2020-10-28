@@ -1,19 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  map,
-  tap,
-  startWith,
-  scan,
-  distinctUntilChanged,
-} from 'rxjs/operators';
+import { map, tap, startWith, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Field, FieldTemplate } from './dynamic-form.types';
+import { FieldTemplate } from './dynamic-form.types';
 
 @Pipe({
-  name: 'fieldParent',
+  name: 'fieldCondition',
 })
-export class FieldParentPipe implements PipeTransform {
+export class FieldConditionPipe implements PipeTransform {
   transform(
     { condition, key }: FieldTemplate,
     form: FormGroup,
@@ -24,39 +18,43 @@ export class FieldParentPipe implements PipeTransform {
 
     const group = condition.fromParent ? form.parent || form : form;
 
-    if (!group.get(condition.key)) {
+    const parentControl = group.get(condition.key);
+
+    if (!parentControl) {
       console.log('No parent found!');
       return null;
     }
 
-    const parentControl = group.get(condition.key);
-
+    /* Note: return false to show the field! */
     return parentControl.valueChanges.pipe(
       startWith(parentControl.value),
       distinctUntilChanged(),
-      map((initialValue) => {
-        const value =
-          initialValue &&
-          condition.objectKey &&
-          typeof initialValue === 'object'
-            ? initialValue[condition.objectKey]
-            : initialValue;
+      map((fieldValue) => {
+        const valueIsObject = fieldValue && typeof fieldValue === 'object';
+        const actualValue =
+          valueIsObject && condition.objectKey
+            ? fieldValue[condition.objectKey]
+            : fieldValue;
 
         if (!condition.values && typeof condition.values !== 'boolean') {
-          return !value;
+          return !actualValue;
         }
         if (typeof condition.values === 'boolean') {
-          return !condition.values === value;
+          console.log(2);
+          return !condition.values === actualValue;
         }
         if (Array.isArray(condition.values)) {
-          return !condition.values.includes(value);
+          if (Array.isArray(actualValue)) {
+            return !condition.values.find((val) => actualValue.includes(val));
+          }
+          return !condition.values.includes(actualValue);
         }
         console.error('Can not define something');
         return true;
       }),
       distinctUntilChanged(),
-      tap((bool) => {
-        if (key && bool) {
+      tap((hide) => {
+        if (key && hide) {
           form.get(key).reset();
         }
       }),

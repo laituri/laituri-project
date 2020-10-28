@@ -35,7 +35,7 @@
       <div
         *ngFor="let field of fields"
         [ngSwitch]="field.type"
-        [hidden]="field | fieldParent: control | async"
+        [hidden]="field | fieldCondition: control | async"
       >
         <!-- Short text input fields -->
         <dyna-text

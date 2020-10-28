@@ -22,7 +22,7 @@ import {
   FieldTemplate,
   DynamicFormConfig,
   FieldOption,
-  FieldParentValueCondition,
+  FieldConditionValue,
 } from './dynamic-form.types';
 
 const relationFieldTemplates: FieldTemplate[] = [
@@ -368,7 +368,7 @@ export class DynamicFormService {
 
   private requiredIf(
     group: FormGroup,
-    parent: FieldParentValueCondition,
+    parent: FieldConditionValue,
     asyncCondition: (form: FormGroup) => Observable<boolean>,
     control: AbstractControl,
   ) {
@@ -404,7 +404,7 @@ export class DynamicFormService {
 
   private _requiredWithParent(
     // group: FormGroup,
-    condition: FieldParentValueCondition,
+    condition: FieldConditionValue,
     // control: AbstractControl,
   ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {

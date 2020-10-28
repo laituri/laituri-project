@@ -6,7 +6,7 @@
   <ng-container *ngFor="let field of fields">
     <div
       [ngSwitch]="field.type"
-      *ngIf="!(field | fieldParent: control | async)"
+      *ngIf="!(field | fieldCondition: control | async)"
       class="fields-container"
     >
       <!-- Short text input fields -->
