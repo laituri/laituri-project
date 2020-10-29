@@ -8,8 +8,8 @@ export const errorMessages = {
   tel: 'Value is not a phone number!',
   minlength: 'Answer is too short!',
   maxlength: 'Answer is too long!',
-  min: 'Too low value!',
-  max: 'Too hight!',
+  min: 'Value is too low!',
+  max: 'Value is too hight!',
   number: 'Value is not a number!',
 };
 
