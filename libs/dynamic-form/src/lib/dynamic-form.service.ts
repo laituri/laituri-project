@@ -438,9 +438,11 @@ export class DynamicFormService {
 
   private _numberValidation(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {
-      if (!Number(control.value)) {
+      // tslint:disable-next-line: triple-equals
+      if (!Number(control.value) && control.value != 0) {
         return { number: 'Value is not a number' };
       }
+      // Transform number string to a real number
       if (typeof control.value !== 'number') {
         control.setValue(Number(control.value));
         return null;
