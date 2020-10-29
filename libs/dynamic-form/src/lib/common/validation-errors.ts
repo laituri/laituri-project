@@ -2,11 +2,15 @@ import { ValidationErrors } from '@angular/forms';
 
 export const errorMessages = {
   required: 'This field is required!',
-  pattern: 'Invalid pattern!',
+  pattern: 'Current input has invalid pattern!',
   email: 'Value is not a valid email address!',
+  url: 'Value is not a valid url!',
+  tel: 'Value is not a phone number!',
   minlength: 'Answer is too short!',
   maxlength: 'Answer is too long!',
-  min: '',
+  min: 'Too low value!',
+  max: 'Too hight!',
+  number: 'Value is not a number!',
 };
 
 export const getErrorMessages = (errors: ValidationErrors): string | null => {
