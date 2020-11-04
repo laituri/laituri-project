@@ -278,12 +278,19 @@ dyna-hint {
   padding: 2px 4px;
   .info {
     grid-area: info;
-    display: flex;
+    display: grid;
+    grid-template-columns: 12px auto;
+    gap: 1px;
     align-items: center;
     font-family: var(--dyna-font-family);
     font-size: var(--dyna-font-size--label);
     font-weight: 600;
     cursor: grab;
+    .drag-handle {
+      height: 100%;
+      width: 100%;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABZJREFUeNpi2r9//38gYGAEESAAEGAAasgJOgzOKCoAAAAASUVORK5CYII=);
+    }
     .number {
       border: 1px solid #ccc;
       margin: 0 12px 0 0;
