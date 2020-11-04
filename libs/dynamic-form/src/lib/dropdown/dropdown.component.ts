@@ -92,6 +92,9 @@ export class DropdownComponent
         return val;
       });
     }
+    if (typeof value === 'string') {
+      return [value];
+    }
     return [];
   }
 
