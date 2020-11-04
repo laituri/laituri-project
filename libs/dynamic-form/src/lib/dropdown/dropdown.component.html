@@ -21,7 +21,7 @@
     type="text"
     [placeholder]="field.placeholder || 'Select'"
     #selectElement
-    [value]="selected | async | dropdownInputValue: field.display"
+    [value]="getSelectedOptions() | async | dropdownInputValue: field.display"
   />
 </div>
 
@@ -29,6 +29,8 @@
   {{ field.hint }}
 </dyna-hint>
 
-<ng-container *ngIf="field.display === 'chips' && selected | async as chips">
+<ng-container
+  *ngIf="field.display === 'chips' && getSelectedOptions() | async as chips"
+>
   <dyna-chip-list [chips]="chips"></dyna-chip-list>
 </ng-container>

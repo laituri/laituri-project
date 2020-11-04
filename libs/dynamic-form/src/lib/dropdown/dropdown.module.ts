@@ -5,7 +5,6 @@ import { DropdownComponent } from './dropdown.component';
 import { DynaCommonModule } from '../common/dynamic-form.module';
 import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.component';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DropdownService } from './dropdown.service';
 import { DropdownInputValuePipe } from './dropdown-input-value.pipe';
 import { DropdownOptionSelectedPipe } from './dropdown-overlay/dropdown-option-selected.pipe';
 import { ChipListModule } from '../chip-list/chip-list.module';
@@ -18,7 +17,6 @@ import { ChipListModule } from '../chip-list/chip-list.module';
     DropdownOptionSelectedPipe,
   ],
   exports: [DropdownComponent],
-  providers: [DropdownService],
   entryComponents: [DropdownOverlayComponent],
   imports: [
     CommonModule,

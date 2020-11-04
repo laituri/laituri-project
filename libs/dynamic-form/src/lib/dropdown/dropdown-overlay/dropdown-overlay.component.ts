@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DropdownService } from '../dropdown.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
-import { map } from 'rxjs/operators';
 import { DropdownField, FieldOption } from '../../dynamic-form.types';
 
 @Component({
@@ -11,25 +9,26 @@ import { DropdownField, FieldOption } from '../../dynamic-form.types';
   styleUrls: ['./dropdown-overlay.component.scss'],
 })
 export class DropdownOverlayComponent implements OnInit {
-  private overlayRef: OverlayRef;
+  public overlayRef: OverlayRef;
   public field: DropdownField;
-  public selectedKeys: Observable<string[]>;
-  constructor(private dropdownService: DropdownService) {}
+  public selectedOptions: BehaviorSubject<string[]>;
+  constructor() {}
 
-  ngOnInit(): void {
-    this.field = this.dropdownService.getField();
-    this.overlayRef = this.dropdownService.getOverlayRef();
-    this.selectedKeys = this.dropdownService
-      .getSelected()
-      .pipe(map((options) => (options ? options.map((op) => op.key) : [])));
-  }
+  ngOnInit(): void {}
 
-  select(option: FieldOption) {
-    if (this.field.multiple) {
-      this.dropdownService.toggleItem(option);
-    } else {
-      this.dropdownService.setSelected([option]);
+  public select(option: FieldOption) {
+    const selected = this.selectedOptions.value;
+
+    if (!this.field.multiple) {
+      // Toggle new value
+      this.selectedOptions.next([option.key]);
       this.overlayRef.dispose();
+    } else if (selected.find((key) => key === option.key)) {
+      // Remove previous
+      this.selectedOptions.next(selected.filter((key) => key !== option.key));
+    } else {
+      // Add new
+      this.selectedOptions.next([...selected, option.key]);
     }
   }
 }

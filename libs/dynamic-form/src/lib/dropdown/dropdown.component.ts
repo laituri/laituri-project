@@ -1,11 +1,17 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { OverlayRef, Overlay } from '@angular/cdk/overlay';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable, pipe } from 'rxjs';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.component';
-import { DropdownService } from './dropdown.service';
-import { skip, startWith, filter, map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 import { DropdownField, FieldOption } from '../dynamic-form.types';
 
@@ -14,7 +20,9 @@ import { DropdownField, FieldOption } from '../dynamic-form.types';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
 })
-export class DropdownComponent extends DynamicFormFieldBase implements OnInit {
+export class DropdownComponent
+  extends DynamicFormFieldBase
+  implements OnInit, OnDestroy {
   @Input()
   field: DropdownField;
   @Input()
@@ -24,23 +32,67 @@ export class DropdownComponent extends DynamicFormFieldBase implements OnInit {
     HTMLButtonElement
   >;
   private overlayRef: OverlayRef;
-  private subscriptions: Subscription[];
-  public selected: BehaviorSubject<FieldOption[]>;
+  private subscriptions: Subscription[] = [];
+  public selectedOptions = new BehaviorSubject<string[]>([]);
 
-  constructor(
-    private overlay: Overlay,
-    private dropdownService: DropdownService,
-  ) {
+  constructor(private overlay: Overlay) {
     super();
   }
 
   ngOnInit() {
-    this.dropdownService.setField(this.field);
-    this.selected = this.dropdownService.getSelected();
-    const selectedSubscription = this.selected
-      .pipe(skip(1))
-      .subscribe((selected) => this.setValue(selected));
-    this.subscriptions = [selectedSubscription];
+    const selectedOptions = this.getSelectedOptionKeysFromValue(
+      this.control.value,
+    );
+    this.selectedOptions.next(selectedOptions);
+    const selectedChangeSubscription = this.getSelectedOptions().subscribe(
+      (options) => {
+        this.setValue(options);
+      },
+    );
+
+    this.subscriptions.push(selectedChangeSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      try {
+        subscription.unsubscribe();
+      } catch (error) {}
+    });
+  }
+
+  public getSelectedOptions(): Observable<FieldOption[]> {
+    return this.selectedOptions.pipe(
+      map((keys) =>
+        this.field.options.filter((option) => keys.includes(option.key)),
+      ),
+    );
+  }
+
+  private getSelectedOptionKeysFromValue(value: any): string[] {
+    if (!value) {
+      return [];
+    }
+    if (Array.isArray(value)) {
+      // Array of keys
+      if (
+        value.every((val) => typeof val === 'string' || typeof val === 'number')
+      ) {
+        return value;
+      }
+      // Array of options, return keys
+      if (value.every((val) => val.key)) {
+        return value.map((val) => val.key);
+      }
+    }
+    if (typeof value === 'object') {
+      // Boolean map, return keys
+      return Object.keys(value).filter((key) => {
+        const val = value[key];
+        return val;
+      });
+    }
+    return [];
   }
 
   private contructValue(selected: FieldOption[]) {
@@ -58,10 +110,10 @@ export class DropdownComponent extends DynamicFormFieldBase implements OnInit {
       /* Data array */
       case 'data':
         return multiple
-          ? selected.map((op) => op.data)
-          : selected.map((op) => op.data)[0];
+          ? selected.map((op) => ({ [op.key]: op.data }))
+          : selected.map((op) => ({ [op.key]: op.data }))[0];
 
-      /* Key array */
+      /* Key array or single key */
       default:
         return multiple
           ? selected.map((op) => op.key)
@@ -92,9 +144,22 @@ export class DropdownComponent extends DynamicFormFieldBase implements OnInit {
           },
         ]),
     });
-    this.dropdownService.setOverlayRef(this.overlayRef);
-    const userProfilePortal = new ComponentPortal(DropdownOverlayComponent);
-    this.overlayRef.attach(userProfilePortal);
+
+    const portal = new ComponentPortal(DropdownOverlayComponent);
+    const { instance } = this.overlayRef.attach(portal);
+    instance.overlayRef = this.overlayRef;
+    instance.field = this.field;
+    instance.selectedOptions = this.selectedOptions;
+    /* Close */
+    const closeSubsciption = this.overlayRef
+      .detachments()
+      .pipe(first())
+      .subscribe(() => {
+        this.overlayRef = null;
+      });
+
+    this.subscriptions.push(closeSubsciption);
+
     const backdropSubscription = this.overlayRef
       .backdropClick()
       .subscribe(() => this.overlayRef.dispose());

@@ -1,6 +1,10 @@
-<ng-container *ngIf="field && selectedKeys | async as selectedKeys">
-  <option *ngFor="let option of field.options" [class]="'option ' + (option | dropdownOptionSelected:selectedKeys)"
-          (click)="select(option)" [title]="option.description || option.title">
-    {{option.title}}
+<ng-container *ngIf="field && selectedOptions | async as selected">
+  <option
+    *ngFor="let option of field.options"
+    [class]="'option ' + (option | dropdownOptionSelected: selected)"
+    (click)="select(option)"
+    [title]="option.description || option.title"
+  >
+    {{ option.title }}
   </option>
 </ng-container>
