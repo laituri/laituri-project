@@ -21,4 +21,4 @@ else
   echo -e "\n\e[92mNo packages to update \e[39m\n"
 fi
 
-read -n 1 -s -r -p "Press any key to exit"
+read -n 1 -s -r -p "\n\nPress any key to exit"
