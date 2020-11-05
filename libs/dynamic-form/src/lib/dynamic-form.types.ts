@@ -26,7 +26,8 @@ export type FieldTypes =
   | 'color'
   | 'chips'
   | 'file'
-  | 'action';
+  | 'action'
+  | string;
 
 export type SubFields = Field[] | (() => Field[]);
 

@@ -6,6 +6,7 @@ import {
   ViewChildren,
   ElementRef,
   QueryList,
+  TemplateRef,
 } from '@angular/core';
 import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
@@ -27,6 +28,8 @@ export class RepeaterComponent
   field: RepeaterField;
   @Input()
   controlsArray: FormArray;
+  @Input()
+  customFieldsTemplate: TemplateRef<any>;
 
   @ViewChildren('fieldsElement') subFields: QueryList<
     ElementRef<HTMLDivElement>

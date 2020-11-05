@@ -147,6 +147,7 @@
         [controlsArray]="getControl(control, field)"
         [field]="field"
         [fields]="field.fields"
+        [customFieldsTemplate]="customFieldsTemplate"
       >
       </dyna-repeater>
 
@@ -155,6 +156,7 @@
         [control]="getControl(control, field)"
         [field]="field"
         [fields]="field.fields"
+        [customFieldsTemplate]="customFieldsTemplate"
       >
       </dyna-group>
 
@@ -163,12 +165,20 @@
         [control]="getControl(control, field)"
         [field]="field"
         [fields]="field.fields"
+        [customFieldsTemplate]="customFieldsTemplate"
       >
       </dyna-group>
 
-      <div *ngSwitchDefault>
-        {{ field.type }}
-      </div>
+      <ng-container *ngSwitchDefault>
+        <ng-container *ngIf="customFieldsTemplate">
+          <ng-container
+            *ngTemplateOutlet="
+              customFieldsTemplate;
+              context: { field: field, control: getControl(control, field) }
+            "
+          ></ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </ng-container>
 

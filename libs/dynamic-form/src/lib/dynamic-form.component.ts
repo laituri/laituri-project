@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnChanges,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
@@ -32,6 +33,9 @@ export class DynamicFormComponent
     hidden: false,
     text: 'Submit',
   };
+  @Input()
+  customFieldsTemplate: TemplateRef<any>;
+
   @Output()
   submitForm = new EventEmitter<any>();
   @Output()

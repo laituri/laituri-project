@@ -4,6 +4,7 @@ import {
   Input,
   HostBinding,
   ElementRef,
+  TemplateRef,
 } from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
@@ -27,6 +28,8 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   field: GroupField | ContainerField;
   @Input()
   control: FormGroup;
+  @Input()
+  customFieldsTemplate: TemplateRef<any>;
 
   @HostBinding('class.row') get row() {
     return this.field.style && this.field.style.direction === 'row';
