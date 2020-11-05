@@ -443,10 +443,15 @@ export class DynamicFormService {
         return { number: 'Value is not a number' };
       }
       // Transform number string to a real number
-      if (typeof control.value !== 'number') {
-        control.setValue(Number(control.value));
+      if (typeof control.value === 'string') {
+        setTimeout(() => {
+          // Somehow setTimeout removes an error when number was a string
+          control.setValue(Number(control.value));
+        }, 1);
         return null;
       }
+      console.log(5, control);
+      // value is number
       return null;
     };
   }
