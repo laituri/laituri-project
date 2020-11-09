@@ -57,13 +57,17 @@ export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
       theme: 'snow',
     });
     const toolbar = this.markdownEditor.getModule('toolbar');
-    toolbar.addHandler('image', (value) => {
+    toolbar.addHandler('image', async (value) => {
       const events = this.field.events;
       const url =
         events && events.getImageUrl
-          ? events.getImageUrl(value)
+          ? await events.getImageUrl(value)
           : prompt('Link to the image');
-      this.markdownEditor.format('image', url);
+      if (url) {
+        const range = this.markdownEditor.getSelection();
+        this.markdownEditor.insertEmbed(range.index, 'image', url);
+        this.markdownEditor.setSelection(range.index + 1, 1);
+      }
     });
     const converter = new MarkdownToQuill({ debug: false });
     const ops = converter.convert(this.control.value || '');
