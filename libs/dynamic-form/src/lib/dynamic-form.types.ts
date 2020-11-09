@@ -167,6 +167,9 @@ export interface MarkdownField extends FormFieldBase<string> {
   type: 'markdown';
   elements?: MarkdownElements;
   validation?: FieldValidationText;
+  events?: {
+    getImageUrl?: (value: any) => string;
+  };
 }
 export interface FileField extends FormFieldBase<any> {
   type: 'file';

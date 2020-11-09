@@ -56,6 +56,15 @@ export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
       placeholder: this.field.placeholder || 'Compose an epic...',
       theme: 'snow',
     });
+    const toolbar = this.markdownEditor.getModule('toolbar');
+    toolbar.addHandler('image', (value) => {
+      const events = this.field.events;
+      const url =
+        events && events.getImageUrl
+          ? events.getImageUrl(value)
+          : prompt('Link to the image');
+      this.markdownEditor.format('image', url);
+    });
     const converter = new MarkdownToQuill({ debug: false });
     const ops = converter.convert(this.control.value || '');
     const delta = this.markdownEditor.getContents();
@@ -87,6 +96,7 @@ export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
       [{ list: 'ordered' }, { list: 'bullet' }].filter(
         (listType) => elements.lists[listType.list],
       ),
+      ['link', 'image'],
       ['clean'],
     ];
 

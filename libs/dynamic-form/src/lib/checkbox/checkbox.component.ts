@@ -18,14 +18,14 @@ export class CheckboxComponent extends DynamicFormFieldBase implements OnInit {
 
   ngOnInit() {}
 
-  handleChange(checked: boolean) {
+  public handleChange(checked: boolean): void {
     if (!this.control.disabled) {
       this.control.setValue(!checked);
       this.control.markAsTouched();
     }
   }
 
-  getChecked(): Observable<boolean> {
+  public getChecked(): Observable<boolean> {
     return this.control.valueChanges.pipe(startWith(this.control.value));
   }
 }
