@@ -279,7 +279,7 @@ dyna-hint {
   .info {
     grid-area: info;
     display: grid;
-    grid-template-columns: 12px auto;
+    grid-template-columns: 10px max-content auto;
     gap: 1px;
     align-items: center;
     font-family: var(--dyna-font-family);
