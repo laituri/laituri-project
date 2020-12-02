@@ -50,6 +50,11 @@ export const UserProfileFields: Field[] = [
     },
   },
   {
+    title: 'Birthday',
+    key: 'birthday',
+    type: 'date',
+  },
+  {
     title: 'Bio',
     key: 'bio',
     type: 'textarea',
