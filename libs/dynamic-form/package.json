@@ -3,9 +3,9 @@
   "description": "Create forms from json in Angular",
   "version": "0.1.0-alpha.0",
   "peerDependencies": {
-    "@angular/cdk": "10.x",
-    "@angular/common": "10.x",
-    "@angular/core": "10.x",
+    "@angular/cdk": "11.x",
+    "@angular/common": "11.x",
+    "@angular/core": "11.x",
     "@simonwep/pickr": "1.x",
     "js-datepicker": "5.x",
     "md-to-quill-delta": "1.0.9",
