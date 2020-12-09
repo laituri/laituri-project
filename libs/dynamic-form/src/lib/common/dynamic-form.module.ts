@@ -11,6 +11,11 @@ import { MarkdownModule } from 'ngx-markdown';
     ValidationHintDirective,
     DynaDescriptionComponent,
   ],
+  entryComponents: [
+    DynaLabelDirective,
+    ValidationHintDirective,
+    DynaDescriptionComponent,
+  ],
   imports: [CommonModule, MarkdownModule.forRoot()],
   exports: [
     DynaLabelDirective,

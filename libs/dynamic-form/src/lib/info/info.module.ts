@@ -5,6 +5,7 @@ import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [InfoComponent],
+  entryComponents: [InfoComponent],
   imports: [CommonModule, MarkdownModule.forRoot({})],
   exports: [InfoComponent],
 })

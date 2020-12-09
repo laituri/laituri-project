@@ -6,6 +6,7 @@ import { DynaCommonModule } from '../common/dynamic-form.module';
 
 @NgModule({
   declarations: [MarkdownComponent],
+  entryComponents: [MarkdownComponent],
   exports: [MarkdownComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
 })

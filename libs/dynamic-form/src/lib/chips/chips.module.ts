@@ -7,6 +7,7 @@ import { ChipListModule } from '../chip-list/chip-list.module';
 
 @NgModule({
   declarations: [ChipsComponent],
+  entryComponents: [ChipsComponent],
   imports: [
     CommonModule,
     DynaCommonModule,

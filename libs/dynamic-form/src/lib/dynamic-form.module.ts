@@ -35,6 +35,7 @@ import { DynamicFormComponentsFactoryDirective } from './dynamic-form-components
     ReactiveFormsModule,
     DragDropModule,
     DynaCommonModule,
+    /* Component modules */
     CheckboxModule,
     CheckboxGroupModule,
     ActionModule,

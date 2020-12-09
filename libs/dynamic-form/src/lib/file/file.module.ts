@@ -13,6 +13,7 @@ import { DropdownPreviewSizePipe } from './dropdown-preview-size.pipe';
     DropdownPreviewTextPipe,
     DropdownPreviewSizePipe,
   ],
+  entryComponents: [FileComponent],
   imports: [CommonModule, DynaCommonModule],
   exports: [FileComponent],
 })

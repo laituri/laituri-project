@@ -6,6 +6,7 @@ import { DynaCommonModule } from '../common/dynamic-form.module';
 
 @NgModule({
   declarations: [ColorComponent],
+  entryComponents: [ColorComponent],
   exports: [ColorComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
 })

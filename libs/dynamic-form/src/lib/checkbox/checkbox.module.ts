@@ -6,6 +6,7 @@ import { DynaCommonModule } from '../common/dynamic-form.module';
 
 @NgModule({
   declarations: [CheckboxComponent],
+  entryComponents: [CheckboxComponent],
   exports: [CheckboxComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
 })

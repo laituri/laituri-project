@@ -17,7 +17,7 @@ import { ChipListModule } from '../chip-list/chip-list.module';
     DropdownOptionSelectedPipe,
   ],
   exports: [DropdownComponent],
-  entryComponents: [DropdownOverlayComponent],
+  entryComponents: [DropdownComponent, DropdownOverlayComponent],
   imports: [
     CommonModule,
     DynaCommonModule,
