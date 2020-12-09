@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
-import { DropdownField, FieldOption } from '../../dynamic-form.types';
+import { DropdownField } from '../dropdown.types';
+import { FieldOption } from '../../dynamic-form.types';
 
 @Component({
   selector: 'dyna-dropdown-overlay',

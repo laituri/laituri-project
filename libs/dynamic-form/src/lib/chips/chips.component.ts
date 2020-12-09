@@ -1,15 +1,10 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {
-  map,
-  startWith,
-  distinctUntilChanged,
-  distinctUntilKeyChanged,
-  filter,
-} from 'rxjs/operators';
+import { map, startWith, filter } from 'rxjs/operators';
+import { ChipItem } from '../chip-list/chip-list.types';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { ChipsField, ChipItem } from '../dynamic-form.types';
+import { ChipsField } from './chips.types';
 
 @Component({
   selector: 'dyna-chips',

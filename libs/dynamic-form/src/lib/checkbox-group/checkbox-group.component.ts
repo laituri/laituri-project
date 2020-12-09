@@ -3,14 +3,15 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { CheckboxGroupField } from '../dynamic-form.types';
+import { CheckboxGroupField } from './checkbox-group.types';
 
 @Component({
   selector: 'dyna-checkbox-group',
   templateUrl: './checkbox-group.component.html',
   styleUrls: ['./checkbox-group.component.scss'],
 })
-export class CheckboxGroupComponent extends DynamicFormFieldBase
+export class CheckboxGroupComponent
+  extends DynamicFormFieldBase
   implements OnInit {
   @Input()
   field: CheckboxGroupField;

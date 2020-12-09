@@ -5,88 +5,112 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-  OnChanges,
-  SimpleChanges,
-  TemplateRef,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { DynamicFormBase } from './dynamic-form-base.class';
-import { debounceTime } from 'rxjs/operators';
-import { DynamicFormService } from './dynamic-form.service';
-import { DynamicFormConfig, FieldTemplate } from './dynamic-form.types';
+import {
+  debounceTime,
+  filter,
+  map,
+  mergeMap,
+  shareReplay,
+} from 'rxjs/operators';
+
+import {
+  DynamicFormFieldComponentConfig,
+  DynamicFormInputs,
+  FieldTemplate,
+  FormValues,
+} from './dynamic-form.types';
+import { DynamicForm } from './dynamic-form.class';
+import { DynamicFormFactory } from './dynamic-form-factory';
+import { DynamicFormHistory } from './dynamic-form-history';
+import { DynamicFormComponents } from './dynamic-form-components';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent
-  extends DynamicFormBase
-  implements OnInit, OnDestroy, OnChanges {
+export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input()
-  disabled = false;
+  inputs: DynamicForm;
+
   @Input()
-  config: DynamicFormConfig | Observable<DynamicFormConfig>;
-  @Input()
-  submit: { hidden?: boolean; text?: string } = {
-    hidden: false,
-    text: 'Submit',
-  };
-  @Input()
-  customFieldsTemplate: TemplateRef<any>;
+  components?: DynamicFormFieldComponentConfig[];
 
   @Output()
   submitForm = new EventEmitter<any>();
+
   @Output()
   valueChange = new EventEmitter<any>();
 
-  public form: FormGroup;
+  @ViewChild('formElement') formElement: ElementRef<HTMLElement>;
+
+  public inputsObservable: Observable<DynamicFormInputs>;
+  public formObservable: Observable<FormGroup>;
   public fields: FieldTemplate[];
+  public history: DynamicFormHistory;
+  public formComponents: DynamicFormComponents;
+  public formFactory: DynamicFormFactory;
 
   private subscriptions: Subscription[];
+  private valueChangesObservable: Observable<FormValues>;
+  private currentForm = new BehaviorSubject<FormGroup>(null);
+  private currentFormValues = new BehaviorSubject<FormValues>(null);
 
-  constructor(public dfs: DynamicFormService) {
-    super(dfs);
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    let configObservable: Observable<DynamicFormConfig>;
-    if (this.config instanceof Observable) {
-      configObservable = this.config;
-    } else {
-      configObservable = new BehaviorSubject(this.config);
-    }
+    this.formComponents = new DynamicFormComponents(this.components);
+    this.formFactory = new DynamicFormFactory(
+      this.formBuilder,
+      this.formComponents,
+    );
+    this.inputsObservable = this.inputs.getInputChanges();
 
-    const configSubscription = configObservable.subscribe((config) => {
-      this.fields = config.fields as FieldTemplate[];
-      this.form = this.formService.init(config);
-    });
+    this.formObservable = this.inputsObservable.pipe(
+      map((inputs) => {
+        const form = this.formFactory.contructForm(inputs);
+        this.currentForm.next(form);
+        return form;
+      }),
+      shareReplay(1),
+    );
 
-    const valueChangeSubscription = this.form.valueChanges
-      .pipe(debounceTime(420))
-      .subscribe((values) => {
+    this.valueChangesObservable = this.formObservable.pipe(
+      mergeMap((form) => {
+        return form.valueChanges;
+      }),
+      debounceTime(420),
+      shareReplay(1),
+    );
+
+    this.history = new DynamicFormHistory();
+
+    const valueChangeSubscription = this.valueChangesObservable.subscribe(
+      (values) => {
+        this.currentFormValues.next(values);
         this.valueChange.emit(values);
+        this.history.pushToHistory(values);
+      },
+    );
+
+    const historySubscription = this.history
+      .historyKeyboardEvents()
+      .pipe(filter((event) => !!event))
+      .subscribe((event) => {
+        const form = this.currentForm.value;
+        if (event === 'redo') {
+          this.history.redo(form);
+        }
+        if (event === 'undo') {
+          this.history.undo(form);
+        }
       });
-
-    const historySubscription = this.formService.startHistory();
-
-    this.subscriptions = [
-      configSubscription,
-      valueChangeSubscription,
-      historySubscription,
-    ];
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.disabled && this.form) {
-      if (changes.disabled.currentValue === true) {
-        this.form.disable({ emitEvent: false });
-      }
-      if (changes.disabled.currentValue !== true) {
-        this.form.enable({ emitEvent: false });
-      }
-    }
+    this.subscriptions = [valueChangeSubscription, historySubscription];
   }
 
   ngOnDestroy() {
@@ -96,7 +120,11 @@ export class DynamicFormComponent
   }
 
   public submitValues() {
-    const values = this.form.value;
-    this.submitForm.emit(values);
+    const { value } = this.currentFormValues;
+    this.submitForm.emit(value);
+  }
+
+  public getControl(control: FormGroup, field: { key: string }): any {
+    return control.get(field.key);
   }
 }

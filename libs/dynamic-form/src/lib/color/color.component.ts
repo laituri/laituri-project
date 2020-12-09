@@ -11,7 +11,7 @@ import { AbstractControl } from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { ColorField } from '../dynamic-form.types';
+import { ColorField } from './color.types';
 
 const defaultColors = {
   hex: '#0889DA',
@@ -23,7 +23,8 @@ const defaultColors = {
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.scss'],
 })
-export class ColorComponent extends DynamicFormFieldBase
+export class ColorComponent
+  extends DynamicFormFieldBase
   implements OnInit, OnDestroy {
   @Input()
   field: ColorField;
@@ -37,9 +38,8 @@ export class ColorComponent extends DynamicFormFieldBase
 
   @ViewChild('inputFieldElement', { static: true })
   inputFieldElement: ElementRef<HTMLInputElement>;
-  @ViewChild('pickerElement', { static: true }) pickerElement: ElementRef<
-    HTMLInputElement
-  >;
+  @ViewChild('pickerElement', { static: true })
+  pickerElement: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
     const { output, swatches, opacity } = this.field;

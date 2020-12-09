@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import datepicker from 'js-datepicker';
 import { DatePipe } from '@angular/common';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { DateField } from '../dynamic-form.types';
+import { DateField } from './date.types';
 
 @Component({
   selector: 'dyna-date',
@@ -17,9 +17,8 @@ export class DateComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   control: AbstractControl;
 
-  @ViewChild('pickerElement', { static: true }) pickerElement: ElementRef<
-    HTMLInputElement
-  >;
+  @ViewChild('pickerElement', { static: true })
+  pickerElement: ElementRef<HTMLInputElement>;
 
   private picker: any;
 

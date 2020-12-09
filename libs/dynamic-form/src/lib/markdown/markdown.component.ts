@@ -4,7 +4,7 @@ import Quill from 'quill';
 import turndown from 'turndown/lib/turndown.browser.umd.js';
 import { MarkdownToQuill } from 'md-to-quill-delta';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { MarkdownElements, MarkdownField } from '../dynamic-form.types';
+import { MarkdownElements, MarkdownField } from './markdown.types';
 
 /* TODO:
 - How to implement disabled?

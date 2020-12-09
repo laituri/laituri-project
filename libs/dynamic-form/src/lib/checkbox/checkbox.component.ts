@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { CheckboxField } from '../dynamic-form.types';
+import { CheckboxField } from './checkbox.types';
 
 @Component({
   selector: 'dyna-checkbox',

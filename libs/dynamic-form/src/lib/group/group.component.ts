@@ -1,20 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  HostBinding,
-  ElementRef,
-  TemplateRef,
-} from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { FormGroup } from '@angular/forms';
-import { DynamicFormService } from '../dynamic-form.service';
-import {
-  Field,
-  GroupField,
-  ContainerField,
-  FieldTemplate,
-} from '../dynamic-form.types';
+import { ContainerField, GroupField } from './group.types';
+import { DynamicFormComponents } from '../dynamic-form-components';
+import { DynamicFormFactory } from '../dynamic-form-factory';
 
 @Component({
   selector: 'dyna-group',
@@ -23,13 +12,12 @@ import {
 })
 export class GroupComponent extends DynamicFormBase implements OnInit {
   @Input()
-  fields: FieldTemplate[];
-  @Input()
   field: GroupField | ContainerField;
   @Input()
   control: FormGroup;
+  @Input() formComponents: DynamicFormComponents;
   @Input()
-  customFieldsTemplate: TemplateRef<any>;
+  formFactory: DynamicFormFactory;
 
   @HostBinding('class.row') get row() {
     return this.field.style && this.field.style.direction === 'row';
@@ -37,8 +25,8 @@ export class GroupComponent extends DynamicFormBase implements OnInit {
   @HostBinding('attr.group-title') get groupTitle() {
     return this.field.title;
   }
-  constructor(public dfs: DynamicFormService) {
-    super(dfs);
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {}

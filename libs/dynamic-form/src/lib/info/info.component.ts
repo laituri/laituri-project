@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { InfoField } from '../dynamic-form.types';
+import { InfoField } from './info.types';
 
 @Component({
   selector: 'dyna-info',

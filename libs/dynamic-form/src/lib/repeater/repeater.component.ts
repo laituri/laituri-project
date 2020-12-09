@@ -11,8 +11,10 @@ import {
 import { FormArray, FormControl } from '@angular/forms';
 import { DynamicFormBase } from '../dynamic-form-base.class';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { DynamicFormService } from '../dynamic-form.service';
-import { FieldTemplate, RepeaterField, Field } from '../dynamic-form.types';
+import { FieldTemplate, Field } from '../dynamic-form.types';
+import { RepeaterField } from './repeater.types';
+import { DynamicFormFactory } from '../dynamic-form-factory';
+import { DynamicFormComponents } from '../dynamic-form-components';
 
 @Component({
   selector: 'dyna-repeater',
@@ -23,22 +25,23 @@ export class RepeaterComponent
   extends DynamicFormBase
   implements OnInit, AfterViewInit {
   @Input()
-  fields: FieldTemplate[];
-  @Input()
   field: RepeaterField;
   @Input()
   controlsArray: FormArray;
+  @Input() formComponents: DynamicFormComponents;
   @Input()
-  customFieldsTemplate: TemplateRef<any>;
+  formFactory: DynamicFormFactory;
 
   @ViewChildren('fieldsElement') subFields: QueryList<
     ElementRef<HTMLDivElement>
   >;
 
-  constructor(public dfs: DynamicFormService) {
-    super(dfs);
+  constructor() {
+    super();
   }
+
   ngOnInit(): void {}
+
   ngAfterViewInit(): void {
     if (this.field.collapsed) {
       this.subFields.forEach(({ nativeElement }) => {
@@ -49,7 +52,9 @@ export class RepeaterComponent
   }
 
   public addItem() {
-    const item = this.contructForm(this.fields as FieldTemplate[], null);
+    const item = this.formFactory.formGroupFactory(
+      this.field.fields as FieldTemplate[],
+    );
     this.controlsArray.push(item);
   }
 

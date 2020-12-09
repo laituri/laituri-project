@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { RadioField } from '../dynamic-form.types';
+import { RadioField } from './radio.types';
 
 @Component({
   selector: 'dyna-radio',

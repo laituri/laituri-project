@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { TextField, TextFieldTypes } from '../dynamic-form.types';
+import { TextField, TextFieldTypes } from './text.types';
 
 @Component({
   selector: 'dyna-text',

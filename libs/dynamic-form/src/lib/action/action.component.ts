@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { ActionField, ActionFieldKeys } from '../dynamic-form.types';
+import { ActionField, ActionFieldKeys } from './action.types';
 
 @Component({
   selector: 'dyna-action',

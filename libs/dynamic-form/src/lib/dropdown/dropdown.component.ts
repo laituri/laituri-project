@@ -13,7 +13,8 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.component';
 import { first, map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
-import { DropdownField, FieldOption } from '../dynamic-form.types';
+import { FieldOption } from '../dynamic-form.types';
+import { DropdownField } from './dropdown.types';
 
 @Component({
   selector: 'dyna-dropdown',
@@ -28,9 +29,8 @@ export class DropdownComponent
   @Input()
   control: AbstractControl;
 
-  @ViewChild('selectElement', { static: false }) selectElement: ElementRef<
-    HTMLButtonElement
-  >;
+  @ViewChild('selectElement', { static: false })
+  selectElement: ElementRef<HTMLButtonElement>;
   private overlayRef: OverlayRef;
   private subscriptions: Subscription[] = [];
   public selectedOptions = new BehaviorSubject<string[]>([]);
