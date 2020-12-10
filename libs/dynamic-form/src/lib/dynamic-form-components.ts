@@ -7,7 +7,10 @@ import { DateComponentConfig } from './date/date.config';
 import { DropdownComponentConfig } from './dropdown/dropdown.config';
 import { DynamicFormFieldComponentConfig } from './dynamic-form.types';
 import { FileComponentConfig } from './file/file.config';
-import { GroupComponentConfig } from './group/group.config';
+import {
+  GroupComponentConfig,
+  ContantainerComponentConfig,
+} from './group/group.config';
 import { InfoComponentConfig } from './info/info.config';
 import { MarkdownComponentConfig } from './markdown/markdown.config';
 import { RadioComponentConfig } from './radio/radio.config';
@@ -23,6 +26,7 @@ export class DynamicFormComponents {
     TextareaComponentConfig,
     RepeaterComponentConfig,
     GroupComponentConfig,
+    ContantainerComponentConfig,
     ActionComponentConfig,
     CheckboxComponentConfig,
     CheckboxGroupComponentConfig,

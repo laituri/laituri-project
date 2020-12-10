@@ -25,6 +25,7 @@ export interface DynamicFormConfig {
 
 export interface FieldBase {
   title?: string;
+  description?: string;
   type: FieldTypes;
   style?: FieldStyleBase;
   validation?: FieldValidationBase;

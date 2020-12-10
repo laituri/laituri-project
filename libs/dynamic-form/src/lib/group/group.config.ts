@@ -6,3 +6,9 @@ export const GroupComponentConfig: DynamicFormFieldComponentConfig = {
   component: GroupComponent,
   type: 'formGroup',
 };
+
+export const ContantainerComponentConfig: DynamicFormFieldComponentConfig = {
+  key: 'container',
+  component: GroupComponent,
+  type: 'flatGroup',
+};

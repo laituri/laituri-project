@@ -1,6 +1,8 @@
 <p *ngIf="field.title" dyna-label [field]="field">
   {{ field.title }}
 </p>
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
 <div class="group-container">
   <div
     dynaComponentsFactory

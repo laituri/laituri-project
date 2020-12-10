@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DynamicFormFieldBase } from '../dynamic-form-field-base.class';
 import { InfoField } from './info.types';
 
 @Component({
@@ -6,11 +7,9 @@ import { InfoField } from './info.types';
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss'],
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent extends DynamicFormFieldBase implements OnInit {
   @Input()
   field: InfoField;
-
-  constructor() {}
 
   ngOnInit(): void {}
 }
