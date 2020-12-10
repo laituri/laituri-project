@@ -2,7 +2,11 @@
   {{ field.title }}
 </label>
 
-<dyna-description *ngIf="field.description" [body]="field.description">
+<dyna-description
+  *ngIf="field.description || field.descriptionTemplate"
+  [body]="field.description"
+  [template]="field.descriptionTemplate"
+>
 </dyna-description>
 
 <input
@@ -16,5 +20,3 @@
 <dyna-hint [field]="field" [control]="control">
   {{ field.hint }}
 </dyna-hint>
-
-<!-- [value]="control.value" (keyup)="change(input.value)" #input -->

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'dyna-description',
@@ -8,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DynaDescriptionComponent implements OnInit {
   @Input()
   body: string;
+  @Input()
+  template: TemplateRef<any>;
 
   constructor() {}
 

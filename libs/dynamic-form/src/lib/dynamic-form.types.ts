@@ -1,4 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
+import { TemplateRef } from '@angular/core';
 import { ValidatorFn } from '@angular/forms';
 
 export interface DynamicFormInputs {
@@ -35,6 +36,7 @@ export interface FieldBase {
 export interface FormFieldBase<T> extends FieldBase {
   key: string;
   description?: string;
+  descriptionTemplate?: TemplateRef<any>;
   placeholder?: string;
   hint?: string;
   disabled?: boolean;
