@@ -31,6 +31,7 @@ import { SubmitModule } from './submit/submit.module';
     GroupComponent,
     DynamicFormComponentsFactoryDirective,
   ],
+  entryComponents: [RepeaterComponent, GroupComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
