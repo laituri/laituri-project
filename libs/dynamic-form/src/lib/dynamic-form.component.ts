@@ -41,8 +41,13 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input()
   components?: DynamicFormFieldComponentConfig[];
 
+  @Input()
+  discardDefaultCompoents?: boolean;
+
+  /*
   @Output()
   submitForm = new EventEmitter<any>();
+  */
 
   @Output()
   valueChange = new EventEmitter<any>();
@@ -64,7 +69,10 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.formComponents = new DynamicFormComponents(this.components);
+    this.formComponents = new DynamicFormComponents(
+      this.components,
+      this.discardDefaultCompoents,
+    );
     this.formFactory = new DynamicFormFactory(
       this.formBuilder,
       this.formComponents,
@@ -121,7 +129,8 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
   public submitValues() {
     const { value } = this.currentFormValues;
-    this.submitForm.emit(value);
+    console.log('Old submit event!', { value });
+    // this.submitForm.emit(value);
   }
 
   public getControl(control: FormGroup, field: { key: string }): any {

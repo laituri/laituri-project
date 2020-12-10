@@ -21,6 +21,7 @@ import { ChipsModule } from './chips/chips.module';
 import { InfoModule } from './info/info.module';
 import { FileModule } from './file/file.module';
 import { DynamicFormComponentsFactoryDirective } from './dynamic-form-components.directive';
+import { SubmitModule } from './submit/submit.module';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DynamicFormComponentsFactoryDirective } from './dynamic-form-components
     ChipsModule,
     InfoModule,
     FileModule,
+    SubmitModule,
   ],
   exports: [DynamicFormComponent],
 })

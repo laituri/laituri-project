@@ -53,11 +53,20 @@ export class DynamicFormComponentsFactoryDirective
 
         this.applicationRef.attachView(component.hostView);
 
+        /* Set inputs */
         component.instance.field = field;
-        component.instance.control = this.formGroup.controls[field.key];
-        component.instance.controlsArray = this.formGroup.controls[field.key];
         component.instance.formComponents = this.formComponents;
         component.instance.formFactory = this.formFactory;
+
+        /* For visual fields give the parent control */
+        if (fieldConfig.type === 'visual') {
+          component.instance.control = this.formGroup;
+        } else {
+          component.instance.control = this.formGroup.controls[field.key];
+        }
+        if (fieldConfig.type === 'formArray') {
+          component.instance.controlsArray = this.formGroup.controls[field.key];
+        }
 
         if (field.condition) {
           const conditionSubscription = this.fieldCondition

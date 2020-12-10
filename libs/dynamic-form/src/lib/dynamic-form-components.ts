@@ -12,6 +12,7 @@ import { InfoComponentConfig } from './info/info.config';
 import { MarkdownComponentConfig } from './markdown/markdown.config';
 import { RadioComponentConfig } from './radio/radio.config';
 import { RepeaterComponentConfig } from './repeater/repeater.config';
+import { SubmitComponentConfig } from './submit/submit.config';
 import { TextComponentConfigs } from './text/text.config';
 import { TextareaComponentConfig } from './textarea/action.config';
 
@@ -33,16 +34,27 @@ export class DynamicFormComponents {
     InfoComponentConfig,
     MarkdownComponentConfig,
     RadioComponentConfig,
+    SubmitComponentConfig,
   ];
 
-  constructor(private components: DynamicFormFieldComponentConfig[] = []) {}
+  constructor(
+    private components: DynamicFormFieldComponentConfig[] = [],
+    private discardDefaults: boolean = false,
+  ) {}
 
   public getComponentConfig(key: string): DynamicFormFieldComponentConfig {
-    const components = [...this.components, ...this.defaultComponents];
+    const components = this.getComponentConfigs();
     const keyMatch = components.find((component) => component.key === key);
     if (keyMatch) {
       return keyMatch;
     }
     return null;
+  }
+
+  private getComponentConfigs(): DynamicFormFieldComponentConfig[] {
+    if (this.discardDefaults) {
+      return this.components;
+    }
+    return [...this.components, ...this.defaultComponents];
   }
 }

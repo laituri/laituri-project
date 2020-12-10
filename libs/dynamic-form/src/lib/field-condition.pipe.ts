@@ -54,22 +54,10 @@ export class FieldConditionPipe implements PipeTransform {
       }),
       distinctUntilChanged(),
       tap((hide) => {
-        if (key && hide) {
+        if (key && hide && form.get(key)) {
           form.get(key).reset();
         }
       }),
     );
-  }
-
-  clearValue(acc, cur, form: FormGroup, field) {
-    if (!form || !field || !form.get(field.key)) {
-      return cur;
-    }
-    if (acc !== cur && cur) {
-      form.get(field.key).setValue('');
-      form.get(field.key).markAsUntouched();
-    }
-    form.get(field.key).updateValueAndValidity({ onlySelf: true });
-    return cur;
   }
 }
