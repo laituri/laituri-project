@@ -31,6 +31,7 @@ export interface FieldBase {
   style?: FieldStyleBase;
   validation?: FieldValidationBase;
   condition?: FieldConditionValue;
+  info: FieldInfo;
 }
 
 export interface FormFieldBase<T> extends FieldBase {
@@ -63,6 +64,11 @@ export interface FieldStyleBase {
   className?: string;
   id?: string;
   css?: string;
+}
+
+export interface FieldInfo {
+  body: string;
+  icon?: string;
 }
 
 export interface FieldConditionValue {
