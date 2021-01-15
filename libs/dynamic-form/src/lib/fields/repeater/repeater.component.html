@@ -1,0 +1,49 @@
+<p *ngIf="field.title" dyna-label [field]="field">
+  {{ field.title }}
+</p>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
+<div class="repeater-container" cdkDropList (cdkDropListDropped)="drop($event)">
+  <div
+    class="repeater-child"
+    *ngFor="let formGroup of control.controls; let i = index"
+    cdkDrag
+    #repeaterChildElement
+  >
+    <div class="repeater-child-header">
+      <div class="info" cdkDragHandle (click)="hideItemFields(fieldsElement)">
+        <div class="drag-handle"></div>
+        <div class="number">
+          {{ i + 1 }}
+        </div>
+        <h4 class="title">
+          {{ getDisplayValue(formGroup) }}
+        </h4>
+      </div>
+      <div class="actions">
+        <button
+          class="dyna-button warning"
+          (click)="deleteControlItem(i, repeaterChildElement)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+    <div class="fields-container" #fieldsElement>
+      <div
+        dynaComponentsFactory
+        [formGroup]="formGroup"
+        [formComponents]="formComponents"
+        [fields]="field.fields"
+        [formFactory]="formFactory"
+      ></div>
+    </div>
+  </div>
+  <button class="dyna-button add-item" (click)="addItem()">Add new</button>
+
+  <dyna-hint [field]="field" [control]="control">
+    {{ field.hint }}
+  </dyna-hint>
+</div>

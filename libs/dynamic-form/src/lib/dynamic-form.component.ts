@@ -25,9 +25,9 @@ import {
   FormValues,
 } from './dynamic-form.types';
 import { DynamicForm } from './dynamic-form.class';
-import { DynamicFormFactory } from './dynamic-form-factory';
-import { DynamicFormHistory } from './dynamic-form-history';
-import { DynamicFormComponents } from './dynamic-form-components';
+import { DynamicFormFactory } from './core/dynamic-form-factory';
+import { DynamicFormHistory } from './core/dynamic-form-history';
+import { DynamicFormComponents } from './core/dynamic-form-components';
 
 @Component({
   selector: 'dynamic-form',
