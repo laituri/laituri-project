@@ -2,7 +2,7 @@ import { FieldValidationText, FormFieldBase } from '../../dynamic-form.types';
 
 export type HeadingSizes = 1 | 2 | 3 | 4 | 5 | 6;
 
-export interface MarkdownElements {
+export interface MarkdownEditorElements {
   headings?: HeadingSizes[];
   bold?: boolean;
   italic?: boolean;
@@ -16,9 +16,9 @@ export interface MarkdownElements {
   };
 }
 
-export interface MarkdownField extends FormFieldBase<string> {
-  type: 'markdown';
-  elements?: MarkdownElements;
+export interface MarkdownEditorField extends FormFieldBase<string> {
+  type: 'markdown-editor';
+  elements?: MarkdownEditorElements;
   validation?: FieldValidationText;
   events?: {
     getImageUrl?: (value: any) => Promise<string>;

@@ -4,13 +4,16 @@ import Quill from 'quill';
 import turndown from 'turndown/lib/turndown.browser.umd.js';
 import { MarkdownToQuill } from 'md-to-quill-delta';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
-import { MarkdownElements, MarkdownField } from './markdown.types';
+import {
+  MarkdownEditorElements,
+  MarkdownEditorField,
+} from './markdown-editor.types';
 
 /* TODO:
 - How to implement disabled?
 */
 
-const defaultElements: MarkdownElements = {
+const defaultElements: MarkdownEditorElements = {
   headings: [1, 2, 3, 4, 5, 6],
   blockquote: true,
   bold: true,
@@ -22,13 +25,15 @@ const defaultElements: MarkdownElements = {
 };
 
 @Component({
-  selector: 'dyna-markdown',
-  templateUrl: './markdown.component.html',
-  styleUrls: ['./markdown.component.scss'],
+  selector: 'dyna-markdown-editor',
+  templateUrl: './markdown-editor.component.html',
+  styleUrls: ['./markdown-editor.component.scss'],
 })
-export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
+export class MarkdownEditorComponent
+  extends DynamicFormFieldBase
+  implements OnInit {
   @Input()
-  field: MarkdownField;
+  field: MarkdownEditorField;
   @Input()
   control: AbstractControl;
   @ViewChild('markdownElement', { static: true })
@@ -53,7 +58,7 @@ export class MarkdownComponent extends DynamicFormFieldBase implements OnInit {
         },
       },
       readOnly: this.field.disabled,
-      placeholder: this.field.placeholder || 'Compose an epic...',
+      placeholder: this.field.placeholder || 'Lorem ipsum...',
       theme: 'snow',
     });
     const toolbar = this.markdownEditor.getModule('toolbar');

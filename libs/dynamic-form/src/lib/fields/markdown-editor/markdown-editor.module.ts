@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MarkdownEditorComponent } from './markdown-editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MarkdownComponent } from './markdown.component';
 import { DynaCommonModule } from '../../common/common.module';
 
 @NgModule({
-  declarations: [MarkdownComponent],
-  entryComponents: [MarkdownComponent],
-  exports: [MarkdownComponent],
+  declarations: [MarkdownEditorComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
+  exports: [MarkdownEditorComponent],
+  entryComponents: [MarkdownEditorComponent],
 })
-export class MarkdownModule {}
+export class MarkdownEditorModule {}

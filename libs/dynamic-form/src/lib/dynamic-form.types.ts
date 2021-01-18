@@ -113,6 +113,7 @@ export interface DynamicFormFieldComponentConfig {
   component: ComponentType<any>;
   type: 'formField' | 'visual' | 'formGroup' | 'flatGroup' | 'formArray';
   defaultValidators?: ValidatorFn[];
+  deprecatedWarning?: string;
 }
 
 /* Fields */

@@ -11,13 +11,16 @@ import {
   GroupComponentConfig,
   ContantainerComponentConfig,
 } from '../fields/group/group.config';
-import { InfoComponentConfig } from '../fields/info/info.config';
-import { MarkdownComponentConfig } from '../fields/markdown/markdown.config';
 import { RadioComponentConfig } from '../fields/radio/radio.config';
 import { RepeaterComponentConfig } from '../fields/repeater/repeater.config';
 import { SubmitComponentConfig } from '../fields/submit/submit.config';
 import { TextComponentConfigs } from '../fields/text/text.config';
 import { TextareaComponentConfig } from '../fields/textarea/action.config';
+import {
+  MarkdownTextSectionComponentAsInfoConfig,
+  MarkdownTextSectionComponentConfig,
+} from '../fields/markdown-text-section/markdown-text-section.config';
+import { MarkdownEditorComponentConfig } from '../fields/markdown-editor/markdown-editor.config';
 
 export class DynamicFormComponents {
   /* Default components */
@@ -35,8 +38,9 @@ export class DynamicFormComponents {
     DateComponentConfig,
     DropdownComponentConfig,
     FileComponentConfig,
-    InfoComponentConfig,
-    MarkdownComponentConfig,
+    MarkdownTextSectionComponentConfig,
+    MarkdownTextSectionComponentAsInfoConfig,
+    MarkdownEditorComponentConfig,
     RadioComponentConfig,
     SubmitComponentConfig,
   ];
@@ -50,6 +54,9 @@ export class DynamicFormComponents {
     const components = this.getComponentConfigs();
     const keyMatch = components.find((component) => component.key === key);
     if (keyMatch) {
+      if (keyMatch.deprecatedWarning) {
+        console.warn(keyMatch.deprecatedWarning);
+      }
       return keyMatch;
     }
     return null;
