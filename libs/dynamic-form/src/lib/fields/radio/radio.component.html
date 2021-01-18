@@ -1,11 +1,18 @@
-<p *ngIf="field.title" class="title" dyna-label [field]="field">
+<label
+  *ngIf="field.title"
+  class="title"
+  [for]="field.key"
+  dyna-label
+  [field]="field"
+>
   {{ field.title }}
-</p>
+  <dyna-info *ngIf="field.info" [info]="field.info"></dyna-info>
+</label>
 
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<div class="options-container">
+<div class="options-container" [id]="field.key">
   <div
     class="dyna-radio-container"
     *ngFor="let option of field.options"
