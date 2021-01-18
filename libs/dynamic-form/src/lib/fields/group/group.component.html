@@ -3,12 +3,11 @@
 </p>
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
-<fieldset class="group-container">
-  <div
-    dynaComponentsFactory
-    [formGroup]="control"
-    [formComponents]="formComponents"
-    [fields]="field.fields"
-    [formFactory]="formFactory"
-  ></div>
-</fieldset>
+<fieldset
+  class="group-container"
+  dynaComponentsFactory
+  [formGroup]="control"
+  [formComponents]="formComponents"
+  [fields]="field.fields"
+  [formFactory]="formFactory"
+></fieldset>
