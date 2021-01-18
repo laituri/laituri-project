@@ -16,13 +16,13 @@ import { RadioModule } from './fields/radio/radio.module';
 import { DropdownModule } from './fields/dropdown/dropdown.module';
 import { ColorModule } from './fields/color/color.module';
 import { DateModule } from './fields/date/date.module';
-import { MarkdownModule } from './fields/markdown/markdown.module';
 import { ChipsModule } from './fields/chips/chips.module';
-import { InfoModule } from './fields/info/info.module';
 import { FileModule } from './fields/file/file.module';
 import { DynamicFormComponentsFactoryDirective } from './core/dynamic-form-components.directive';
 import { SubmitModule } from './fields/submit/submit.module';
 import { MarkdownModule as NgxMarkdownModule } from 'ngx-markdown';
+import { MarkdownEditorModule } from './fields/markdown-editor/markdown-editor.module';
+import { MarkdownTextSectionModule } from './fields/markdown-text-section/markdown-text-section.module';
 
 @NgModule({
   declarations: [
@@ -49,11 +49,11 @@ import { MarkdownModule as NgxMarkdownModule } from 'ngx-markdown';
     DropdownModule,
     ColorModule,
     DateModule,
-    MarkdownModule,
     ChipsModule,
-    InfoModule,
     FileModule,
     SubmitModule,
+    MarkdownEditorModule,
+    MarkdownTextSectionModule,
   ],
   exports: [DynamicFormComponent],
 })
