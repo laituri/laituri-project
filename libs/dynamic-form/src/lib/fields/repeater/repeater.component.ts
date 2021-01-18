@@ -6,9 +6,8 @@ import {
   ViewChildren,
   ElementRef,
   QueryList,
-  TemplateRef,
 } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FieldTemplate, Field } from '../../dynamic-form.types';
 import { RepeaterField } from './repeater.types';
@@ -33,7 +32,7 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
     ElementRef<HTMLDivElement>
   >;
 
-  constructor() {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {}
 
@@ -47,10 +46,11 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
   }
 
   public addItem() {
-    const item = this.formFactory.formGroupFactory(
+    const controls = this.formFactory.formControlsFactory(
       this.field.fields as FieldTemplate[],
     );
-    this.control.push(item);
+    const formGroup = this.fb.group(controls);
+    this.control.push(formGroup);
   }
 
   public drop(event: CdkDragDrop<string[]>) {

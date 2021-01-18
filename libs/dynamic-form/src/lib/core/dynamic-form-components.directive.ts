@@ -120,6 +120,9 @@ export class DynamicFormComponentsFactoryDirective
     if (fieldConfig.type === 'visual') {
       return this.formGroup;
     }
+    if (fieldConfig.type === 'flatGroup') {
+      return this.formGroup;
+    }
     return this.formGroup.controls[field.key];
   }
 }

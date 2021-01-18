@@ -33,8 +33,8 @@ export class DynamicFormFactory {
   contructForm({ fields, values, locales }: DynamicFormInputs): FormGroup {
     this.localize = locales && locales.length > 0;
     this.locales = locales;
-
-    const form = this.formGroupFactory(fields as FieldTemplate[]);
+    const formControls = this.formControlsFactory(fields as FieldTemplate[]);
+    const form = this.fb.group(formControls);
     const mergedValues = this.mergeValues(form, values, this.form);
 
     form.patchValue(mergedValues);
@@ -70,66 +70,68 @@ export class DynamicFormFactory {
     };
   }
 
-  public formGroupFactory(fields: FieldTemplate[]): FormGroup {
-    return this.fb.group(
-      fields.reduce((acc, field) => {
-        const { defaultValue, type } = field;
-        const fieldConfig = this.formComponents.getComponentConfig(type);
+  public formControlsFactory(
+    fields: FieldTemplate[],
+  ): { [key: string]: AbstractControl } {
+    return fields.reduce((acc, field) => {
+      const { defaultValue, type } = field;
+      const fieldConfig = this.formComponents.getComponentConfig(type);
 
-        if (!fieldConfig || fieldConfig.type === 'visual') {
-          return acc;
-        }
+      if (!fieldConfig || fieldConfig.type === 'visual') {
+        return acc;
+      }
 
-        const validators = this._getValidators(field, fieldConfig);
+      const validators = this._getValidators(field, fieldConfig);
 
-        if (fieldConfig.type === 'formArray') {
-          const [validation, asyncValidation] = validators;
+      if (fieldConfig.type === 'formArray') {
+        const [validation, asyncValidation] = validators;
+        return {
+          ...acc,
+          [field.key]: this.fb.array(
+            defaultValue || [],
+            validation,
+            asyncValidation,
+          ),
+        };
+      }
+
+      if (
+        fieldConfig.type === 'formGroup' ||
+        fieldConfig.type === 'flatGroup'
+      ) {
+        const controls = this.formControlsFactory(
+          field.fields as FieldTemplate[],
+        );
+
+        if (fieldConfig.type === 'flatGroup') {
           return {
             ...acc,
-            [field.key]: this.fb.array(
-              defaultValue || [],
-              validation,
-              asyncValidation,
-            ),
+            ...controls,
           };
         }
 
-        if (
-          fieldConfig.type === 'formGroup' ||
-          fieldConfig.type === 'flatGroup'
-        ) {
-          const group = this.formGroupFactory(field.fields as FieldTemplate[]);
+        return {
+          ...acc,
+          [field.key]: this.fb.group(controls),
+        };
+      }
 
-          if (fieldConfig.type === 'flatGroup') {
-            return {
-              ...acc,
-              ...group.controls,
-            };
-          }
-
+      if (field.options) {
+        if (field.output === 'boolean-map') {
+          const group = this.contructControlFromOptions(
+            field.options,
+            defaultValue,
+          );
           return {
             ...acc,
             [field.key]: group,
           };
         }
+      }
 
-        if (field.options) {
-          if (field.output === 'boolean-map') {
-            const group = this.contructControlFromOptions(
-              field.options,
-              defaultValue,
-            );
-            return {
-              ...acc,
-              [field.key]: group,
-            };
-          }
-        }
-
-        const control = [defaultValue, ...validators];
-        return { ...acc, [field.key]: control };
-      }, {}),
-    );
+      const control = [defaultValue, ...validators];
+      return { ...acc, [field.key]: control };
+    }, {});
   }
 
   private contructControlFromOptions(
