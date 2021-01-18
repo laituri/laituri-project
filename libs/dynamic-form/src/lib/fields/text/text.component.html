@@ -6,13 +6,15 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<input
-  class="dyna-input"
-  [name]="field.key"
-  [type]="type"
-  [placeholder]="field.placeholder || ''"
-  [formControl]="control"
-/>
+<div class="dyna-field dyna-input-container">
+  <input
+    class="dyna-input"
+    [name]="field.key"
+    [type]="type"
+    [placeholder]="field.placeholder || ''"
+    [formControl]="control"
+  />
+</div>
 
 <dyna-hint [field]="field" [control]="control">
   {{ field.hint }}

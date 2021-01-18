@@ -12,7 +12,10 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<div class="options-container" [id]="field.key">
+<div
+  class="dyna-field dyna-options-container dyna-radio-options"
+  [id]="field.key"
+>
   <div
     class="dyna-radio-container"
     *ngFor="let option of field.options"

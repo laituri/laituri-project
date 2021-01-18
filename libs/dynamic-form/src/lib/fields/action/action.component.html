@@ -4,75 +4,76 @@
 
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
+<div class="dyna-field action-container">
+  <!-- Note: Button layout has no preview -->
+  <div
+    class="previews-container"
+    *ngIf="previewValues && field.preview.layout !== 'button'"
+  >
+    <ng-container *ngFor="let item of previewValues">
+      <ng-container *ngIf="item">
+        <ng-container [ngSwitch]="field.preview.layout">
+          <!-- Button layout -->
 
-<!-- Note: Button layout has no preview -->
-<div
-  class="previews-container"
-  *ngIf="previewValues && field.preview.layout !== 'button'"
->
-  <ng-container *ngFor="let item of previewValues">
-    <ng-container *ngIf="item">
-      <ng-container [ngSwitch]="field.preview.layout">
-        <!-- Button layout -->
-
-        <!-- Text layout -->
-        <div *ngSwitchCase="'text'">
-          <h2>
-            {{ item.text }}
-          </h2>
-        </div>
-
-        <!-- Input layout -->
-        <div *ngSwitchCase="'input'">
-          <input
-            class="dyna-input"
-            disabled
-            [placeholder]="field.placeholder || 'Value will be shown here'"
-            [value]="item.text"
-          />
-        </div>
-
-        <!-- Link layout -->
-        <div *ngSwitchCase="'link'">
-          <a class="link" [href]="item.url" target="_blank">
-            {{ item.url }}
-          </a>
-        </div>
-
-        <!-- Image layout -->
-        <div *ngSwitchCase="'image'">
-          <img class="image" [src]="item.image" alt="Preview image" />
-        </div>
-
-        <!-- Card layout -->
-        <div class="card-container" *ngSwitchCase="'card'">
-          <img class="image" [src]="item.image" alt="Preview image" />
-          <div class="id" *ngIf="item.id">
-            {{ item.id }}
+          <!-- Text layout -->
+          <div *ngSwitchCase="'text'">
+            <h2>
+              {{ item.text }}
+            </h2>
           </div>
-          <h2 class="title" *ngIf="item.title">
-            {{ item.title }}
-          </h2>
-          <p class="description" *ngIf="item.description">
-            {{ item.description }}
-          </p>
-        </div>
 
-        <div *ngSwitchDefault></div>
+          <!-- Input layout -->
+          <div *ngSwitchCase="'input'">
+            <input
+              class="dyna-input"
+              disabled
+              [placeholder]="field.placeholder || 'Value will be shown here'"
+              [value]="item.text"
+            />
+          </div>
+
+          <!-- Link layout -->
+          <div *ngSwitchCase="'link'">
+            <a class="link" [href]="item.url" target="_blank">
+              {{ item.url }}
+            </a>
+          </div>
+
+          <!-- Image layout -->
+          <div *ngSwitchCase="'image'">
+            <img class="image" [src]="item.image" alt="Preview image" />
+          </div>
+
+          <!-- Card layout -->
+          <div class="card-container" *ngSwitchCase="'card'">
+            <img class="image" [src]="item.image" alt="Preview image" />
+            <div class="id" *ngIf="item.id">
+              {{ item.id }}
+            </div>
+            <h2 class="title" *ngIf="item.title">
+              {{ item.title }}
+            </h2>
+            <p class="description" *ngIf="item.description">
+              {{ item.description }}
+            </p>
+          </div>
+
+          <div *ngSwitchDefault></div>
+        </ng-container>
+
+        <!--     <button class="dyna-button" *ngIf="control.value" (click)="clear()">Clear</button> -->
       </ng-container>
-
-      <!--     <button class="dyna-button" *ngIf="control.value" (click)="clear()">Clear</button> -->
     </ng-container>
-  </ng-container>
-</div>
+  </div>
 
-<button
-  class="dyna-button get-value-button"
-  (click)="getValue()"
-  [disabled]="control.disabled"
->
-  {{ field.button }}
-</button>
+  <button
+    class="dyna-button get-value-button"
+    (click)="getValue()"
+    [disabled]="control.disabled"
+  >
+    {{ field.button }}
+  </button>
+</div>
 
 <dyna-hint [field]="field" [control]="control">
   {{ field.hint }}

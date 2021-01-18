@@ -6,14 +6,15 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<textarea
-  class="dyna-input"
-  [name]="field.key"
-  [rows]="field.rows || 8"
-  [placeholder]="field.placeholder || 'Lorem ipsum'"
-  [formControl]="control"
-></textarea>
-
+<div class="dyna-field dyna-input-container">
+  <textarea
+    class="dyna-input"
+    [name]="field.key"
+    [rows]="field.rows || 8"
+    [placeholder]="field.placeholder || 'Lorem ipsum'"
+    [formControl]="control"
+  ></textarea>
+</div>
 <!-- 
 Need to think about this
 -->

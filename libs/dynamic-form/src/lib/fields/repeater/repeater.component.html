@@ -5,7 +5,11 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<div class="repeater-container" cdkDropList (cdkDropListDropped)="drop($event)">
+<div
+  class="dyna-repeater-container"
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+>
   <div
     class="repeater-child"
     *ngFor="let formGroup of control.controls; let i = index"

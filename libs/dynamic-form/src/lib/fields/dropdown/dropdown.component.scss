@@ -2,9 +2,9 @@
   display: flex;
   flex-flow: column nowrap;
   padding: 4px 0;
-  .input-container {
+  .dyna-input-container {
     position: relative;
-    input {
+    .dyna-input {
       cursor: pointer;
     }
     &::after {
