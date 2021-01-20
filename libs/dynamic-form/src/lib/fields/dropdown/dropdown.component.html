@@ -6,14 +6,6 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<!-- <select class="dyna-input" [name]="field.key" [formControl]="control">
-  <option *ngIf="field.placeholder" value="" disabled selected hidden>
-    {{field.placeholder}}
-  </option>
-  <option *ngFor="let option of field.options" [value]="option.key">
-    {{option.title}}
-  </option>
-</select> -->
 <div class="dyna-field dyna-input-container" (click)="openDropdown()">
   <input
     class="dyna-input"
@@ -24,6 +16,33 @@
     #selectElement
     [value]="getSelectedOptions() | async | dropdownInputValue: field.display"
   />
+  <div
+    class="overlay-origin"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+  ></div>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="overlayOpen"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    (backdropClick)="overlayOpen = false"
+  >
+    <div
+      class="dropdown-container"
+      *ngIf="field && selectedOptions | async as selected"
+    >
+      <option
+        *ngFor="let option of field.options"
+        [class]="'option ' + (option | dropdownOptionSelected: selected)"
+        (click)="select(option)"
+        [title]="option.description || option.title"
+      >
+        {{ option.title }}
+      </option>
+    </div>
+  </ng-template>
 </div>
 
 <dyna-hint [field]="field" [control]="control">

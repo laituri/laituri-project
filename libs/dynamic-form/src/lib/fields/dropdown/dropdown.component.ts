@@ -7,11 +7,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { OverlayRef, Overlay } from '@angular/cdk/overlay';
-import { Subscription, BehaviorSubject, Observable, pipe } from 'rxjs';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { DropdownOverlayComponent } from './dropdown-overlay/dropdown-overlay.component';
-import { first, map } from 'rxjs/operators';
+import { Overlay } from '@angular/cdk/overlay';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
 import { FieldOption } from '../../dynamic-form.types';
 import { DropdownField } from './dropdown.types';
@@ -31,13 +29,10 @@ export class DropdownComponent
 
   @ViewChild('selectElement', { static: false })
   selectElement: ElementRef<HTMLButtonElement>;
-  private overlayRef: OverlayRef;
+
   private subscriptions: Subscription[] = [];
   public selectedOptions = new BehaviorSubject<string[]>([]);
-
-  constructor(private overlay: Overlay) {
-    super();
-  }
+  public overlayOpen = false;
 
   ngOnInit() {
     const selectedOptions = this.getSelectedOptionKeysFromValue(
@@ -132,40 +127,29 @@ export class DropdownComponent
   }
 
   public openDropdown() {
-    this.overlayRef = this.overlay.create({
-      hasBackdrop: true,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
-      positionStrategy: this.overlay
-        .position()
-        .flexibleConnectedTo(this.selectElement)
-        .withPositions([
-          {
-            originX: 'start',
-            originY: 'bottom',
-            overlayX: 'start',
-            overlayY: 'top',
-          },
-        ]),
-    });
+    this.overlayOpen = true;
+  }
 
-    const portal = new ComponentPortal(DropdownOverlayComponent);
-    const { instance } = this.overlayRef.attach(portal);
-    instance.overlayRef = this.overlayRef;
-    instance.field = this.field;
-    instance.selectedOptions = this.selectedOptions;
-    /* Close */
-    const closeSubsciption = this.overlayRef
-      .detachments()
-      .pipe(first())
-      .subscribe(() => {
-        this.overlayRef = null;
-      });
-
-    this.subscriptions.push(closeSubsciption);
-
-    const backdropSubscription = this.overlayRef
-      .backdropClick()
-      .subscribe(() => this.overlayRef.dispose());
-    this.subscriptions.push(backdropSubscription);
+  public select(option: FieldOption) {
+    const selected = this.selectedOptions.value;
+    const alreadySelected = selected.find((key) => key === option.key);
+    if (alreadySelected) {
+      // Remove already selected
+      this.selectedOptions.next(selected.filter((key) => key !== option.key));
+      // On removal dispose if not a multiselect or is not required
+      if (
+        !this.field.multiple &&
+        (!this.field.validation || !this.field.validation.required)
+      ) {
+        this.overlayOpen = false;
+      }
+    } else if (!this.field.multiple) {
+      // Add only new value
+      this.selectedOptions.next([option.key]);
+      this.overlayOpen = false;
+    } else {
+      // Add new
+      this.selectedOptions.next([...selected, option.key]);
+    }
   }
 }
