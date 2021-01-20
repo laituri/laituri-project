@@ -11,13 +11,20 @@
     &::after {
       cursor: pointer;
       content: url('./dropdown-arrow.svg');
-      opacity: 0.8;
+      opacity: 0.5;
+      transition: 300ms;
+      height: fit-content;
       position: absolute;
       right: 10px;
-      top: 5px;
+      top: 6px;
       bottom: 0;
       display: flex;
       align-items: center;
+    }
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
     }
   }
 }

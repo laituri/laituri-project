@@ -7,7 +7,6 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Overlay } from '@angular/cdk/overlay';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
@@ -126,8 +125,8 @@ export class DropdownComponent
     }
   }
 
-  public openDropdown() {
-    this.overlayOpen = true;
+  public toggleDropdown() {
+    this.overlayOpen = !this.overlayOpen;
   }
 
   public select(option: FieldOption) {

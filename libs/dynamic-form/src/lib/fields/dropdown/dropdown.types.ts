@@ -1,3 +1,4 @@
+import { TemplateRef } from '@angular/core';
 import {
   FieldOption,
   FieldValidationArray,
@@ -12,4 +13,5 @@ export interface DropdownField extends FormFieldBase<string> {
   display?: 'input-only' | 'chips';
   options: FieldOption[];
   validation?: FieldValidationBase | FieldValidationArray;
+  overlayTemplate?: TemplateRef<any>;
 }

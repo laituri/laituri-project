@@ -6,7 +6,7 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<div class="dyna-field dyna-input-container" (click)="openDropdown()">
+<div class="dyna-field dyna-input-container" (click)="toggleDropdown()">
   <input
     class="dyna-input"
     disabled
@@ -16,32 +16,43 @@
     #selectElement
     [value]="getSelectedOptions() | async | dropdownInputValue: field.display"
   />
-  <div
-    class="overlay-origin"
-    cdkOverlayOrigin
-    #trigger="cdkOverlayOrigin"
-  ></div>
 
-  <ng-template
-    cdkConnectedOverlay
-    [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="overlayOpen"
-    [cdkConnectedOverlayHasBackdrop]="true"
-    (backdropClick)="overlayOpen = false"
-  >
+  <!-- Overlay template -->
+  <ng-container *ngIf="field.overlayTemplate; else defaultOverlay">
+    <ng-container
+      *ngTemplateOutlet="field.overlayTemplate; context: this"
+    ></ng-container>
+  </ng-container>
+
+  <!-- Default overlay  -->
+  <ng-template #defaultOverlay>
     <div
-      class="dropdown-container"
-      *ngIf="field && selectedOptions | async as selected"
+      class="overlay-origin"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+    ></div>
+
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="overlayOpen"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      (backdropClick)="overlayOpen = false"
     >
-      <option
-        *ngFor="let option of field.options"
-        [class]="'option ' + (option | dropdownOptionSelected: selected)"
-        (click)="select(option)"
-        [title]="option.description || option.title"
+      <div
+        class="dropdown-container"
+        *ngIf="field && selectedOptions | async as selected"
       >
-        {{ option.title }}
-      </option>
-    </div>
+        <option
+          *ngFor="let option of field.options"
+          [class]="'option ' + (option | dropdownOptionSelected: selected)"
+          (click)="select(option)"
+          [title]="option.description || option.title"
+        >
+          {{ option.title }}
+        </option>
+      </div>
+    </ng-template>
   </ng-template>
 </div>
 
