@@ -75,13 +75,18 @@ export class DynamicFormComponentsFactoryDirective
         }
 
         if (field.condition) {
+          const placeholderComment = document.createComment(
+            `Conditional field: "${field.key}"`,
+          );
+          document.body.appendChild(placeholderComment);
+          this.attachComponent(component);
           const conditionSubscription = this.fieldCondition
             .transform(field, this.formGroup)
             .subscribe((hidden) => {
               if (hidden) {
-                this.detachComponent(component);
+                this.detachComponent(component, placeholderComment);
               } else {
-                this.attachComponent(component);
+                this.attachComponent(component, placeholderComment);
               }
             });
           this.subscriptions.push(conditionSubscription);
@@ -97,19 +102,36 @@ export class DynamicFormComponentsFactoryDirective
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  private attachComponent(component: ComponentRef<any>) {
+  private attachComponent(
+    component: ComponentRef<any>,
+    placeholder?: HTMLElement | Comment,
+  ) {
     const parent = this.el.nativeElement;
     const child = component.location.nativeElement;
     if (!parent.contains(child)) {
-      parent.appendChild(component.location.nativeElement);
+      if (placeholder && parent.contains(placeholder)) {
+        parent.replaceChild(child, placeholder);
+      } else {
+        parent.appendChild(child);
+      }
     }
   }
 
-  private detachComponent(component: ComponentRef<any>) {
+  private detachComponent(
+    component: ComponentRef<any>,
+    placeholder?: HTMLElement | Comment,
+  ) {
     const parent = this.el.nativeElement;
     const child = component.location.nativeElement;
     if (parent.contains(child)) {
-      parent.removeChild(child);
+      if (placeholder) {
+        parent.replaceChild(placeholder, child);
+      } else {
+        parent.removeChild(child);
+      }
+    }
+    if (!parent.contains(placeholder)) {
+      parent.appendChild(placeholder);
     }
   }
 
