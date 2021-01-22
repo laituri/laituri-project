@@ -1,6 +1,5 @@
 <div
   class="dyna-field dyna-checkbox-container"
-  (click)="handleChange(checkbox.checked)"
   [ngClass]="{ checked: getChecked() | async }"
 >
   <input
@@ -14,11 +13,14 @@
     class="dyna-checkbox"
     [disabled]="control.disabled"
     [title]="'Toggle ' + field.title"
+    (mousedown)="handleChange(checkbox.checked)"
+    (keyup.enter)="handleChange(checkbox.checked)"
+    (keyup.space)="handleChange(checkbox.checked)"
   >
     <div class="dyna-checkbox-inner-icon"></div>
   </button>
   <label [for]="field.key">{{ field.title }}</label>
 </div>
-<dyna-hint [field]="field" [control]="control">
+<dyna-hint [field]="field" [control]="control" markdown>
   {{ field.hint }}
 </dyna-hint>
