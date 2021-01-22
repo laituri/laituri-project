@@ -40,7 +40,6 @@ export const numberValidator = (): ValidatorFn => {
       }, 1);
       return null;
     }
-    console.log(5, control);
     // value is number
     return null;
   };

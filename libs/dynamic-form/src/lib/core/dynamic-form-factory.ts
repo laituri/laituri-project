@@ -198,8 +198,6 @@ export class DynamicFormFactory {
     asyncCondition: (form: FormGroup) => Observable<boolean>,
     control: AbstractControl,
   ) {
-    console.log([1, group, 2, parent, 3, asyncCondition, 4, control]);
-
     if (asyncCondition) {
       const conditionValue = asyncCondition(group).pipe(first()).toPromise();
       const validation = conditionValue ? { conditionalRequired: true } : null;
