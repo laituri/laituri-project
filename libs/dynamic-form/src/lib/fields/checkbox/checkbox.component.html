@@ -19,8 +19,8 @@
   >
     <div class="dyna-checkbox-inner-icon"></div>
   </button>
-  <label [for]="field.key">{{ field.title }}</label>
+  <label [for]="field.key" markdown>{{ field.title }}</label>
 </div>
-<dyna-hint [field]="field" [control]="control" markdown>
+<dyna-hint [field]="field" [control]="control">
   {{ field.hint }}
 </dyna-hint>
