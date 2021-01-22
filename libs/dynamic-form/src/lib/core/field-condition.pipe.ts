@@ -40,7 +40,6 @@ export class FieldConditionPipe implements PipeTransform {
           return !actualValue;
         }
         if (typeof condition.values === 'boolean') {
-          console.log(2);
           return !condition.values === actualValue;
         }
         if (Array.isArray(condition.values)) {
