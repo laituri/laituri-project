@@ -20,7 +20,11 @@ import { ChipsModule } from './fields/chips/chips.module';
 import { FileModule } from './fields/file/file.module';
 import { DynamicFormComponentsFactoryDirective } from './core/dynamic-form-components.directive';
 import { SubmitModule } from './fields/submit/submit.module';
-import { MarkdownModule as NgxMarkdownModule } from 'ngx-markdown';
+import {
+  MarkdownModule as NgxMarkdownModule,
+  MarkedOptions,
+  MarkedRenderer,
+} from 'ngx-markdown';
 import { MarkdownEditorModule } from './fields/markdown-editor/markdown-editor.module';
 import { MarkdownTextSectionModule } from './fields/markdown-text-section/markdown-text-section.module';
 
@@ -38,7 +42,12 @@ import { MarkdownTextSectionModule } from './fields/markdown-text-section/markdo
     ReactiveFormsModule,
     DragDropModule,
     DynaCommonModule,
-    NgxMarkdownModule.forRoot(),
+    NgxMarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: markedOptionsFactory,
+      },
+    }),
     /* Component modules */
     CheckboxModule,
     CheckboxGroupModule,
@@ -58,3 +67,17 @@ import { MarkdownTextSectionModule } from './fields/markdown-text-section/markdo
   exports: [DynamicFormComponent],
 })
 export class DynamicFormModule {}
+
+export function markedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+
+  renderer.link = (href: string, title: string, text: string) => {
+    if (href.startsWith('/')) {
+      return `<a title=${title} href="${href}">${text}</a>`;
+    }
+    return `<a title=${title} href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+  };
+  return {
+    renderer: renderer,
+  };
+}
