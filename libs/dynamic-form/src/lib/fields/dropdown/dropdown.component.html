@@ -40,17 +40,20 @@
       (backdropClick)="overlayOpen = false"
     >
       <div
-        class="dropdown-container"
+        class="dyna-dropdown-container"
         *ngIf="field && selectedOptions | async as selected"
       >
-        <option
+        <button
           *ngFor="let option of field.options"
-          [class]="'option ' + (option | dropdownOptionSelected: selected)"
+          [class]="
+            'dyna-dropdown-option ' +
+            (option | dropdownOptionSelected: selected)
+          "
           (click)="select(option)"
           [title]="option.description || option.title"
         >
           {{ option.title }}
-        </option>
+        </button>
       </div>
     </ng-template>
   </ng-template>
