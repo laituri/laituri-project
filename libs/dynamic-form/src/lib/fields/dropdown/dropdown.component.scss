@@ -30,8 +30,7 @@
 }
 
 .dyna-dropdown-container {
-  display: flex;
-  flex-flow: column nowrap;
+  display: grid;
   border-radius: 2px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   background: #fff;
@@ -48,6 +47,7 @@
     border-radius: 0;
     text-align: left;
     transition: 200ms ease-out;
+    margin: 0;
     &:hover {
       background: #eee;
     }
