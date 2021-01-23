@@ -11,6 +11,9 @@
     class="dyna-checkbox-container"
     *ngFor="let option of field.options"
     [ngClass]="{ checked: getChecked(option.key) | async }"
+    (mousedown)="handleChange(option.key, checkbox.checked)"
+    (keyup.enter)="handleChange(option.key, checkbox.checked)"
+    (keyup.space)="handleChange(option.key, checkbox.checked)"
   >
     <input
       type="checkbox"
@@ -23,9 +26,6 @@
       class="dyna-checkbox"
       [disabled]="control.disabled"
       [title]="'Toggle ' + option.title"
-      (mousedown)="handleChange(option.key, checkbox.checked)"
-      (keyup.enter)="handleChange(option.key, checkbox.checked)"
-      (keyup.space)="handleChange(option.key, checkbox.checked)"
     >
       <div class="dyna-checkbox-inner-icon"></div>
     </button>
