@@ -58,7 +58,6 @@ export class DynamicFormComponentsFactoryDirective
         component.instance.formComponents = this.formComponents;
         component.instance.formFactory = this.formFactory;
 
-        /* For visual fields give the parent control */
         const control = this.getControl(fieldConfig, field);
         component.instance.control = control;
 
@@ -140,9 +139,11 @@ export class DynamicFormComponentsFactoryDirective
     field: any,
   ): AbstractControl {
     if (fieldConfig.type === 'visual') {
+      /* For visual fields give the parent control */
       return this.formGroup;
     }
     if (fieldConfig.type === 'flatGroup') {
+      /* For flatGroup fields give the parent control */
       return this.formGroup;
     }
     return this.formGroup.controls[field.key];

@@ -27,6 +27,7 @@ import {
 } from 'ngx-markdown';
 import { MarkdownEditorModule } from './fields/markdown-editor/markdown-editor.module';
 import { MarkdownTextSectionModule } from './fields/markdown-text-section/markdown-text-section.module';
+import { FormStateService } from './core/form-state.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MarkdownTextSectionModule } from './fields/markdown-text-section/markdo
     MarkdownTextSectionModule,
   ],
   exports: [DynamicFormComponent],
+  providers: [FormStateService],
 })
 export class DynamicFormModule {}
 

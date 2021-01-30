@@ -28,6 +28,7 @@ import { DynamicForm } from './dynamic-form.class';
 import { DynamicFormFactory } from './core/dynamic-form-factory';
 import { DynamicFormHistory } from './core/dynamic-form-history';
 import { DynamicFormComponents } from './core/dynamic-form-components';
+import { FormStateService } from './core/form-state.service';
 
 @Component({
   selector: 'dynamic-form',
@@ -42,12 +43,10 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   components?: DynamicFormFieldComponentConfig[];
 
   @Input()
-  discardDefaultCompoents?: boolean;
+  discardDefaultComponents?: boolean;
 
-  /*
   @Output()
-  submitForm = new EventEmitter<any>();
-  */
+  onSubmit = new EventEmitter<FormValues>();
 
   @Output()
   valueChange = new EventEmitter<any>();
@@ -66,12 +65,17 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   private currentForm = new BehaviorSubject<FormGroup>(null);
   private currentFormValues = new BehaviorSubject<FormValues>(null);
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private formState: FormStateService,
+  ) {}
 
   ngOnInit() {
+    this.inputs._setOnSubmit(this.onSubmit);
+    this.formState.setInputs(this.inputs);
     this.formComponents = new DynamicFormComponents(
       this.components,
-      this.discardDefaultCompoents,
+      this.discardDefaultComponents,
     );
     this.formFactory = new DynamicFormFactory(
       this.formBuilder,
@@ -83,6 +87,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       map((inputs) => {
         const form = this.formFactory.contructForm(inputs);
         this.currentForm.next(form);
+        this.inputs._setForm(form);
         return form;
       }),
       shareReplay(1),
@@ -130,7 +135,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   public submitValues() {
     const { value } = this.currentFormValues;
     console.log('Old submit event!', { value });
-    // this.submitForm.emit(value);
+    this.onSubmit.emit(value);
   }
 
   public getControl(control: FormGroup, field: { key: string }): any {
