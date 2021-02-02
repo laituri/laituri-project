@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Field, DynamicForm } from 'dynamic-form';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { DynamicForm } from 'dynamic-form';
 
 @Component({
   selector: 'app-example-view',
@@ -22,6 +22,7 @@ export class ExampleViewComponent implements OnInit {
       map((data) => {
         return new DynamicForm(Object.values(data));
       }),
+      shareReplay(1),
     );
 
     this.fieldsJson = this.dynamicForm.pipe(
