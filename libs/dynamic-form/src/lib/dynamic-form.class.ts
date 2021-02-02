@@ -2,7 +2,7 @@
 import { EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { filter, first, map, shareReplay, switchMap } from 'rxjs/operators';
 import { DynamicFormInputs, Field, FormValues } from './dynamic-form.types';
 
 export class DynamicForm<T = FormValues> {
@@ -15,8 +15,8 @@ export class DynamicForm<T = FormValues> {
   public onSubmit: EventEmitter<T>;
 
   constructor(
-    private fields: Field[],
-    private values?: FormValues,
+    private fields: Field[] = [],
+    private values: FormValues = {},
     private locales?: string[],
     private disabled?: boolean,
   ) {}
@@ -36,13 +36,25 @@ export class DynamicForm<T = FormValues> {
     return this.localesSubject;
   }
   public getInputChanges(): Observable<DynamicFormInputs> {
+    const initialFormValues = this.formSubject.pipe(
+      first(),
+      map((form) => {
+        if (form && form.value) {
+          return form.value;
+        }
+        return {};
+      }),
+    );
     return combineLatest([
       this.fieldsSubject,
       this.valuesSubject,
       this.localesSubject,
+      this.disabledSubject,
+      initialFormValues,
     ]).pipe(
-      map(([fields, values, locales]) => {
-        return { fields, values, locales };
+      map(([fields, initialValues, locales, disabled, initialFormValues]) => {
+        const values = { ...initialValues, ...initialFormValues };
+        return { fields, values: { values }, locales, disabled };
       }),
       shareReplay(1),
     );
