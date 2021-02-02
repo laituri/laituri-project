@@ -15,8 +15,8 @@ export class DynamicForm<T = FormValues> {
   public onSubmit: EventEmitter<T>;
 
   constructor(
-    private fields: Field[] = [],
-    private values: FormValues = {},
+    private fields: Field[],
+    private values: FormValues,
     private locales?: string[],
     private disabled?: boolean,
   ) {}
@@ -42,10 +42,9 @@ export class DynamicForm<T = FormValues> {
       this.localesSubject,
       this.disabledSubject,
     ]).pipe(
-      map(([fields, initialValues, locales, disabled]) => {
+      map(([fields, values, locales, disabled]) => {
         const form = this.formSubject.value;
-        const values = { ...initialValues, ...form.value };
-        return { fields, values, locales, disabled };
+        return { fields, values, locales, disabled, form };
       }),
       shareReplay(1),
     );

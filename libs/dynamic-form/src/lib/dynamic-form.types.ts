@@ -1,12 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { TemplateRef } from '@angular/core';
-import { ValidatorFn } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export interface DynamicFormInputs {
   fields: Field[];
   values?: FormValues;
   locales?: string[];
   disabled?: boolean;
+  form?: FormGroup;
 }
 
 export type FieldTypes = string;

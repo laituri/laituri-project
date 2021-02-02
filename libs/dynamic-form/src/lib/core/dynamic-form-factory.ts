@@ -30,67 +30,74 @@ export class DynamicFormFactory {
     private formComponents: DynamicFormComponents,
   ) {}
 
-  contructForm({ fields, values, locales }: DynamicFormInputs): FormGroup {
+  contructForm({
+    fields,
+    values,
+    locales,
+    ...inputs
+  }: DynamicFormInputs): FormGroup {
     this.localize = locales && locales.length > 0;
     this.locales = locales;
-    const formControls = this.formControlsFactory(fields as FieldTemplate[]);
+    const mergedValues = this.mergeValues(values, inputs.form);
+    const formControls = this.formControlsFactory(
+      fields as FieldTemplate[],
+      mergedValues,
+    );
     const form = this.fb.group(formControls);
-    const mergedValues = this.mergeValues(form, values, this.form);
-    form.patchValue(mergedValues);
     this.form = form;
 
     return this.form;
   }
 
   private mergeValues(
-    newForm: FormGroup, // Default Values
-    inputValues: FormValues, // Values from input
-    currentForm: FormGroup, // Old values before changes
+    inputValues?: FormValues, // Values from input
+    initialForm?: FormGroup, // Old form values before rebuild
   ): FormValues {
-    if (!inputValues || typeof inputValues !== 'object') {
-      if (currentForm) {
-        return {
-          ...newForm.value,
-          ...currentForm.value,
-        };
+    if (inputValues && typeof inputValues === 'object') {
+      if (initialForm && initialForm.value) {
+        return { ...inputValues, ...initialForm.value };
       }
-      return newForm.value;
+      return inputValues;
     }
-    if (currentForm) {
-      return {
-        ...newForm.value,
-        ...inputValues,
-        ...currentForm.value,
-      };
+    if (initialForm && initialForm.value) {
+      return initialForm.value;
     }
-    return {
-      ...newForm.value,
-      ...inputValues,
-    };
+    return null;
   }
 
   public formControlsFactory(
     fields: FieldTemplate[],
+    values?: FormValues,
   ): { [key: string]: AbstractControl } {
     return fields.reduce((acc, field) => {
-      const { defaultValue, type } = field;
+      const { type } = field;
       const fieldConfig = this.formComponents.getComponentConfig(type);
 
       if (!fieldConfig || fieldConfig.type === 'visual') {
         return acc;
       }
 
+      const value = this.getValueForField(field, values);
       const validators = this._getValidators(field, fieldConfig);
 
       if (fieldConfig.type === 'formArray') {
         const [validation, asyncValidation] = validators;
+        if (value && Array.isArray(value) && value.length > 0) {
+          const group = value.map((val) => {
+            const controls = this.formControlsFactory(
+              field.fields as FieldTemplate[],
+              val,
+            );
+            return this.fb.group(controls);
+          });
+          return {
+            ...acc,
+            [field.key]: this.fb.array(group, validation, asyncValidation),
+          };
+        }
         return {
           ...acc,
-          [field.key]: this.fb.array(
-            defaultValue || [],
-            validation,
-            asyncValidation,
-          ),
+          [field.key]: this.fb.array(value || [], validation, asyncValidation),
         };
       }
 
@@ -100,6 +107,7 @@ export class DynamicFormFactory {
       ) {
         const controls = this.formControlsFactory(
           field.fields as FieldTemplate[],
+          value,
         );
 
         if (fieldConfig.type === 'flatGroup') {
@@ -117,10 +125,7 @@ export class DynamicFormFactory {
 
       if (field.options) {
         if (field.output === 'boolean-map') {
-          const group = this.contructControlFromOptions(
-            field.options,
-            defaultValue,
-          );
+          const group = this.contructControlFromOptions(field.options, value);
           return {
             ...acc,
             [field.key]: group,
@@ -128,9 +133,36 @@ export class DynamicFormFactory {
         }
       }
 
-      const control = [defaultValue, ...validators];
+      const control = [value, ...validators];
       return { ...acc, [field.key]: control };
     }, {});
+  }
+
+  private getValueForField(
+    { key, value, defaultValue }: FieldTemplate,
+    values?: any,
+  ) {
+    if (!values || !key) {
+      return null;
+    }
+
+    if (typeof values !== 'object') {
+      return null;
+    }
+
+    if (values[key]) {
+      return values[key];
+    }
+
+    if (value) {
+      return value;
+    }
+
+    if (defaultValue) {
+      return defaultValue;
+    }
+
+    return null;
   }
 
   private contructControlFromOptions(

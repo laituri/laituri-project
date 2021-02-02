@@ -146,6 +146,10 @@ export class DynamicFormComponentsFactoryDirective
       /* For flatGroup fields give the parent control */
       return this.formGroup;
     }
+    if (fieldConfig.type === 'formArray') {
+      /* For flatGroup fields give the parent control */
+      return this.formGroup.controls[field.key];
+    }
     return this.formGroup.controls[field.key];
   }
 }
