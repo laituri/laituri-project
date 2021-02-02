@@ -16,7 +16,7 @@ export class DynamicForm<T = FormValues> {
 
   constructor(
     private fields: Field[],
-    private values: FormValues,
+    private values?: FormValues,
     private locales?: string[],
     private disabled?: boolean,
   ) {}
