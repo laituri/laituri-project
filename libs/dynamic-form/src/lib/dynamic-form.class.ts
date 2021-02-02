@@ -36,25 +36,16 @@ export class DynamicForm<T = FormValues> {
     return this.localesSubject;
   }
   public getInputChanges(): Observable<DynamicFormInputs> {
-    const initialFormValues = this.formSubject.pipe(
-      first(),
-      map((form) => {
-        if (form && form.value) {
-          return form.value;
-        }
-        return {};
-      }),
-    );
     return combineLatest([
       this.fieldsSubject,
       this.valuesSubject,
       this.localesSubject,
       this.disabledSubject,
-      initialFormValues,
     ]).pipe(
-      map(([fields, initialValues, locales, disabled, initialFormValues]) => {
-        const values = { ...initialValues, ...initialFormValues };
-        return { fields, values: { values }, locales, disabled };
+      map(([fields, initialValues, locales, disabled]) => {
+        const form = this.formSubject.value;
+        const values = { ...initialValues, ...form.value };
+        return { fields, values, locales, disabled };
       }),
       shareReplay(1),
     );

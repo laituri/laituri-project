@@ -36,7 +36,6 @@ export class DynamicFormFactory {
     const formControls = this.formControlsFactory(fields as FieldTemplate[]);
     const form = this.fb.group(formControls);
     const mergedValues = this.mergeValues(form, values, this.form);
-
     form.patchValue(mergedValues);
     this.form = form;
 
