@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
 import { CheckboxField } from './checkbox.types';
 
@@ -18,6 +16,10 @@ export class CheckboxComponent extends DynamicFormFieldBase implements OnInit {
 
   ngOnInit() {}
 
+  get checked(): boolean {
+    return this.control.value;
+  }
+
   public handleChange(checked: boolean, event?: MouseEvent): void {
     if (
       event &&
@@ -29,9 +31,5 @@ export class CheckboxComponent extends DynamicFormFieldBase implements OnInit {
       this.control.setValue(!checked);
       this.control.markAsTouched();
     }
-  }
-
-  public getChecked(): Observable<boolean> {
-    return this.control.valueChanges.pipe(startWith(this.control.value));
   }
 }

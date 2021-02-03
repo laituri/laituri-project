@@ -20,7 +20,8 @@ export class CheckboxGroupComponent
 
   ngOnInit() {}
 
-  handleChange(key: string, checked: boolean) {
+  public handleChange(key: string) {
+    const checked = this.getChecked(key);
     if (!this.control.disabled) {
       if (this.field.output === 'boolean-map') {
         this.control.controls[key].setValue(!checked);
@@ -38,18 +39,15 @@ export class CheckboxGroupComponent
     }
   }
 
-  getChecked(key: string): Observable<boolean> {
-    return this.control.valueChanges.pipe(
-      startWith(this.control.value),
-      map((values: string[]) => {
-        if (values) {
-          if (this.field.output === 'boolean-map') {
-            return values[key];
-          }
-          return values.includes(key);
-        }
-        return false;
-      }),
-    );
+  private getChecked(key: string): boolean {
+    const values = this.control.value;
+
+    if (values) {
+      if (this.field.output === 'boolean-map') {
+        return values[key];
+      }
+      return values.includes(key);
+    }
+    return false;
   }
 }
