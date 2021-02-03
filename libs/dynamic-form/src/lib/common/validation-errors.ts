@@ -1,22 +1,33 @@
 import { ValidationErrors } from '@angular/forms';
+import { ErrorMessages } from '../dynamic-form.types';
 
-export const errorMessages = {
+export const defaultErrorMessages: ErrorMessages = {
   required: 'This field is required!',
   pattern: 'Current input has invalid pattern!',
   email: 'Value is not a valid email address!',
   url: 'Value is not a valid url!',
   tel: 'Value is not a phone number!',
-  minlength: 'Answer is too short!',
-  maxlength: 'Answer is too long!',
+  minLength: 'Answer is too short!',
+  maxLength: 'Answer is too long!',
   min: 'Value is too low!',
   max: 'Value is too hight!',
   number: 'Value is not a number!',
 };
 
-export const getErrorMessages = (errors: ValidationErrors): string | null => {
+export const getErrorMessages = (
+  errors: ValidationErrors,
+  customErrorMessages?: ErrorMessages,
+): string | null => {
   if (!errors || !Object.keys(errors).length) {
     return null;
   }
+
+  const errorMessages = customErrorMessages
+    ? {
+        ...defaultErrorMessages,
+        ...customErrorMessages,
+      }
+    : defaultErrorMessages;
 
   if (errors.required) {
     return errorMessages.required;
@@ -29,8 +40,7 @@ export const getErrorMessages = (errors: ValidationErrors): string | null => {
     return errors[activeErrorKey];
   }
 
-  const activeError =
-    errorMessages[activeErrorKey] || 'This field has something wrong!';
+  const activeError = errorMessages[activeErrorKey] || 'This field is invalid!';
 
   return activeError;
 };

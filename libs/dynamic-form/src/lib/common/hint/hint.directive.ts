@@ -7,8 +7,9 @@ import {
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { getErrorMessages } from '../validation-errors';
-import { FieldTemplate } from '../../dynamic-form.types';
+import { getErrorMessages as getErrorMessage } from '../validation-errors';
+import { ErrorMessages, FieldTemplate } from '../../dynamic-form.types';
+import { FormStateService } from '../../core/form-state.service';
 
 @Directive({
   selector: 'dyna-hint',
@@ -20,7 +21,10 @@ export class HintDirective implements OnInit {
 
   @HostBinding('class.dyna-error-message') error = false;
 
-  constructor(private el: ElementRef<HTMLElement>) {}
+  constructor(
+    private el: ElementRef<HTMLElement>,
+    private state: FormStateService,
+  ) {}
 
   ngOnInit() {
     if (this.control) {
@@ -33,14 +37,36 @@ export class HintDirective implements OnInit {
           }
           if (status === 'INVALID') {
             this.error = true;
-            const errorMessage = getErrorMessages(this.control.errors);
+            const errorMessages = this.getErrorMessages();
+            const errorMessage = getErrorMessage(
+              this.control.errors,
+              errorMessages,
+            );
             this.setText(errorMessage);
           }
         });
     }
   }
 
-  setText(text: string) {
+  private setText(text: string) {
     this.el.nativeElement.innerText = text;
+  }
+
+  private getErrorMessages(): ErrorMessages {
+    const fieldErrorMessages =
+      this.field.validation && this.field.validation.errorMessages;
+
+    const globalErrorMessages = this.state.inputs.getErrorMessages();
+
+    if (fieldErrorMessages) {
+      if (globalErrorMessages) {
+        return {
+          ...globalErrorMessages,
+          ...fieldErrorMessages,
+        };
+      }
+      return fieldErrorMessages;
+    }
+    return null;
   }
 }

@@ -82,6 +82,8 @@ export interface FieldConditionValue {
 export interface FieldValidationBase {
   required?: boolean;
   pattern?: string;
+  patterns?: { [key: string]: string };
+  errorMessages?: { [key: string]: string };
 }
 export interface FieldValidationArray extends FieldValidationBase {
   minItems?: number;
@@ -94,6 +96,10 @@ export interface FieldValidationText extends FieldValidationBase {
 export interface FieldValidationNumber extends FieldValidationBase {
   min?: any;
   max?: any;
+}
+
+export interface ErrorMessages {
+  [key: string]: string;
 }
 
 export interface FieldValidationTemplate

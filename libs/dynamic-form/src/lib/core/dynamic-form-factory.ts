@@ -7,8 +7,6 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { DynamicFormComponents } from './dynamic-form-components';
 import {
   FieldTemplate,
@@ -177,7 +175,7 @@ export class DynamicFormFactory {
   }
 
   private _getValidators(
-    { type, validation, condition, asyncCondition, output }: FieldTemplate,
+    { validation, condition }: FieldTemplate,
     fieldConfig: DynamicFormFieldComponentConfig,
   ): [ValidatorFn[], AsyncValidatorFn[]] {
     const validators: ValidatorFn[] = fieldConfig.defaultValidators || [];
@@ -206,55 +204,56 @@ export class DynamicFormFactory {
 
     /* Length */
     if (validation.minLength) {
-      if (type === 'repeater') {
-        validators.push(this._minLengthArray(validation.minLength));
-      } else {
-        validators.push(Validators.minLength(validation.minLength));
-      }
+      const validatorFn = this.createValidatorFn<any[]>(
+        (value) => value.length >= validation.minLength,
+        'minLength',
+      );
+      validators.push(validatorFn);
     }
     if (validation.maxLength) {
-      validators.push(Validators.maxLength(validation.maxLength));
+      const validatorFn = this.createValidatorFn<any[]>(
+        (value) => value.length <= validation.maxLength,
+        'maxLength',
+      );
+      validators.push(validatorFn);
     }
+
+    /* Items */
+    if (validation.minItems) {
+      const validatorFn = this.createValidatorFn<any[]>(
+        (value) => Array.isArray(value) && value.length >= validation.minItems,
+        'minItems',
+      );
+      validators.push(validatorFn);
+    }
+    if (validation.maxItems) {
+      const validatorFn = this.createValidatorFn<any[]>(
+        (value) => Array.isArray(value) && value.length <= validation.maxItems,
+        'maxItems',
+      );
+      validators.push(validatorFn);
+    }
+
+    /* Pattern */
     if (validation.pattern) {
       validators.push(Validators.pattern(validation.pattern));
     }
+    if (validation.patterns) {
+      for (const patternName in validation.patterns) {
+        if (
+          Object.prototype.hasOwnProperty.call(validation.patterns, patternName)
+        ) {
+          const pattern = validation.patterns[patternName];
+          const validatorFn = this.createValidatorFn<string>(
+            (value) => new RegExp(pattern).test(value),
+            patternName,
+          );
+          validators.push(validatorFn);
+        }
+      }
+    }
 
     return [validators, asyncValidators];
-  }
-
-  /* Check me */
-  private requiredIf(
-    group: FormGroup,
-    parent: FieldConditionValue,
-    asyncCondition: (form: FormGroup) => Observable<boolean>,
-    control: AbstractControl,
-  ) {
-    if (asyncCondition) {
-      const conditionValue = asyncCondition(group).pipe(first()).toPromise();
-      const validation = conditionValue ? { conditionalRequired: true } : null;
-      return new Promise((resolve) => resolve(validation));
-    }
-
-    if (parent) {
-      const parentControl = group.get(parent.key);
-      if (!parentControl) {
-        return new Promise((resolve) => resolve(null));
-      }
-      const parentValue = parentControl.value;
-
-      const parentIsTrue =
-        typeof parent.values === 'boolean'
-          ? parent.values === parentValue
-          : parent.values.includes(parentValue);
-
-      const validation =
-        parentValue && parentIsTrue && !control.value.length
-          ? { conditionalRequired: true }
-          : null;
-      return new Promise((resolve) => resolve(validation));
-    }
-
-    return new Promise((resolve) => resolve(null));
   }
 
   private _requiredWithParent(
@@ -281,13 +280,18 @@ export class DynamicFormFactory {
     };
   }
 
-  private _minLengthArray(min: number) {
-    return (c: AbstractControl): { [key: string]: any } => {
-      if (c.value.length >= min) {
+  private createValidatorFn<T>(condition: (value: T) => boolean, name: string) {
+    const validatorFn: ValidatorFn = (control) => {
+      if (!control.value) {
         return null;
       }
-
-      return { minLengthArray: { valid: false } };
+      const valid = condition(control.value);
+      if (valid) {
+        return null;
+      }
+      return { [name]: { valid: false } };
     };
+
+    return validatorFn;
   }
 }
