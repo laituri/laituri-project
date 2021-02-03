@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
 import { RadioField } from './radio.types';
 
@@ -18,18 +16,9 @@ export class RadioComponent extends DynamicFormFieldBase implements OnInit {
 
   ngOnInit() {}
 
-  handleChange(key: string) {
+  public handleChange(key: string): void {
     if (!this.control.disabled) {
       this.control.setValue(key);
     }
-  }
-
-  getChecked(key: string): Observable<boolean> {
-    return this.control.valueChanges.pipe(
-      startWith(this.control.value),
-      map((value: string) => {
-        return value === key;
-      }),
-    );
   }
 }
