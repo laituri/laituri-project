@@ -4,12 +4,12 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'joinClassNames',
 })
 export class JoinClassNamesPipe implements PipeTransform {
-  transform(obj: { classNames: string[] }): string {
-    if (!obj || !obj.classNames) {
+  transform(classNames: string[]): string {
+    if (!classNames || classNames.length < 1) {
       return '';
     }
-    if (Array.isArray(obj.classNames)) {
-      return obj.classNames.join(' ');
+    if (Array.isArray(classNames)) {
+      return classNames.join(' ');
     }
     return '';
   }
