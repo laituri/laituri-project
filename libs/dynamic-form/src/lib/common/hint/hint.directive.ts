@@ -67,6 +67,9 @@ export class HintDirective implements OnInit {
       }
       return fieldErrorMessages;
     }
+    if (globalErrorMessages) {
+      return globalErrorMessages;
+    }
     return null;
   }
 }
