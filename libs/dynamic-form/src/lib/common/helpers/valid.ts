@@ -6,3 +6,10 @@ export function isValid(control: AbstractControl) {
   }
   return control.valid || control.disabled;
 }
+
+export function hasValue(control: AbstractControl) {
+  if (!control) {
+    return false;
+  }
+  return !!control.value;
+}
