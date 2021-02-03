@@ -1,6 +1,7 @@
 <ng-container *ngIf="inputsObservable | async as inputs">
-  <form
+  <div
     *ngIf="formObservable | async as form"
+    role="form"
     dynaComponentsFactory
     class="dynamic-form-container"
     #formElement
@@ -8,6 +9,5 @@
     [formComponents]="formComponents"
     [fields]="inputs.fields"
     [formFactory]="formFactory"
-    (ngSubmit)="noop()"
-  ></form>
+  ></div>
 </ng-container>

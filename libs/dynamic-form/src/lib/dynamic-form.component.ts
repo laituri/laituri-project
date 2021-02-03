@@ -141,6 +141,4 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   public getControl(control: FormGroup, field: { key: string }): any {
     return control.get(field.key);
   }
-
-  public noop(): void {}
 }
