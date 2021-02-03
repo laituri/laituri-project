@@ -5,15 +5,10 @@ import { DropdownComponent } from './dropdown.component';
 import { DynaCommonModule } from '../../common/common.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DropdownInputValuePipe } from './dropdown-input-value.pipe';
-import { DropdownOptionSelectedPipe } from './dropdown-option-selected.pipe';
 import { ChipListModule } from '../../components/chip-list/chip-list.module';
-
+import { A11yModule } from '@angular/cdk/a11y';
 @NgModule({
-  declarations: [
-    DropdownComponent,
-    DropdownInputValuePipe,
-    DropdownOptionSelectedPipe,
-  ],
+  declarations: [DropdownComponent, DropdownInputValuePipe],
   exports: [DropdownComponent],
   entryComponents: [DropdownComponent],
   imports: [
@@ -22,6 +17,7 @@ import { ChipListModule } from '../../components/chip-list/chip-list.module';
     ReactiveFormsModule,
     OverlayModule,
     ChipListModule,
+    A11yModule,
   ],
 })
 export class DropdownModule {}

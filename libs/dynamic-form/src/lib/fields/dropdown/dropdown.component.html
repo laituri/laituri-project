@@ -6,10 +6,15 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<div class="dyna-field dyna-input-container" (click)="toggleDropdown()">
+<div
+  class="dyna-field dyna-input-container"
+  (click)="toggleDropdown()"
+  (keyup.enter)="toggleDropdown()"
+  (keyup.space)="toggleDropdown()"
+>
   <input
     class="dyna-input"
-    disabled
+    readonly
     [name]="field.key"
     type="text"
     [placeholder]="field.placeholder || 'Select'"
@@ -42,18 +47,19 @@
       <div
         class="dyna-dropdown-container"
         role="listbox"
-        tabindex="0"
-        *ngIf="field && selectedOptions | async as selected"
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
+        *ngIf="overlayOpen && field && selectedOptions | async as selected"
       >
         <button
-          *ngFor="let option of field.options"
+          *ngFor="let option of field.options; let i = index"
+          [ngClass]="{ selected: selected.includes(option.key) }"
           [class]="
-            'dyna-dropdown-option ' +
-            (option | dropdownOptionSelected: selected) +
-            ' ' +
-            (option.classNames | joinClassNames)
+            'dyna-dropdown-option ' + (option.classNames | joinClassNames)
           "
           (click)="select(option)"
+          (keyup.enter)="select(option)"
+          (keydown.enter)="preventDefault($event)"
           [title]="option.description || option.title"
           role="option"
           [attr.aria-selected]="selected.includes(option.key)"

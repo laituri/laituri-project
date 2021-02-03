@@ -151,4 +151,8 @@ export class DropdownComponent
       this.selectedOptions.next([...selected, option.key]);
     }
   }
+
+  public preventDefault(event: Event): void {
+    event.preventDefault();
+  }
 }
