@@ -41,6 +41,8 @@
     >
       <div
         class="dyna-dropdown-container"
+        role="listbox"
+        tabindex="0"
         *ngIf="field && selectedOptions | async as selected"
       >
         <button
@@ -51,6 +53,8 @@
           "
           (click)="select(option)"
           [title]="option.description || option.title"
+          role="option"
+          [attr.aria-selected]="selected.includes(option.key)"
         >
           {{ option.title }}
         </button>
