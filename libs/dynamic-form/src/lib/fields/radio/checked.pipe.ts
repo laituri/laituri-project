@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Field, FieldOption } from '../../dynamic-form.types';
+import { FieldOption } from '../../dynamic-form.types';
 
 @Pipe({
   name: 'isChecked',

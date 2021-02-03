@@ -49,7 +49,9 @@
           *ngFor="let option of field.options"
           [class]="
             'dyna-dropdown-option ' +
-            (option | dropdownOptionSelected: selected)
+            (option | dropdownOptionSelected: selected) +
+            ' ' +
+            (option.classNames | joinClassNames)
           "
           (click)="select(option)"
           [title]="option.description || option.title"

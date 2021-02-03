@@ -24,7 +24,7 @@
     [ngClass]="{ checked: option | isChecked: control.value }"
   >
     <button
-      class="dyna-radio"
+      [class]="'dyna-radio ' + (option.classNames | joinClassNames)"
       [disabled]="control.disabled"
       [title]="'Toggle ' + option.title"
       role="radio"

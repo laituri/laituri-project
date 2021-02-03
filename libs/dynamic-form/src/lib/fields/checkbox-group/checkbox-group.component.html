@@ -16,7 +16,7 @@
     (keyup.space)="handleChange(option.key)"
   >
     <button
-      class="dyna-checkbox"
+      [class]="'dyna-checkbox ' + (option.classNames | joinClassNames)"
       [disabled]="control.disabled"
       [title]="'Toggle ' + option.title"
       role="checkbox"

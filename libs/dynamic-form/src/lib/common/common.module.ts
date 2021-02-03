@@ -7,6 +7,7 @@ import { DescriptionComponent } from './description/description.component';
 import { InfoComponent } from './info/info.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { OverlayPositionStrategy } from './info/info-overlay-position.pipe';
+import { JoinClassNamesPipe } from './joinClassNames.pipe';
 @NgModule({
   declarations: [
     DynaLabelDirective,
@@ -14,6 +15,7 @@ import { OverlayPositionStrategy } from './info/info-overlay-position.pipe';
     HintDirective,
     InfoComponent,
     OverlayPositionStrategy,
+    JoinClassNamesPipe,
   ],
   imports: [CommonModule, OverlayModule, MarkdownModule.forChild()],
   exports: [
@@ -21,6 +23,7 @@ import { OverlayPositionStrategy } from './info/info-overlay-position.pipe';
     DescriptionComponent,
     HintDirective,
     InfoComponent,
+    JoinClassNamesPipe,
   ],
 })
 export class DynaCommonModule {}

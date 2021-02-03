@@ -103,6 +103,7 @@ export interface FieldValidationTemplate
 export interface FieldOption {
   title: string;
   key: string;
+  classNames?: string[];
   value?: any;
   data?: any; // Clean up this
   description?: string;
