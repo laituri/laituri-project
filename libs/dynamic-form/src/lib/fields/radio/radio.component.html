@@ -18,13 +18,13 @@
   role="radiogroup"
 >
   <div
-    class="dyna-radio-container"
+    [class]="'dyna-radio-container ' + (option.classNames | joinClassNames)"
     *ngFor="let option of field.options"
     (click)="handleChange(option.key)"
     [ngClass]="{ checked: option | isChecked: control.value }"
   >
     <button
-      [class]="'dyna-radio ' + (option.classNames | joinClassNames)"
+      class="dyna-radio"
       [disabled]="control.disabled"
       [title]="'Toggle ' + option.title"
       role="radio"
