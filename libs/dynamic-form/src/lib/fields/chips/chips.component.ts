@@ -52,7 +52,7 @@ export class ChipsComponent extends DynamicFormFieldBase implements OnInit {
   }
 
   add() {
-    if (!this.control.disabled) {
+    if (!this.control.disabled && this.currentInputValue) {
       const values: string[] =
         (Array.isArray(this.control.value) && this.control.value) || [];
       if (
