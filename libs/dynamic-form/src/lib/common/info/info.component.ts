@@ -14,10 +14,25 @@ export class InfoComponent implements OnInit {
 
   public connectedOverlayPositions: ConnectedPosition[] = [
     {
-      originX: 'start',
+      originX: 'center',
       originY: 'top',
       overlayX: 'start',
       overlayY: 'bottom',
+      weight: 0.2,
+    },
+    {
+      originX: 'center',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+      weight: 0.1,
+    },
+    {
+      originX: 'center',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'bottom',
+      weight: 0,
     },
   ];
 
