@@ -1,13 +1,18 @@
 :host {
-  height: 24px;
-  width: 24px;
   .dyna-info-container {
+    width: var(--dyna-info-icon--width);
+    height: var(--dyna-info-icon--height);
+    margin: 0 0 0 6px;
     .hoverable-button {
       padding: 0;
-      margin: 0 0 0 6px;
       border: none;
       background: none;
       border-radius: 0;
+      outline: none;
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+      }
     }
   }
 }

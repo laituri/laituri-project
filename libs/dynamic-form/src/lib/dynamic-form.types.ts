@@ -69,7 +69,6 @@ export interface FieldStyleBase {
 
 export interface FieldInfo {
   body: string;
-  icon?: string;
 }
 
 export interface FieldConditionValue {

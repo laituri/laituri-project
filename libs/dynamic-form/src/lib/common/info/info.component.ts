@@ -1,3 +1,4 @@
+import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnInit } from '@angular/core';
 import { FieldInfo } from '../../dynamic-form.types';
 
@@ -10,6 +11,15 @@ export class InfoComponent implements OnInit {
   @Input() info: FieldInfo;
 
   public isOpen = false;
+
+  public connectedOverlayPositions: ConnectedPosition[] = [
+    {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'start',
+      overlayY: 'bottom',
+    },
+  ];
 
   constructor() {}
 

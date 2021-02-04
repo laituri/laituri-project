@@ -6,7 +6,6 @@ import { HintDirective } from './hint/hint.directive';
 import { DescriptionComponent } from './description/description.component';
 import { InfoComponent } from './info/info.component';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { OverlayPositionStrategy } from './info/info-overlay-position.pipe';
 import { JoinClassNamesPipe } from './joinClassNames.pipe';
 @NgModule({
   declarations: [
@@ -14,7 +13,6 @@ import { JoinClassNamesPipe } from './joinClassNames.pipe';
     DescriptionComponent,
     HintDirective,
     InfoComponent,
-    OverlayPositionStrategy,
     JoinClassNamesPipe,
   ],
   imports: [CommonModule, OverlayModule, MarkdownModule.forChild()],
