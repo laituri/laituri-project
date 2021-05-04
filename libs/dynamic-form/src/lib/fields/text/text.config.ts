@@ -28,20 +28,22 @@ export const TelComponentConfig: DynamicFormFieldComponentConfig = {
 
 export const numberValidator = (): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors => {
-    // tslint:disable-next-line: triple-equals
-    if (!Number(control.value) && control.value != 0) {
-      return { number: 'Value is not a number' };
-    }
-    // Transform number string to a real number
-    if (typeof control.value === 'string') {
-      setTimeout(() => {
-        // Somehow setTimeout removes an error when number was a string
+    try {
+      // tslint:disable-next-line: triple-equals
+      if (!Number(control.value) && control.value != 0) {
+        return { number: 'Value is not a number' };
+      }
+      // Transform number string to a real number
+      if (typeof control.value === 'string') {
         control.setValue(Number(control.value));
-      }, 1);
+        return null;
+      }
+      // value is number
+      return null;
+    } catch (error) {
+      console.log('Error in numberValidator:', { error });
       return null;
     }
-    // value is number
-    return null;
   };
 };
 
