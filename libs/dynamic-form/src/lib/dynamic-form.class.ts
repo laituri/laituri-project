@@ -2,7 +2,13 @@
 import { EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, mergeMap, shareReplay } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  mergeMap,
+  shareReplay,
+} from 'rxjs/operators';
 import {
   DynamicFormInputs,
   ErrorMessages,
@@ -34,6 +40,7 @@ export class DynamicForm<T = FormValues> {
     return this.formSubject.pipe(
       filter((form) => !!form),
       mergeMap((form) => form.valueChanges),
+      debounceTime(200),
       shareReplay(1),
     );
   }

@@ -97,7 +97,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       mergeMap((form) => {
         return form.valueChanges;
       }),
-      debounceTime(420),
+      debounceTime(200),
       shareReplay(1),
     );
 
