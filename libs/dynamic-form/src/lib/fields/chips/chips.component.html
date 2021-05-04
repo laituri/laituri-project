@@ -1,0 +1,50 @@
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
+  {{ field.title }}
+  <dyna-info *ngIf="field.info" [info]="field.info"></dyna-info>
+</label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
+<div class="dyna-field dyna-input-container">
+  <input
+    class="dyna-input"
+    [name]="field.key"
+    type="text"
+    [placeholder]="field.placeholder || ''"
+    [(ngModel)]="currentInputValue"
+    (keyup.enter)="add()"
+    [disabled]="this.control.disabled"
+  />
+  <button
+    class="dyna-button input-action plus-icon"
+    [disabled]="!currentInputValue"
+    (click)="add()"
+    [ngClass]="{ uniqueWarning: uniqueWarning }"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="20"
+      viewBox="0 0 24 24"
+      width="20"
+    >
+      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" class="plus" />
+      <path d="M0 0h24v24H0z" fill="none" />
+    </svg>
+  </button>
+</div>
+
+<ng-container *ngIf="chips | async as chips">
+  <dyna-chip-list
+    [chips]="chips"
+    enableDrag="true"
+    [disabled]="this.control.disabled"
+    (dropItem)="onDrop($event)"
+    (deleteItem)="onDelete($event)"
+  >
+  </dyna-chip-list>
+</ng-container>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>

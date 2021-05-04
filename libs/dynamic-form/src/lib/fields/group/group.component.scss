@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  padding: 12px 0;
+  fieldset {
+    border: none;
+    padding: 0;
+  }
+  .dyna-group-container {
+    .fields-container {
+      display: grid;
+    }
+  }
+  &.row {
+    .dyna-group-container {
+      .fields-container {
+        display: flex;
+        flex-direction: row;
+        & > * {
+          flex-grow: 1;
+          &:not(:last-child) {
+            margin-right: var(--dyna-padding--small);
+          }
+        }
+      }
+    }
+  }
+  /*  
+  border-left: 2px solid #eee;
+  .label {
+    font-size: 12px;
+    margin: 0 0 2px;
+  } */
+}

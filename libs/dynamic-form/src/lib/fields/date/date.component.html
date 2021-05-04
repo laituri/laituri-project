@@ -1,0 +1,21 @@
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
+  {{ field.title }}
+  <span *ngIf="field.validation && field.validation.required">*</span>
+</label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+<div class="dyna-field dyna-input-container">
+  <input
+    class="dyna-input"
+    [name]="field.key"
+    type="text"
+    [placeholder]="field.placeholder || ''"
+    #pickerElement
+    [disabled]="control.disabled"
+    [value]="control.value"
+  />
+</div>
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>

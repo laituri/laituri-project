@@ -1,11 +1,11 @@
 {
   "name": "@laituri/dynamic-form",
   "description": "Create forms from json in Angular",
-  "version": "0.0.45-alpha.0",
+  "version": "0.1.33-alpha.0",
   "peerDependencies": {
-    "@angular/cdk": "10.x",
-    "@angular/common": "10.x",
-    "@angular/core": "10.x",
+    "@angular/cdk": "11.x",
+    "@angular/common": "11.x",
+    "@angular/core": "11.x",
     "@simonwep/pickr": "1.x",
     "js-datepicker": "5.x",
     "md-to-quill-delta": "1.0.9",
@@ -28,5 +28,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/laituri/laituri-project"
   }
 }

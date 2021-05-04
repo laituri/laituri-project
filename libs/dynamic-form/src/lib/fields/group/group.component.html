@@ -1,0 +1,14 @@
+<p *ngIf="field.title" dyna-label [field]="field">
+  {{ field.title }}
+  <dyna-info *ngIf="field.info" [info]="field.info"></dyna-info>
+</p>
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+<fieldset
+  class="dyna-group-container"
+  dynaComponentsFactory
+  [formGroup]="control"
+  [formComponents]="formComponents"
+  [fields]="field.fields"
+  [formFactory]="formFactory"
+></fieldset>

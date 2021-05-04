@@ -1,0 +1,20 @@
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
+  {{ field.title }}
+</label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
+<button
+  class="dyna-button dyna-submit-button"
+  (click)="handleClick()"
+  [disabled]="
+    (control.disabled || control.root.invalid) && !field.alwaysEnabled
+  "
+>
+  {{ field.button }}
+</button>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>

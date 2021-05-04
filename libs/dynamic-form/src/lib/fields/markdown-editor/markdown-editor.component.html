@@ -1,0 +1,13 @@
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
+  {{ field.title }}
+</label>
+
+<p *ngIf="field.description" class="dyna-description">
+  {{ field.description }}
+</p>
+
+<div class="dyna-field dyna-markdown-editor-container" #markdownElement></div>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>

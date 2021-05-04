@@ -21,10 +21,17 @@
   --dyna-color--chip: #0069f3;
   --dyna-color--chip-focus: #0c57b8;
 
-  --dyna-padding--small: 10px;
+  --dyna-padding--small: 12px;
+  --dyna-padding--regular: 16px;
+  --dyna-padding--regular: 22px;
+  --dyna-padding--large: 20px;
   --dyna-padding--input: 10px 15px;
   --dyna-padding--button: 6px 15px;
   --dyna-padding--submit: 10px 20px;
+
+  --dyna-info-icon--width: 24px;
+  --dyna-info-icon--height: 24px;
+  --dyna-info-icon--image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black' width='18px' height='18px'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
 }
 
 @keyframes dyna-fadein {
@@ -36,8 +43,13 @@
   }
 }
 
+.dyna-form-field {
+  display: grid;
+}
+
 .dyna-label {
-  display: block;
+  display: flex;
+  align-items: center;
   font-family: var(--dyna-font-family);
   color: var(--dyna-color--label);
   font-size: var(--dyna-font-size--label);
@@ -45,7 +57,7 @@
   margin: 4px 0 6px;
   &.required {
     &::after {
-      content: '*';
+      // content: '*';
     }
   }
 }
@@ -74,7 +86,7 @@ dyna-hint {
   }
 }
 
-.input-container {
+.dyna-input-container {
   width: 100%;
   flex-flow: row nowrap;
   display: flex;
@@ -194,6 +206,7 @@ dyna-hint {
       width: 20px;
       height: 20px;
       transition: 300ms;
+      opacity: 0;
     }
     &:hover,
     &:focus {
@@ -209,6 +222,7 @@ dyna-hint {
       border: 1px solid var(--dyna-color--focus);
       .dyna-checkbox-inner-icon {
         background: var(--dyna-color--focus);
+        opacity: 1;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath fill='%23fff' d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/%3E%3C/svg%3E");
         background-position: center;
         background-size: contain;
@@ -216,6 +230,7 @@ dyna-hint {
     }
   }
 }
+
 .dyna-radio-container {
   display: flex;
   flex-flow: row nowrap;
@@ -359,6 +374,26 @@ dyna-hint {
       background: var(--dyna-color--chip-focus);
     }
   }
+}
+
+.dyna-info-body {
+  padding: 20px;
+  background: #fff;
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.15);
+  margin: 4px !important;
+  animation: dyna-fadein 300ms;
+  * {
+    margin: 0 !important;
+  }
+}
+
+.dyna-info-icon {
+  background-image: var(--dyna-info-icon--image);
+  width: var(--dyna-info-icon--width);
+  height: var(--dyna-info-icon--height);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 //CDK drag overrides

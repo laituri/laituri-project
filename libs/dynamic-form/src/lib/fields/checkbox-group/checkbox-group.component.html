@@ -1,0 +1,34 @@
+<p *ngIf="field.title" dyna-label [field]="field">
+  {{ field.title }}
+  <dyna-info *ngIf="field.info" [info]="field.info"></dyna-info>
+</p>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
+<div class="dyna-field dyna-options-container dyna-checkbox-options">
+  <div
+    [class]="'dyna-checkbox-container ' + (option.classNames | joinClassNames)"
+    *ngFor="let option of field.options"
+    [ngClass]="{ checked: option | isChecked: field:control.value }"
+    (mousedown)="handleChange(option.key)"
+    (keyup.enter)="handleChange(option.key)"
+    (keyup.space)="handleChange(option.key)"
+  >
+    <button
+      class="dyna-checkbox"
+      [disabled]="control.disabled"
+      [title]="'Toggle ' + option.title"
+      role="checkbox"
+      [attr.aria-checked]="option | isChecked: field:control.value"
+      [attr.aria-labelledby]="option.key"
+    >
+      <div class="dyna-checkbox-inner-icon"></div>
+    </button>
+    <label [id]="option.key" markdown>{{ option.title }}</label>
+  </div>
+</div>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>

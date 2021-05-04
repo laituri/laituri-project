@@ -1,0 +1,102 @@
+:host {
+  .dyna-dropzone {
+    min-height: 200px;
+    margin-bottom: 4px;
+    padding: 42px 12px;
+    border: 1px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 200ms;
+    background: #f8f8f8;
+    position: relative;
+    .file-input {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      width: 100%;
+      cursor: pointer;
+    }
+    .info-container {
+      max-width: 420px;
+      width: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: column nowrap;
+      pointer-events: none;
+      .info-text {
+        font-size: 18px;
+        text-align: center;
+        margin: 0;
+        white-space: pre-line;
+        .info-size {
+          font-size: 14px;
+        }
+      }
+      .info-upload-icon,
+      .info-files-icon {
+        height: 42px;
+        width: 42px;
+        margin: 12px auto;
+        transition: 200ms;
+      }
+      .info-upload-icon {
+        fill: #999;
+      }
+      .info-files-icon {
+        fill: var(--dyna-color--focus);
+      }
+      .imagePreview {
+        max-width: 200px;
+        max-height: 100px;
+        margin: 12px 0;
+      }
+    }
+
+    &:hover {
+      border-color: var(--dyna-color--hover);
+      .info-container {
+        .info-upload-icon {
+          fill: var(--dyna-color--hover);
+        }
+      }
+    }
+
+    &.hovering {
+      border-color: var(--dyna-color--focus);
+      background: #f1f1f1;
+      cursor: pointer;
+      .info-container {
+        animation-name: jello;
+        transform-origin: center;
+        .info-upload-icon {
+          fill: var(--dyna-color--focus);
+          animation-name: bounce;
+          transform-origin: center bottom;
+          animation-fill-mode: both;
+          animation-duration: 1s;
+        }
+      }
+    }
+
+    &.imagePreview {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAKElEQVQoU2O8ePHifwY0wM/Pjy7EwDgUFD548ADDMx8/fsT0zBBQCAAWdDJg0ZidnAAAAABJRU5ErkJggg==)
+        repeat;
+    }
+  }
+}
+
+@keyframes bounce {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -3px, 0);
+  }
+}

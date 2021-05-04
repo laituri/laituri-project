@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 4px 0;
+  .dyna-input-container {
+    width: 100%;
+    display: flex;
+    .dyna-input {
+      flex-grow: 1;
+    }
+    .dyna-button {
+      position: relative;
+      &.uniqueWarning {
+        &::before {
+          content: 'This value already exists!';
+          display: inline-block;
+          position: absolute;
+          right: 56px;
+          width: max-content;
+          color: var(--dyna-color--warning);
+          animation: fadein 500ms;
+        }
+      }
+    }
+  }
+}

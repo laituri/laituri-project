@@ -1,0 +1,42 @@
+<label
+  *ngIf="field.title"
+  class="title"
+  [for]="field.key"
+  dyna-label
+  [field]="field"
+>
+  {{ field.title }}
+  <dyna-info *ngIf="field.info" [info]="field.info"></dyna-info>
+</label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
+<div
+  class="dyna-field dyna-options-container dyna-radio-options"
+  [id]="field.key"
+  role="radiogroup"
+>
+  <div
+    [class]="'dyna-radio-container ' + (option.classNames | joinClassNames)"
+    *ngFor="let option of field.options"
+    (click)="handleChange(option.key)"
+    [ngClass]="{ checked: option | isChecked: control.value }"
+  >
+    <button
+      class="dyna-radio"
+      [disabled]="control.disabled"
+      [title]="'Toggle ' + option.title"
+      role="radio"
+      [attr.aria-checked]="option | isChecked: control.value"
+      [attr.aria-labelledby]="option.key"
+    >
+      <div class="dyna-radio-inner-icon"></div>
+    </button>
+    <label [id]="option.key" markdown>{{ option.title }}</label>
+  </div>
+</div>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>

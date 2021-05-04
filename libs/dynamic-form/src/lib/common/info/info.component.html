@@ -1,0 +1,27 @@
+<div
+  class="dyna-info-container"
+  (mouseenter)="isOpen = true"
+  (mouseleave)="isOpen = false"
+>
+  <!-- This button triggers the overlay and is it's origin -->
+  <button
+    class="hoverable-button"
+    type="button"
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
+  >
+    <!-- Icon -->
+    <div class="dyna-info-icon"></div>
+  </button>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen"
+    [cdkConnectedOverlayPositions]="connectedOverlayPositions"
+  >
+    <p markdown ngPreserveWhitespaces class="dyna-info-body">
+      {{ info.body }}
+    </p>
+  </ng-template>
+</div>

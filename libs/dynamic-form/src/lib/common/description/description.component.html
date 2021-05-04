@@ -1,0 +1,6 @@
+<p *ngIf="body" markdown ngPreserveWhitespaces class="dyna-description-body">
+  {{ body }}
+</p>
+<ng-container *ngIf="template">
+  <ng-container *ngTemplateOutlet="template"></ng-container>
+</ng-container>

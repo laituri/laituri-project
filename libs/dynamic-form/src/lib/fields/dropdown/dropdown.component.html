@@ -1,0 +1,82 @@
+<label *ngIf="field.title" [for]="field.key" dyna-label [field]="field">
+  {{ field.title }}
+  <dyna-info *ngIf="field.info" [info]="field.info"></dyna-info>
+</label>
+
+<dyna-description *ngIf="field.description" [body]="field.description">
+</dyna-description>
+
+<div
+  class="dyna-field dyna-input-container"
+  (click)="toggleDropdown()"
+  (keyup.enter)="toggleDropdown()"
+  (keyup.space)="toggleDropdown()"
+>
+  <input
+    class="dyna-input"
+    readonly
+    [name]="field.key"
+    type="text"
+    [placeholder]="field.placeholder || 'Select'"
+    #selectElement
+    [value]="getSelectedOptions() | async | dropdownInputValue: field.display"
+  />
+
+  <!-- Overlay template -->
+  <ng-container *ngIf="field.overlayTemplate; else defaultOverlay">
+    <ng-container
+      *ngTemplateOutlet="field.overlayTemplate; context: this"
+    ></ng-container>
+  </ng-container>
+
+  <!-- Default overlay  -->
+  <ng-template #defaultOverlay>
+    <div
+      class="overlay-origin"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+    ></div>
+
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="overlayOpen"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      (backdropClick)="overlayOpen = false"
+    >
+      <div
+        class="dyna-dropdown-container"
+        role="listbox"
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
+        *ngIf="overlayOpen && field && selectedOptions | async as selected"
+      >
+        <button
+          *ngFor="let option of field.options; let i = index"
+          [ngClass]="{ selected: selected.includes(option.key) }"
+          [class]="
+            'dyna-dropdown-option ' + (option.classNames | joinClassNames)
+          "
+          (click)="select(option)"
+          (keyup.enter)="select(option)"
+          (keydown.enter)="preventDefault($event)"
+          [title]="option.description || option.title"
+          role="option"
+          [attr.aria-selected]="selected.includes(option.key)"
+        >
+          {{ option.title }}
+        </button>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
+
+<dyna-hint [field]="field" [control]="control">
+  {{ field.hint }}
+</dyna-hint>
+
+<ng-container
+  *ngIf="field.display === 'chips' && getSelectedOptions() | async as chips"
+>
+  <dyna-chip-list [chips]="chips"></dyna-chip-list>
+</ng-container>
