@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
@@ -7,7 +6,9 @@ import {
   ElementRef,
   Injector,
   Input,
+  OnChanges,
   OnDestroy,
+  SimpleChanges,
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -21,7 +22,7 @@ import { FieldConditionPipe } from './field-condition.pipe';
   providers: [FieldConditionPipe],
 })
 export class DynamicFormComponentsFactoryDirective
-  implements AfterViewInit, OnDestroy {
+  implements OnChanges, OnDestroy {
   @Input() fields: Field[];
   @Input() formComponents: DynamicFormComponents;
   @Input() formGroup: FormGroup;
@@ -37,11 +38,14 @@ export class DynamicFormComponentsFactoryDirective
     private fieldCondition: FieldConditionPipe,
   ) {}
 
-  ngAfterViewInit(): void {
-    this.contructFieldElements();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.fields) {
+      this.contructFieldElements();
+    }
   }
 
   private contructFieldElements() {
+    this.el.nativeElement.innerHTML = '';
     this.fields.forEach((field) => {
       const { type } = field;
       const fieldConfig = this.formComponents.getComponentConfig(type);
