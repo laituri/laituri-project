@@ -127,19 +127,24 @@
                   "maximumError": "5mb"
                 }
               ]
-            }
-          }
+            },
+            "development": {}
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "dynamic-form-playground:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "dynamic-form-playground:build:production"
+            },
+            "development": {
+              "browserTarget": "dynamic-form-playground:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -176,14 +181,17 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "apps/dynamic-form-playground/e2e/protractor.conf.js",
-            "devServerTarget": "dynamic-form-playground:serve"
+            "protractorConfig": "apps/dynamic-form-playground/e2e/protractor.conf.js"
           },
           "configurations": {
             "production": {
               "devServerTarget": "dynamic-form-playground:serve:production"
+            },
+            "development": {
+              "devServerTarget": "dynamic-form-playground:serve:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }
