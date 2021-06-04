@@ -12,7 +12,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FieldTemplate, Field } from '../../dynamic-form.types';
 import { RepeaterField } from './repeater.types';
 import { DynamicFormFactory } from '../../core/dynamic-form-factory';
-import { DynamicFormComponents } from '../../core/dynamic-form-components';
 
 @Component({
   selector: 'dyna-repeater',
@@ -24,7 +23,6 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
   field: RepeaterField;
   @Input()
   control: FormArray;
-  @Input() formComponents: DynamicFormComponents;
   @Input()
   formFactory: DynamicFormFactory;
 

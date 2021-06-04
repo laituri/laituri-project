@@ -7,7 +7,6 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { DynamicFormComponents } from './dynamic-form-components';
 import {
   FieldTemplate,
   FieldOption,
@@ -16,6 +15,7 @@ import {
   FormValues,
   DynamicFormFieldComponentConfig,
 } from '../dynamic-form.types';
+import { DynamicFormComponentsService } from './dynamic-form-components.service';
 
 export class DynamicFormFactory {
   private form: FormGroup;
@@ -25,7 +25,7 @@ export class DynamicFormFactory {
 
   constructor(
     private fb: FormBuilder,
-    private formComponents: DynamicFormComponents,
+    private componentsService: DynamicFormComponentsService,
   ) {}
 
   contructForm({
@@ -69,9 +69,11 @@ export class DynamicFormFactory {
   ): { [key: string]: AbstractControl } {
     return fields.reduce((acc, field) => {
       const { type } = field;
-      const fieldConfig = this.formComponents.getComponentConfig(type);
+
+      const fieldConfig = this.componentsService.getComponentConfig(type);
 
       if (!fieldConfig || fieldConfig.type === 'visual') {
+        console.warn('Invalid field type (not registered)', { type });
         return acc;
       }
 

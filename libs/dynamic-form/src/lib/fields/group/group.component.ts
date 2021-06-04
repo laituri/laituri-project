@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ContainerField, GroupField } from './group.types';
-import { DynamicFormComponents } from '../../core/dynamic-form-components';
 import { DynamicFormFactory } from '../../core/dynamic-form-factory';
 
 @Component({
@@ -14,7 +13,6 @@ export class GroupComponent implements OnInit {
   field: GroupField | ContainerField;
   @Input()
   control: FormGroup;
-  @Input() formComponents: DynamicFormComponents;
   @Input()
   formFactory: DynamicFormFactory;
 

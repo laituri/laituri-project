@@ -27,8 +27,8 @@ import {
 import { DynamicForm } from './dynamic-form.class';
 import { DynamicFormFactory } from './core/dynamic-form-factory';
 import { DynamicFormHistory } from './core/dynamic-form-history';
-import { DynamicFormComponents } from './core/dynamic-form-components';
 import { FormStateService } from './core/form-state.service';
+import { DynamicFormComponentsService } from './core/dynamic-form-components.service';
 
 @Component({
   selector: 'dynamic-form',
@@ -57,7 +57,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   public formObservable: Observable<FormGroup>;
   public fields: FieldTemplate[];
   public history: DynamicFormHistory;
-  public formComponents: DynamicFormComponents;
   public formFactory: DynamicFormFactory;
 
   private subscriptions: Subscription[];
@@ -68,24 +67,22 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private formState: FormStateService,
+    private componentsService: DynamicFormComponentsService,
   ) {}
 
   ngOnInit() {
     this.inputs._setOnSubmit(this.onSubmit);
     this.formState.setInputs(this.inputs);
-    this.formComponents = new DynamicFormComponents(
-      this.components,
-      this.discardDefaultComponents,
-    );
     this.formFactory = new DynamicFormFactory(
       this.formBuilder,
-      this.formComponents,
+      this.componentsService,
     );
     this.inputsObservable = this.inputs.getInputChanges();
 
     this.formObservable = this.inputsObservable.pipe(
       map((inputs) => {
         const form = this.formFactory.contructForm(inputs);
+        console.log({ inputs, form });
         this.currentForm.next(form);
         this.inputs._setForm(form);
         return form;

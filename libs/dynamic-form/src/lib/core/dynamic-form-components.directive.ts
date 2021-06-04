@@ -12,19 +12,19 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { DynamicFormComponents } from './dynamic-form-components';
 import { DynamicFormFactory } from './dynamic-form-factory';
 import { DynamicFormFieldComponentConfig, Field } from '../dynamic-form.types';
 import { FieldConditionPipe } from './field-condition.pipe';
+import { DynamicFormComponentsService } from './dynamic-form-components.service';
 
 @Directive({
   selector: '[dynaComponentsFactory]',
   providers: [FieldConditionPipe],
 })
 export class DynamicFormComponentsFactoryDirective
-  implements OnChanges, OnDestroy {
+  implements OnChanges, OnDestroy
+{
   @Input() fields: Field[];
-  @Input() formComponents: DynamicFormComponents;
   @Input() formGroup: FormGroup;
   @Input() formFactory: DynamicFormFactory;
 
@@ -36,6 +36,7 @@ export class DynamicFormComponentsFactoryDirective
     private applicationRef: ApplicationRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private fieldCondition: FieldConditionPipe,
+    private componentsService: DynamicFormComponentsService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,7 +49,7 @@ export class DynamicFormComponentsFactoryDirective
     this.el.nativeElement.innerHTML = '';
     this.fields.forEach((field) => {
       const { type } = field;
-      const fieldConfig = this.formComponents.getComponentConfig(type);
+      const fieldConfig = this.componentsService.getComponentConfig(type);
 
       if (fieldConfig) {
         const component: ComponentRef<any> = this.componentFactoryResolver
@@ -57,12 +58,10 @@ export class DynamicFormComponentsFactoryDirective
 
         this.applicationRef.attachView(component.hostView);
 
+        const control = this.getControl(fieldConfig, field);
         /* Set inputs */
         component.instance.field = field;
-        component.instance.formComponents = this.formComponents;
         component.instance.formFactory = this.formFactory;
-
-        const control = this.getControl(fieldConfig, field);
         component.instance.control = control;
 
         /* Set html attributes */
