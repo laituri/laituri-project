@@ -25,7 +25,8 @@ const defaultColors = {
 })
 export class ColorComponent
   extends DynamicFormFieldBase
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   @Input()
   field: ColorField;
   @Input()
@@ -62,8 +63,9 @@ export class ColorComponent
           save: true,
         },
       },
-      strings: {
-        save: 'Save color',
+
+      i18n: {
+        'btn:save': 'Save color',
       },
     });
     this.picker.on('show', (color: Pickr.HSVaColor, instance: Pickr) => {
