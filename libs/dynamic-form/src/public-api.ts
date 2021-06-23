@@ -6,3 +6,4 @@ export * from './lib/dynamic-form.component';
 export * from './lib/dynamic-form.module';
 export * from './lib/dynamic-form.types';
 export * from './lib/dynamic-form.class';
+export * from './lib/core/dynamic-form-components.service';
