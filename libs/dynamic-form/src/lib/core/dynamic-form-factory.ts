@@ -81,6 +81,7 @@ export class DynamicFormFactory {
       }
 
       const value = this.getValueForField(field, values);
+
       const validators = this._getValidators(field, fieldConfig);
 
       if (fieldConfig.type === 'formArray') {
@@ -183,7 +184,7 @@ export class DynamicFormFactory {
     { validation, condition }: FieldTemplate,
     fieldConfig: DynamicFormFieldComponentConfig,
   ): [ValidatorFn[], AsyncValidatorFn[]] {
-    const validators: ValidatorFn[] = fieldConfig.defaultValidators || [];
+    const validators: ValidatorFn[] = [...fieldConfig.defaultValidators] || [];
     const asyncValidators: AsyncValidatorFn[] = [];
 
     if (!validation) {
