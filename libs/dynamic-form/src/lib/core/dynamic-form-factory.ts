@@ -182,9 +182,11 @@ export class DynamicFormFactory {
 
   private _getValidators(
     { validation, condition }: FieldTemplate,
-    fieldConfig: DynamicFormFieldComponentConfig,
+    { defaultValidators }: DynamicFormFieldComponentConfig,
   ): [ValidatorFn[], AsyncValidatorFn[]] {
-    const validators: ValidatorFn[] = [...fieldConfig.defaultValidators] || [];
+    const validators: ValidatorFn[] = defaultValidators
+      ? [...defaultValidators]
+      : [];
     const asyncValidators: AsyncValidatorFn[] = [];
 
     if (!validation) {
