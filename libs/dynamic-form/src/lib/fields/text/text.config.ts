@@ -4,6 +4,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { isDefined } from '../../common/common.helpers';
 import { DynamicFormFieldComponentConfig } from '../../dynamic-form.types';
 import { TextComponent } from './text.component';
 
@@ -29,16 +30,21 @@ export const TelComponentConfig: DynamicFormFieldComponentConfig = {
 export const numberValidator = (): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors => {
     try {
-      // tslint:disable-next-line: triple-equals
-      if (!Number(control.value) && control.value != 0) {
-        return { number: 'Value is not a number' };
-      }
-      // Transform number string to a real number
-      if (typeof control.value === 'string') {
-        control.setValue(Number(control.value));
+      const value = control.value;
+      if (isDefined(value) && value !== '') {
+        // tslint:disable-next-line: triple-equals
+        if (!Number(value) && value != 0) {
+          return { number: 'Value is not a number' };
+        }
+        // Transform number string to a real number
+        if (typeof value === 'string') {
+          control.setValue(Number(value));
+          return null;
+        }
+        // value is number
         return null;
       }
-      // value is number
+      // value is undefined
       return null;
     } catch (error) {
       console.log('Error in numberValidator:', { error });

@@ -7,6 +7,7 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
+import { isDefined } from '../common/common.helpers';
 import {
   FieldTemplate,
   FieldOption,
@@ -73,7 +74,9 @@ export class DynamicFormFactory {
       const fieldConfig = this.componentsService.getComponentConfig(type);
 
       if (!fieldConfig || fieldConfig.type === 'visual') {
-        console.warn('Invalid field type (not registered)', { type });
+        if (!fieldConfig) {
+          console.warn('Invalid field type (not registered)', { type });
+        }
         return acc;
       }
 
@@ -197,22 +200,22 @@ export class DynamicFormFactory {
     }
 
     /* Numeric */
-    if (validation.min) {
+    if (isDefined(validation.min)) {
       validators.push(Validators.min(validation.min));
     }
-    if (validation.max) {
+    if (isDefined(validation.max)) {
       validators.push(Validators.max(validation.max));
     }
 
     /* Length */
-    if (validation.minLength) {
+    if (isDefined(validation.minLength)) {
       const validatorFn = this.createValidatorFn<any[]>(
         (value) => value.length >= validation.minLength,
         'minLength',
       );
       validators.push(validatorFn);
     }
-    if (validation.maxLength) {
+    if (isDefined(validation.maxLength)) {
       const validatorFn = this.createValidatorFn<any[]>(
         (value) => value.length <= validation.maxLength,
         'maxLength',
@@ -221,14 +224,14 @@ export class DynamicFormFactory {
     }
 
     /* Items */
-    if (validation.minItems) {
+    if (isDefined(validation.minItems)) {
       const validatorFn = this.createValidatorFn<any[]>(
         (value) => Array.isArray(value) && value.length >= validation.minItems,
         'minItems',
       );
       validators.push(validatorFn);
     }
-    if (validation.maxItems) {
+    if (isDefined(validation.maxItems)) {
       const validatorFn = this.createValidatorFn<any[]>(
         (value) => Array.isArray(value) && value.length <= validation.maxItems,
         'maxItems',
@@ -237,10 +240,10 @@ export class DynamicFormFactory {
     }
 
     /* Pattern */
-    if (validation.pattern) {
+    if (isDefined(validation.pattern)) {
       validators.push(Validators.pattern(validation.pattern));
     }
-    if (validation.patterns) {
+    if (isDefined(validation.patterns)) {
       for (const patternName in validation.patterns) {
         if (
           Object.prototype.hasOwnProperty.call(validation.patterns, patternName)
@@ -271,14 +274,21 @@ export class DynamicFormFactory {
       if (!condition.values && typeof condition.values !== 'boolean') {
         return null;
       }
-      const parentIsTrue =
+
+      const showField =
         typeof condition.values === 'boolean'
           ? condition.values === parentValue
           : condition.values.includes(parentValue);
 
-      const validation = parentIsTrue ? { conditionalRequired: true } : null;
+      if (showField) {
+        const valid = !!control.value;
+        if (valid) {
+          return null;
+        }
+        return { conditionalRequired: true };
+      }
 
-      return validation;
+      return null;
     };
   }
 
