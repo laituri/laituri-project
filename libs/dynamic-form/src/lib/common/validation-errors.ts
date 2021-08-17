@@ -3,6 +3,7 @@ import { ErrorMessages } from '../dynamic-form.types';
 
 export const defaultErrorMessages: ErrorMessages = {
   required: 'This field is required!',
+  conditionalRequired: 'This field is required!',
   pattern: 'Current input has invalid pattern!',
   email: 'Value is not a valid email address!',
   url: 'Value is not a valid url!',
@@ -10,7 +11,7 @@ export const defaultErrorMessages: ErrorMessages = {
   minLength: 'Answer is too short!',
   maxLength: 'Answer is too long!',
   min: 'Value is too low!',
-  max: 'Value is too hight!',
+  max: 'Value is too high!',
   number: 'Value is not a number!',
 };
 
@@ -41,6 +42,10 @@ export const getErrorMessages = (
   }
 
   const activeError = errorMessages[activeErrorKey] || 'This field is invalid!';
+
+  if (!errorMessages[activeErrorKey]) {
+    console.log('No error message for ', activeErrorKey);
+  }
 
   return activeError;
 };
