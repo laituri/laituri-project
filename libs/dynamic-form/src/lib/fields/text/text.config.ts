@@ -71,7 +71,7 @@ export const SearchComponentConfig: DynamicFormFieldComponentConfig = {
   key: 'search',
   component: TextComponent,
   type: 'formField',
-  defaultValidators: [Validators.minLength(5)],
+  defaultValidators: [Validators.minLength(3)],
 };
 
 export const UrlComponentConfig: DynamicFormFieldComponentConfig = {
