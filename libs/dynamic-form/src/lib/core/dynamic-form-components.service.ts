@@ -17,7 +17,7 @@ export class DynamicFormComponentsService {
     components: DynamicFormFieldComponentConfig[],
     override?: boolean,
   ): void {
-    console.log('Register components!', { components });
+    // console.log('Register components!', { components });
     const componentMap = this.componentsToMap(components);
     if (override) {
       this.components = componentMap;

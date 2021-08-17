@@ -82,7 +82,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     this.formObservable = this.inputsObservable.pipe(
       map((inputs) => {
         const form = this.formFactory.contructForm(inputs);
-        console.log({ inputs, form });
         this.currentForm.next(form);
         this.inputs._setForm(form);
         return form;
