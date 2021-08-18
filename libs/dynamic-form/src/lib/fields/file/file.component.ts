@@ -55,8 +55,8 @@ export class FileComponent implements OnInit {
     }
     // this.fileList = fileList;
     const files = [];
-    this.hint = this.field.hint;
     this.error = '';
+
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList.item(i);
       const validFormat = RegExp(this.field.accept).test(
@@ -70,12 +70,21 @@ export class FileComponent implements OnInit {
     }
     this.files = files;
 
-    this.hint =
-      this.field.output === 'data'
-        ? 'Processing done!'
-        : 'Files ready to upload';
+    this.hint = this.getPreviewHint();
 
     return files;
+  }
+
+  private getPreviewHint(): string {
+    if (!this.files || this.files.length < 1) {
+      return this.field.hint;
+    }
+    if (this.field.previewHint) {
+      return this.field.previewHint;
+    }
+    return this.field.output === 'data'
+      ? 'Processing done!'
+      : 'Files ready to upload';
   }
 
   private _getImagePreview() {

@@ -3,6 +3,7 @@ import { FormFieldBase } from '../../dynamic-form.types';
 export interface FileField extends FormFieldBase<any> {
   type: 'file';
   output: 'file' | 'data';
+  previewHint?: string;
   multiple?: boolean;
   accept?: string;
   preview?: {
