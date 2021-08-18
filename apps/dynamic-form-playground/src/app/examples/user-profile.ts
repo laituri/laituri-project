@@ -7,8 +7,12 @@ export const UserProfileFields: Field[] = [
     type: 'file',
     output: 'file',
     multiple: true,
-    hint: 'Must be an image',
-    // accept: 'image/*',
+    hint: 'Must be an image!',
+    validation: {
+      accept: 'image/',
+      maxSize: 50000,
+      minHeight: 50,
+    },
     events: {
       drop: (files) => {
         return new Promise((resolve) => {

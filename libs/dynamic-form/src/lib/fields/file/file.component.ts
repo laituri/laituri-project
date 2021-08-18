@@ -30,7 +30,7 @@ export class FileComponent implements OnInit {
 
   async onDrop(fileList: FileList) {
     this.fileList = fileList;
-    this._constructFiles(fileList);
+    await this._constructFiles(fileList);
     this.imagePreview = this._getImagePreview();
     if (this.error) {
       this.control.setErrors({ message: this.error });
@@ -49,7 +49,7 @@ export class FileComponent implements OnInit {
     this.isHovering = event;
   }
 
-  private _constructFiles(fileList: FileList): File[] {
+  private async _constructFiles(fileList: FileList): Promise<File[]> {
     if (fileList.length === 0) {
       return null;
     }
@@ -59,13 +59,11 @@ export class FileComponent implements OnInit {
 
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList.item(i);
-      const validFormat = RegExp(this.field.accept).test(
-        file.type || file.name,
-      );
-      if (validFormat) {
+      const validFile = await this._validateFiles(file);
+      console.log(validFile);
+
+      if (validFile) {
         files.push(file);
-      } else {
-        this.error = `Invalid format for file ${file.name}`;
       }
     }
     this.files = files;
@@ -87,6 +85,89 @@ export class FileComponent implements OnInit {
       : 'Files ready to upload';
   }
 
+  private async _validateFiles(file: File): Promise<boolean> {
+    if (file) {
+      const { validation } = this.field;
+      if (validation) {
+        if (validation.accept) {
+          const valid = RegExp(validation.accept).test(file.type);
+          if (!valid) {
+            this.error = `Invalid format for file ${file.name}!`;
+            return false;
+          }
+        }
+
+        if (validation.maxSize) {
+          const valid = file.size <= validation.maxSize * 1000;
+          if (!valid) {
+            this.error = `File "${file.name}" is too large!`;
+            return false;
+          }
+        }
+
+        if (validation.minSize) {
+          const valid = file.size >= validation.minSize * 1000;
+          if (!valid) {
+            this.error = `File "${file.name}" is too small!`;
+            return false;
+          }
+        }
+
+        const asImage = await new Promise<HTMLImageElement | null>(
+          (resolve) => {
+            try {
+              const reader = new FileReader();
+              reader.onload = (event) => {
+                const image = new Image();
+                image.src = event.target.result as string;
+                image.onload = () => {
+                  resolve(image);
+                };
+              };
+              reader.readAsDataURL(file);
+            } catch (error) {
+              // probably not an image
+              resolve(null);
+            }
+          },
+        );
+
+        if (asImage) {
+          if (validation.minHeight) {
+            const valid = asImage.height >= validation.minHeight;
+            if (!valid) {
+              this.error = `Image's height should be at least ${validation.minHeight}px!`;
+              return false;
+            }
+          }
+          if (validation.minWidth) {
+            const valid = asImage.width >= validation.minWidth;
+            if (!valid) {
+              this.error = `Image's width should be at least ${validation.minWidth}px!`;
+              return false;
+            }
+          }
+          if (validation.maxHeight) {
+            const valid = asImage.height >= validation.maxHeight;
+            if (!valid) {
+              this.error = `Image's height should not be more than ${validation.maxHeight}px!`;
+              return false;
+            }
+          }
+          if (validation.maxWidth) {
+            const valid = asImage.width >= validation.maxWidth;
+            if (!valid) {
+              this.error = `Image's width should not be more than ${validation.maxWidth}px!`;
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
   private _getImagePreview() {
     if (!this.files || !this.files.length) {
       return null;
@@ -105,6 +186,7 @@ export class FileComponent implements OnInit {
 
   private _getInitialFiles(): File[] {
     const { preview } = this.field;
+
     if (!preview) {
       if (this.control.value instanceof File) {
         this.files = [this.control.value];

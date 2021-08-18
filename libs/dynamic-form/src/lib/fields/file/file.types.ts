@@ -1,11 +1,10 @@
-import { FormFieldBase } from '../../dynamic-form.types';
+import { FieldValidationBase, FormFieldBase } from '../../dynamic-form.types';
 
 export interface FileField extends FormFieldBase<any> {
   type: 'file';
   output: 'file' | 'data';
   previewHint?: string;
   multiple?: boolean;
-  accept?: string;
   preview?: {
     type: 'string' | 'string-array' | 'object' | 'object-array';
     isImage?: boolean;
@@ -14,4 +13,16 @@ export interface FileField extends FormFieldBase<any> {
   events?: {
     drop?: (files: File[]) => Promise<any>;
   };
+  validation?: FileValidation;
+}
+
+interface FileValidation extends FieldValidationBase {
+  accept?: string;
+  minSize?: number;
+  maxSize?: number;
+  // for images
+  minHeight?: number;
+  minWidth?: number;
+  maxHeight?: number;
+  maxWidth?: number;
 }
