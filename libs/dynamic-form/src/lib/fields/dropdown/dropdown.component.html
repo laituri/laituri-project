@@ -45,11 +45,13 @@
       (backdropClick)="overlayOpen = false"
     >
       <div
+        #optionsContainer
         class="dyna-dropdown-container"
         role="listbox"
         cdkTrapFocus
         cdkTrapFocusAutoCapture
         *ngIf="overlayOpen && field && selectedOptions | async as selected"
+        (keydown)="handleKeydown($event, optionsContainer)"
       >
         <button
           *ngFor="let option of field.options; let i = index"

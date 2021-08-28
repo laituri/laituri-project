@@ -20,7 +20,8 @@ import { DropdownField } from './dropdown.types';
 })
 export class DropdownComponent
   extends DynamicFormFieldBase
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   @Input()
   field: DropdownField;
   @Input()
@@ -51,7 +52,9 @@ export class DropdownComponent
     this.subscriptions.forEach((subscription) => {
       try {
         subscription.unsubscribe();
-      } catch (error) {}
+      } catch (error) {
+        // do nothing
+      }
     });
   }
 
@@ -154,5 +157,43 @@ export class DropdownComponent
 
   public preventDefault(event: Event): void {
     event.preventDefault();
+  }
+
+  public handleKeydown(event: KeyboardEvent, container: HTMLDivElement) {
+    try {
+      const current = event.target as HTMLButtonElement;
+      const key = event.key;
+      switch (key) {
+        case 'ArrowDown':
+          const next = current.nextElementSibling as HTMLButtonElement;
+          if (next) {
+            next.focus();
+          }
+          break;
+        case 'ArrowUp':
+          const prev = current.previousElementSibling as HTMLButtonElement;
+          if (prev) {
+            prev.focus();
+          }
+          break;
+
+        default:
+          const isLetter = /^[a-z0-9]$/i.test(key);
+          if (isLetter) {
+            const index = this.field.options.findIndex((o) => {
+              return o.title.toLowerCase().startsWith(key);
+            });
+
+            const child = container.children.item(index) as HTMLButtonElement;
+            if (child) {
+              child.focus();
+            }
+          }
+
+          break;
+      }
+    } catch (error) {
+      // do nothing
+    }
   }
 }
