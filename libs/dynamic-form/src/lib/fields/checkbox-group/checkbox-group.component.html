@@ -6,6 +6,10 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
+<button *ngIf="field.selectAll" class="dyna-select-all" (click)="toggleAll()">
+  {{ toggleState ? 'Unselect all' : 'Select all' }}
+</button>
+
 <div class="dyna-field dyna-options-container dyna-checkbox-options">
   <div
     [class]="'dyna-checkbox-container ' + (option.classNames | joinClassNames)"

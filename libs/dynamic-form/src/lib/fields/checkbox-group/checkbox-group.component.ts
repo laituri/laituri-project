@@ -12,11 +12,14 @@ import { CheckboxGroupField } from './checkbox-group.types';
 })
 export class CheckboxGroupComponent
   extends DynamicFormFieldBase
-  implements OnInit {
+  implements OnInit
+{
   @Input()
   field: CheckboxGroupField;
   @Input()
   control: FormGroup;
+
+  public toggleState = false;
 
   ngOnInit() {}
 
@@ -49,5 +52,22 @@ export class CheckboxGroupComponent
       return values.includes(key);
     }
     return false;
+  }
+
+  public toggleAll() {
+    this.toggleState = !this.toggleState;
+    const keys = this.field.options.map((o) => {
+      return o.key;
+    });
+
+    if (this.field.output === 'boolean-map') {
+      // todo
+    } else {
+      if (this.toggleState === true) {
+        this.control.setValue(keys);
+      } else {
+        this.control.setValue([]);
+      }
+    }
   }
 }
