@@ -124,7 +124,7 @@ export class DropdownComponent
   private setValue(selected: FieldOption[]) {
     if (!this.control.disabled) {
       const value = this.contructValue(selected);
-      this.control.setValue(value);
+      this.control.setValue(value || null);
     }
   }
 

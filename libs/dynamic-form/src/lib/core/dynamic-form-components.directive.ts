@@ -91,10 +91,6 @@ export class DynamicFormComponentsFactoryDirective
             .transform(field, this.formGroup)
             .subscribe((hidden) => {
               if (hidden) {
-                const hiddenValue = this.config?.conditionalHiddenValue;
-                if (hiddenValue !== 'keep') {
-                  control.setValue(hiddenValue);
-                }
                 this.detachComponent(component, placeholderComment);
               } else {
                 this.attachComponent(component, placeholderComment);
