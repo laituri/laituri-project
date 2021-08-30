@@ -6,9 +6,29 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
-<button *ngIf="field.selectAll" class="dyna-select-all" (click)="toggleAll()">
-  {{ toggleState ? 'Unselect all' : 'Select all' }}
-</button>
+<ng-container *ngIf="field.selectAll">
+  <div
+    class="dyna-checkbox-container select-all"
+    [ngClass]="{ checked: toggleState }"
+    (mousedown)="toggleAll()"
+    (keyup.enter)="toggleAll()"
+    (keyup.space)="toggleAll()"
+  >
+    <button
+      class="dyna-checkbox"
+      [disabled]="control.disabled"
+      title="Toggle all"
+      role="checkbox"
+      [attr.aria-checked]="toggleState"
+      [attr.aria-labelledby]="'all-' + field.key"
+    >
+      <div class="dyna-checkbox-inner-icon"></div>
+    </button>
+    <label [id]="'all-' + field.key">{{
+      toggleState ? unselectAllTitle : selectAllTitle
+    }}</label>
+  </div>
+</ng-container>
 
 <div class="dyna-field dyna-options-container dyna-checkbox-options">
   <div

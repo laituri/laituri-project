@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
 import { CheckboxGroupField } from './checkbox-group.types';
 
@@ -20,8 +18,20 @@ export class CheckboxGroupComponent
   control: FormGroup;
 
   public toggleState = false;
+  public selectAllTitle: string = 'Select all';
+  public unselectAllTitle: string = 'Unselect all';
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.field.selectAll && typeof this.field.selectAll !== 'boolean') {
+      const { selectAllTitle, unselectAllTitle } = this.field.selectAll;
+      if (selectAllTitle !== undefined) {
+        this.selectAllTitle = selectAllTitle;
+      }
+      if (unselectAllTitle !== undefined) {
+        this.unselectAllTitle = unselectAllTitle;
+      }
+    }
+  }
 
   public handleChange(key: string) {
     const checked = this.getChecked(key);

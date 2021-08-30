@@ -1,18 +1,9 @@
 :host {
   padding: 4px 0;
   align-items: center;
-  .dyna-select-all {
-    padding: 8px 6px;
-    margin: 0 0 10px;
-    background: none;
-    border: 1px solid #eee;
-    border-radius: 2px;
-    width: fit-content;
-    transition: 200ms ease-out;
-    cursor: pointer;
-    &:hover,
-    &:focus {
-      border: 1px solid var(--dyna-color--hover);
-    }
+  .select-all {
+    border-bottom: 1px solid var(--dyna-color--border);
+    width: 100%;
+    padding-bottom: 12px;
   }
 }
