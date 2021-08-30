@@ -13,7 +13,11 @@ import {
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DynamicFormFactory } from './dynamic-form-factory';
-import { DynamicFormFieldComponentConfig, Field } from '../dynamic-form.types';
+import {
+  DynamicFormFieldComponentConfig,
+  DynamicFormInputsConfig,
+  Field,
+} from '../dynamic-form.types';
 import { FieldConditionPipe } from './field-condition.pipe';
 import { DynamicFormComponentsService } from './dynamic-form-components.service';
 
@@ -27,6 +31,7 @@ export class DynamicFormComponentsFactoryDirective
   @Input() fields: Field[];
   @Input() formGroup: FormGroup;
   @Input() formFactory: DynamicFormFactory;
+  @Input() config: DynamicFormInputsConfig;
 
   private subscriptions: Subscription[] = [];
 
@@ -86,6 +91,10 @@ export class DynamicFormComponentsFactoryDirective
             .transform(field, this.formGroup)
             .subscribe((hidden) => {
               if (hidden) {
+                const hiddenValue = this.config?.conditionalHiddenValue;
+                if (hiddenValue !== 'keep') {
+                  control.setValue(hiddenValue);
+                }
                 this.detachComponent(component, placeholderComment);
               } else {
                 this.attachComponent(component, placeholderComment);

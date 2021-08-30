@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import {
   DynamicFormInputs,
+  DynamicFormInputsConfig,
   ErrorMessages,
   Field,
   FormValues,
@@ -31,6 +32,7 @@ export class DynamicForm<T = FormValues> {
     private locales?: string[],
     private disabled?: boolean,
     private errorMessages?: ErrorMessages,
+    private config?: DynamicFormInputsConfig,
   ) {}
 
   public getFields(): BehaviorSubject<Field[]> {
@@ -59,7 +61,7 @@ export class DynamicForm<T = FormValues> {
     ]).pipe(
       map(([fields, values, locales, disabled]) => {
         const form = this.formSubject.value;
-        return { fields, values, locales, disabled, form };
+        return { fields, values, locales, disabled, form, config: this.config };
       }),
       shareReplay(1),
     );

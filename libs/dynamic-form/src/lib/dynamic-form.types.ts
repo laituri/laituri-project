@@ -8,6 +8,10 @@ export interface DynamicFormInputs {
   locales?: string[];
   disabled?: boolean;
   form?: FormGroup;
+  config?: DynamicFormInputsConfig;
+}
+export interface DynamicFormInputsConfig {
+  conditionalHiddenValue: unknown;
 }
 
 export type FieldTypes = string;
