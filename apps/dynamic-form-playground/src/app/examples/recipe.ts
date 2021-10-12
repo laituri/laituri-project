@@ -48,7 +48,7 @@ export const RecipeFields: Field[] = [
   {
     title: 'Instructions',
     key: 'instructions',
-    type: 'markdown',
+    type: 'markdown-editor',
     placeholder: 'Lorem ipsum',
     validation: {
       required: true,

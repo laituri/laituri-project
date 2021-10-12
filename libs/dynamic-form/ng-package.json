@@ -7,11 +7,9 @@
     "src/lib/dynamic-form.d.ts",
     "src/lib/_styles/*.css"
   ],
-  "whitelistedNonPeerDependencies": [
+  "allowedNonPeerDependencies": [
     "@simonwep/pickr",
     "js-datepicker",
-    "quill",
-    "turndown",
     "ngx-markdown",
     "@angular/cdk",
     "@angular/material"
@@ -21,11 +19,7 @@
     "umdModuleIds": {
       "@simonwep/pickr": "Pickr",
       "js-datepicker": "datepicker",
-      "quill": "Quill",
-      "turndown": "turndown",
-      "md-to-quill-delta": "mdToQuillDelta",
-      "ngx-markdown": "ngxMarkdown",
-      "turndown/lib/turndown.browser.umd.js": "turndown"
+      "ngx-markdown": "ngxMarkdown"
     }
   }
 }

@@ -22,8 +22,6 @@ import {
   GroupComponentConfig,
   ContantainerComponentConfig,
 } from './group/group.config';
-import { MarkdownEditorComponentConfig } from './markdown-editor/markdown-editor.config';
-import { MarkdownEditorModule } from './markdown-editor/markdown-editor.module';
 import {
   MarkdownTextSectionComponentConfig,
   MarkdownTextSectionComponentAsInfoConfig,
@@ -36,7 +34,11 @@ import { SubmitComponentConfig } from './submit/submit.config';
 import { SubmitModule } from './submit/submit.module';
 import { TextComponentConfigs } from './text/text.config';
 import { TextModule } from './text/text.module';
-import { TextareaComponentConfig } from './textarea/action.config';
+import {
+  TextareaComponentConfig,
+  TextareaMarkdownEditorComponentConfig,
+  TextareaMarkdownEditorComponentAsMarkdownConfig,
+} from './textarea/textarea.config';
 import { TextareaModule } from './textarea/textarea.module';
 
 @NgModule({
@@ -58,7 +60,6 @@ import { TextareaModule } from './textarea/textarea.module';
     ChipsModule,
     FileModule,
     SubmitModule,
-    MarkdownEditorModule,
     MarkdownTextSectionModule,
   ],
   exports: [],
@@ -81,7 +82,8 @@ export class DynaFieldsModule {
     FileComponentConfig,
     MarkdownTextSectionComponentConfig,
     MarkdownTextSectionComponentAsInfoConfig,
-    MarkdownEditorComponentConfig,
+    TextareaMarkdownEditorComponentConfig,
+    TextareaMarkdownEditorComponentAsMarkdownConfig,
     RadioComponentConfig,
     SubmitComponentConfig,
   ];
