@@ -6,13 +6,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RepeaterComponent } from './fields/repeater/repeater.component';
 import { GroupComponent } from './fields/group/group.component';
 import { DynaCommonModule } from './common/common.module';
-
 import {
   MarkdownModule as NgxMarkdownModule,
   MarkedOptions,
   MarkedRenderer,
 } from 'ngx-markdown';
-import { FormStateService } from './core/form-state.service';
 import { CoreModule } from './core/core.module';
 import { DynaFieldsModule } from './fields/dyna-fields.module';
 
@@ -34,7 +32,6 @@ import { DynaFieldsModule } from './fields/dyna-fields.module';
     }),
   ],
   exports: [DynamicFormComponent],
-  providers: [FormStateService],
 })
 export class DynamicFormModule {}
 

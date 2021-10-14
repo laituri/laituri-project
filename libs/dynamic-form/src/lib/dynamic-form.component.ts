@@ -34,6 +34,7 @@ import { DynamicFormComponentsService } from './core/dynamic-form-components.ser
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
+  providers: [FormStateService],
 })
 export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input()
