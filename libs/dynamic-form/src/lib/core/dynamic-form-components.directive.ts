@@ -12,14 +12,15 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { DynamicFormFactory } from './dynamic-form-factory';
 import {
   DynamicFormFieldComponentConfig,
-  DynamicFormInputsConfig,
   Field,
+  FieldTemplate,
+  Locale,
 } from '../dynamic-form.types';
 import { FieldConditionPipe } from './field-condition.pipe';
 import { DynamicFormComponentsService } from './dynamic-form-components.service';
+import { FormStateService } from './form-state.service';
 
 @Directive({
   selector: '[dynaComponentsFactory]',
@@ -30,10 +31,10 @@ export class DynamicFormComponentsFactoryDirective
 {
   @Input() fields: Field[];
   @Input() formGroup: FormGroup;
-  @Input() formFactory: DynamicFormFactory;
-  @Input() config: DynamicFormInputsConfig;
 
   private subscriptions: Subscription[] = [];
+  private locales: Locale[];
+  private localize: boolean;
 
   constructor(
     private el: ElementRef<HTMLFormElement>,
@@ -42,69 +43,103 @@ export class DynamicFormComponentsFactoryDirective
     private componentFactoryResolver: ComponentFactoryResolver,
     private fieldCondition: FieldConditionPipe,
     private componentsService: DynamicFormComponentsService,
+    private formState: FormStateService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.fields) {
+      const localesSubject = this.formState.options.locales;
+      const locales = localesSubject.value;
+      this.localize = locales && locales.length > 0;
+      this.locales = locales;
+
       this.contructFieldElements();
     }
   }
 
   private contructFieldElements() {
     this.el.nativeElement.innerHTML = '';
-    this.fields.forEach((field) => {
-      const { type } = field;
-      const fieldConfig = this.componentsService.getComponentConfig(type);
+    this.fields.forEach((field: FieldTemplate) => {
+      if (this.localize && field.localize) {
+        const fieldConfig = this.componentsService.getComponentConfig('group');
 
-      if (fieldConfig) {
-        const component: ComponentRef<any> = this.componentFactoryResolver
-          .resolveComponentFactory(fieldConfig.component)
-          .create(this.injector, []);
-
-        this.applicationRef.attachView(component.hostView);
-
-        const control = this.getControl(fieldConfig, field);
-        /* Set inputs */
-        component.instance.field = field;
-        component.instance.formFactory = this.formFactory;
-        component.instance.control = control;
-
-        /* Set html attributes */
-        const element = component.location.nativeElement as HTMLElement;
-        element.classList.add('dyna-form-field');
-        if (field.id) {
-          element.id = field.id;
-        }
-        if (field.classNames && field.classNames.length > 0) {
-          field.classNames.forEach((className) => {
-            element.classList.add(className);
-          });
-        }
-
-        if (field.condition) {
-          const placeholderComment = document.createComment(
-            `Conditional field: "${field.key}"`,
-          );
-          document.body.appendChild(placeholderComment);
-          this.attachComponent(component);
-          const conditionSubscription = this.fieldCondition
-            .transform(field, this.formGroup)
-            .subscribe((hidden) => {
-              if (hidden) {
-                this.detachComponent(component, placeholderComment);
-              } else {
-                this.attachComponent(component, placeholderComment);
-              }
-            });
-          this.subscriptions.push(conditionSubscription);
-        } else {
-          this.attachComponent(component);
-        }
+        const localizedFields = this.locales.map(({ key, title }) => {
+          return {
+            ...field,
+            key,
+            title,
+            localize: false,
+          };
+        });
+        const localizationGroupField: FieldTemplate = {
+          key: field.key,
+          title: field.title,
+          type: 'group',
+          fields: localizedFields,
+          classNames: ['bordered'],
+        };
+        this.addFieldComponent(fieldConfig, localizationGroupField);
       } else {
-        console.log('Not found:', field.type);
+        const fieldConfig = this.componentsService.getComponentConfig(
+          field.type,
+        );
+        this.addFieldComponent(fieldConfig, field);
       }
     });
   }
+
+  private addFieldComponent(
+    fieldConfig: DynamicFormFieldComponentConfig,
+    field: FieldTemplate,
+  ) {
+    if (fieldConfig) {
+      const component: ComponentRef<any> = this.componentFactoryResolver
+        .resolveComponentFactory(fieldConfig.component)
+        .create(this.injector, []);
+
+      this.applicationRef.attachView(component.hostView);
+
+      const control = this.getControl(fieldConfig, field);
+      /* Set inputs */
+      component.instance.field = field;
+      component.instance.control = control;
+
+      /* Set html attributes */
+      const element = component.location.nativeElement as HTMLElement;
+      element.classList.add('dyna-form-field');
+      if (field.id) {
+        element.id = field.id;
+      }
+      if (field.classNames && field.classNames.length > 0) {
+        field.classNames.forEach((className) => {
+          element.classList.add(className);
+        });
+      }
+
+      if (field.condition) {
+        const placeholderComment = document.createComment(
+          `Conditional field: "${field.key}"`,
+        );
+        document.body.appendChild(placeholderComment);
+        this.attachComponent(component);
+        const conditionSubscription = this.fieldCondition
+          .transform(field, this.formGroup)
+          .subscribe((hidden) => {
+            if (hidden) {
+              this.detachComponent(component, placeholderComment);
+            } else {
+              this.attachComponent(component, placeholderComment);
+            }
+          });
+        this.subscriptions.push(conditionSubscription);
+      } else {
+        this.attachComponent(component);
+      }
+    } else {
+      console.log('Not found:', field.type);
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }

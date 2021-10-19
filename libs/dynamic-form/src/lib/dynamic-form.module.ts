@@ -13,9 +13,15 @@ import {
 } from 'ngx-markdown';
 import { CoreModule } from './core/core.module';
 import { DynaFieldsModule } from './fields/dyna-fields.module';
+import { RepeaterDisplayFieldPipe } from './fields/repeater/repeater-display-field.pipe';
 
 @NgModule({
-  declarations: [DynamicFormComponent, RepeaterComponent, GroupComponent],
+  declarations: [
+    DynamicFormComponent,
+    RepeaterComponent,
+    GroupComponent,
+    RepeaterDisplayFieldPipe,
+  ],
   entryComponents: [RepeaterComponent, GroupComponent],
   imports: [
     CommonModule,

@@ -23,7 +23,7 @@
           {{ i + 1 }}
         </div>
         <h4 class="title">
-          {{ getDisplayValue(formGroup) }}
+          {{ formGroup.value | repeaterDisplayField : field | async }}
         </h4>
       </div>
       <div class="actions">
@@ -40,7 +40,6 @@
         dynaComponentsFactory
         [formGroup]="formGroup"
         [fields]="field.fields"
-        [formFactory]="formFactory"
       ></div>
     </div>
   </div>

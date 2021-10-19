@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { ExampleViewRoutingModule } from './example-view-routing.module';
 import { ExampleViewComponent } from './example-view.component';
-import { DynamicFormModuleImport } from 'apps/dynamic-form-playground/src/environments/environment';
-
+import { DynamicFormModule } from '../../../environments/environment';
 @NgModule({
   declarations: [ExampleViewComponent],
   imports: [
     CommonModule,
     ExampleViewRoutingModule,
-    DynamicFormModuleImport,
+    DynamicFormModule,
     MarkdownModule.forRoot({}),
   ],
 })

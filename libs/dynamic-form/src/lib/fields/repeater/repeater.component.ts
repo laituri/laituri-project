@@ -11,7 +11,8 @@ import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FieldTemplate, Field } from '../../dynamic-form.types';
 import { RepeaterField } from './repeater.types';
-import { DynamicFormFactory } from '../../core/dynamic-form-factory';
+import { DynamicFormFactoryService } from '../../core/dynamic-form-factory.service';
+import { FormStateService } from '../../core/form-state.service';
 
 @Component({
   selector: 'dyna-repeater',
@@ -23,14 +24,15 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
   field: RepeaterField;
   @Input()
   control: FormArray;
-  @Input()
-  formFactory: DynamicFormFactory;
 
   @ViewChildren('fieldsElement') subFields: QueryList<
     ElementRef<HTMLDivElement>
   >;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private dynamicFormFactory: DynamicFormFactoryService,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -44,7 +46,7 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
   }
 
   public addItem() {
-    const controls = this.formFactory.formControlsFactory(
+    const controls = this.dynamicFormFactory.formControlsFactory(
       this.field.fields as FieldTemplate[],
     );
     const formGroup = this.fb.group(controls);
@@ -82,18 +84,6 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
     };
     window.requestAnimationFrame(collapseStep);
     /* } */
-  }
-
-  getDisplayValue(control: FormControl): string {
-    const { display } = this.field;
-    if (!display) {
-      return '';
-    }
-    const value = control.value[display];
-    if (!value) {
-      return '';
-    }
-    return value.toString();
   }
 
   hideItemFields(el: HTMLDivElement) {

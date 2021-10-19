@@ -73,9 +73,7 @@
   </ng-template>
 </div>
 
-<dyna-hint [field]="field" [control]="control">
-  {{ field.hint }}
-</dyna-hint>
+<dyna-hint [field]="field" [control]="control"></dyna-hint>
 
 <ng-container
   *ngIf="field.display === 'chips' && getSelectedOptions() | async as chips"

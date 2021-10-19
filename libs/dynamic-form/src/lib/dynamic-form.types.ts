@@ -2,16 +2,13 @@ import { ComponentType } from '@angular/cdk/portal';
 import { TemplateRef } from '@angular/core';
 import { FormGroup, ValidatorFn } from '@angular/forms';
 
-export interface DynamicFormInputs {
+export interface DynamicFormOptions<T = FormValues> {
   fields: Field[];
-  values?: FormValues;
-  locales?: string[];
+  values?: T;
+  locales?: Locale[];
   disabled?: boolean;
-  form?: FormGroup;
-  config?: DynamicFormInputsConfig;
-}
-export interface DynamicFormInputsConfig {
-  conditionalHiddenValue: unknown;
+  errorMessages?: ErrorMessages;
+  disableFormOnSubmit?: boolean;
 }
 
 export type FieldTypes = string;
@@ -22,11 +19,19 @@ export type Field = any;
 
 export type FormValues = { [key: string]: any };
 
-export interface DynamicFormConfig {
-  fields: Field[];
-  values?: { [key: string]: any };
-  // form?: any;
-  locales?: string[];
+interface Localize<T> {
+  [localeKey: string]: T;
+}
+
+export type LocalizedValue<T = string> = T | Localize<T>;
+
+export type LocalizedString = LocalizedValue<string>;
+export type LocalizedNumber = LocalizedValue<number>;
+
+export interface Locale {
+  key: string;
+  title: string;
+  default?: boolean;
 }
 
 export interface FieldBase {
@@ -36,18 +41,17 @@ export interface FieldBase {
   style?: FieldStyleBase;
   validation?: FieldValidationBase;
   condition?: FieldConditionValue;
-  info: FieldInfo;
+  info?: FieldInfo;
 }
 
 export interface FormFieldBase<T> extends FieldBase {
   key: string;
   description?: string;
   descriptionTemplate?: TemplateRef<any>;
-  placeholder?: string;
-  hint?: string;
+  placeholder?: LocalizedString;
+  hint?: LocalizedString;
   disabled?: boolean;
   hidden?: boolean;
-  value?: T;
   defaultValue?: T;
 }
 
@@ -55,12 +59,15 @@ export interface FieldTemplate extends FormFieldBase<any> {
   validation?: FieldValidationTemplate;
   /* Advanced */
   localize?: boolean;
+  wasLocalized?: boolean;
   /* Functions */
   asyncCondition?: (form?: any) => any;
   fields?: SubFields;
   output?: string;
   options?: FieldOption[];
   flat?: boolean;
+  id?: string;
+  classNames?: string[];
 }
 
 /* Check me */

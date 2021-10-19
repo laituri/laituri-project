@@ -1,6 +1,4 @@
-import { DynamicFormModule } from 'dynamic-form';
-
-export const DynamicFormModuleImport = DynamicFormModule;
+export { DynamicFormModule, DynamicForm } from 'dynamic-form';
 
 export const environment = {
   production: true,

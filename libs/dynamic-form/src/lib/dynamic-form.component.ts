@@ -5,92 +5,66 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-  ElementRef,
-  ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { Observable, Subscription, BehaviorSubject, combineLatest } from 'rxjs';
 import {
   debounceTime,
   filter,
-  map,
   mergeMap,
   shareReplay,
+  take,
 } from 'rxjs/operators';
-
-import {
-  DynamicFormFieldComponentConfig,
-  DynamicFormInputs,
-  FieldTemplate,
-  FormValues,
-} from './dynamic-form.types';
-import { DynamicForm } from './dynamic-form.class';
-import { DynamicFormFactory } from './core/dynamic-form-factory';
+import { FormValues } from './dynamic-form.types';
+import { DynamicForm } from './dynamic-form.options';
 import { DynamicFormHistory } from './core/dynamic-form-history';
 import { FormStateService } from './core/form-state.service';
-import { DynamicFormComponentsService } from './core/dynamic-form-components.service';
+import { DynamicFormFactoryService } from './core/dynamic-form-factory.service';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
-  providers: [FormStateService],
+  providers: [FormStateService, DynamicFormFactoryService],
 })
 export class DynamicFormComponent implements OnInit, OnDestroy {
   @Input()
-  inputs: DynamicForm;
+  options: DynamicForm;
 
-  @Input()
-  components?: DynamicFormFieldComponentConfig[];
-
-  @Input()
-  discardDefaultComponents?: boolean;
+  @Output('submit')
+  onSubmit: EventEmitter<FormValues> = this.formState.submit;
 
   @Output()
-  onSubmit = new EventEmitter<FormValues>();
+  valueChange: EventEmitter<FormValues> = this.formState.valueChange;
 
   @Output()
-  valueChange = new EventEmitter<any>();
+  statusChange: EventEmitter<string> = this.formState.statusChange;
 
-  @ViewChild('formElement') formElement: ElementRef<HTMLElement>;
+  @Output()
+  formChange: EventEmitter<FormGroup> = this.formState.formChange;
 
-  public inputsObservable: Observable<DynamicFormInputs>;
-  public formObservable: Observable<FormGroup>;
-  public fields: FieldTemplate[];
+  public currentForm: BehaviorSubject<FormGroup> = this.formState.currentForm;
   public history: DynamicFormHistory;
-  public formFactory: DynamicFormFactory;
 
-  private subscriptions: Subscription[];
+  private subscriptions: Subscription[] = [];
+  private disabledObservable: Observable<boolean>;
   private valueChangesObservable: Observable<FormValues>;
-  private currentForm = new BehaviorSubject<FormGroup>(null);
+  private statusChangesObservable: Observable<string>;
   private currentFormValues = new BehaviorSubject<FormValues>(null);
 
   constructor(
-    private formBuilder: FormBuilder,
     private formState: FormStateService,
-    private componentsService: DynamicFormComponentsService,
+    private dynamicFormFactoryService: DynamicFormFactoryService,
   ) {}
 
   ngOnInit() {
-    this.inputs._setOnSubmit(this.onSubmit);
-    this.formState.setInputs(this.inputs);
-    this.formFactory = new DynamicFormFactory(
-      this.formBuilder,
-      this.componentsService,
-    );
-    this.inputsObservable = this.inputs.getInputChanges();
+    this.history = new DynamicFormHistory();
 
-    this.formObservable = this.inputsObservable.pipe(
-      map((inputs) => {
-        const form = this.formFactory.contructForm(inputs);
-        this.currentForm.next(form);
-        this.inputs._setForm(form);
-        return form;
-      }),
-      shareReplay(1),
-    );
+    this.formState.setOptions(this.options);
+    this.disabledObservable = this.options.disabled;
 
-    this.valueChangesObservable = this.formObservable.pipe(
+    this.valueChangesObservable = this.currentForm.pipe(
+      filter((form) => form !== null),
       mergeMap((form) => {
         return form.valueChanges;
       }),
@@ -98,7 +72,49 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       shareReplay(1),
     );
 
-    this.history = new DynamicFormHistory();
+    this.statusChangesObservable = this.currentForm.pipe(
+      filter((form) => form !== null),
+      mergeMap((form) => {
+        return form.statusChanges;
+      }),
+      debounceTime(200),
+      shareReplay(1),
+    );
+
+    const formSubscription = this.currentForm.subscribe((form) => {
+      this.formChange.emit(form);
+    });
+
+    const statusChangesSubscription = this.statusChangesObservable.subscribe(
+      (status) => {
+        this.statusChange.emit(status);
+      },
+    );
+
+    const fieldChangesSubscription = this.options.fieldChanges.subscribe(
+      async (options) => {
+        const prev = await this.currentFormValues.pipe(take(1)).toPromise();
+        const newForm = this.dynamicFormFactoryService.contructForm(
+          options,
+          prev,
+        );
+        this.currentForm.next(newForm);
+        return newForm;
+      },
+    );
+
+    const disabledSubscription = combineLatest([
+      this.currentForm,
+      this.disabledObservable,
+    ])
+      .pipe(filter(([form]) => form !== null))
+      .subscribe(([form, isDisabled]) => {
+        if (isDisabled) {
+          form.disable({ emitEvent: false });
+        } else {
+          form.enable({ emitEvent: false });
+        }
+      });
 
     const valueChangeSubscription = this.valueChangesObservable.subscribe(
       (values) => {
@@ -120,7 +136,15 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
           this.history.undo(form);
         }
       });
-    this.subscriptions = [valueChangeSubscription, historySubscription];
+
+    this.subscriptions = [
+      formSubscription,
+      statusChangesSubscription,
+      fieldChangesSubscription,
+      disabledSubscription,
+      valueChangeSubscription,
+      historySubscription,
+    ];
   }
 
   ngOnDestroy() {
@@ -137,5 +161,9 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
   public getControl(control: FormGroup, field: { key: string }): any {
     return control.get(field.key);
+  }
+
+  public getForm() {
+    return this.currentForm;
   }
 }

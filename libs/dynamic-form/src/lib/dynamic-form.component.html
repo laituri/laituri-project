@@ -1,13 +1,11 @@
-<ng-container *ngIf="inputsObservable | async as inputs">
+<ng-container *ngIf="options.fields | async as fields">
   <div
-    *ngIf="formObservable | async as form"
+    *ngIf="currentForm | async as form"
     role="form"
     dynaComponentsFactory
     class="dynamic-form-container"
     #formElement
     [formGroup]="form"
-    [fields]="inputs.fields"
-    [formFactory]="formFactory"
-    [config]="inputs.config"
+    [fields]="fields"
   ></div>
 </ng-container>

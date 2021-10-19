@@ -17,7 +17,6 @@ import { FormStateService } from '../../core/form-state.service';
 export class HintDirective implements OnInit {
   @Input() control: AbstractControl;
   @Input() field: FieldTemplate;
-  @Input() hint: string;
 
   @HostBinding('class.dyna-error-message') error = false;
 
@@ -26,14 +25,16 @@ export class HintDirective implements OnInit {
     private state: FormStateService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const hint = await getHint(this.field);
+    this.setText(hint);
     if (this.control) {
       this.control.statusChanges
         .pipe(debounceTime(500))
         .subscribe((status: 'VALID' | 'INVALID') => {
           if (status === 'VALID') {
             this.error = false;
-            this.setText(this.hint || this.field.hint || '');
+            this.setText(hint);
           }
           if (status === 'INVALID') {
             this.error = true;
@@ -56,7 +57,7 @@ export class HintDirective implements OnInit {
     const fieldErrorMessages =
       this.field.validation && this.field.validation.errorMessages;
 
-    const globalErrorMessages = this.state.inputs.getErrorMessages();
+    const globalErrorMessages = this.state.options.errorMessages;
 
     if (fieldErrorMessages) {
       if (globalErrorMessages) {
@@ -72,4 +73,25 @@ export class HintDirective implements OnInit {
     }
     return null;
   }
+}
+
+// Helpers
+export async function getHint(field: FieldTemplate): Promise<string> {
+  if (field) {
+    const { hint, key } = field;
+    if (!hint || !key) {
+      return '';
+    }
+    if (typeof hint === 'string') {
+      return hint;
+    }
+    if (hint[key]) {
+      return hint[key];
+    }
+    const defaultLocale = await this.state.getDefaultLocale();
+    if (hint[defaultLocale.key]) {
+      return hint[defaultLocale.key];
+    }
+  }
+  return '';
 }

@@ -24,10 +24,10 @@
       }
     }
   }
-  /*  
-  border-left: 2px solid #eee;
-  .label {
-    font-size: 12px;
-    margin: 0 0 2px;
-  } */
+  &.bordered {
+    fieldset {
+      border-left: 2px solid #eee;
+      padding-left: 12px;
+    }
+  }
 }

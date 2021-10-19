@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ContainerField, GroupField } from './group.types';
-import { DynamicFormFactory } from '../../core/dynamic-form-factory';
 
 @Component({
   selector: 'dyna-group',
@@ -13,8 +12,6 @@ export class GroupComponent implements OnInit {
   field: GroupField | ContainerField;
   @Input()
   control: FormGroup;
-  @Input()
-  formFactory: DynamicFormFactory;
 
   @HostBinding('class.row') get row() {
     return this.field.style && this.field.style.direction === 'row';

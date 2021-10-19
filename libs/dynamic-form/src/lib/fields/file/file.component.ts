@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { getHint } from '../../common/hint/hint.directive';
 import { FileField } from './file.types';
 
 @Component({
@@ -23,8 +24,8 @@ export class FileComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {
-    this.hint = this.field.hint;
+  async ngOnInit(): Promise<void> {
+    this.hint = await getHint(this.field);
     this._getInitialFiles();
   }
 
@@ -60,22 +61,20 @@ export class FileComponent implements OnInit {
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList.item(i);
       const validFile = await this._validateFiles(file);
-      console.log(validFile);
-
       if (validFile) {
         files.push(file);
       }
     }
     this.files = files;
 
-    this.hint = this.getPreviewHint();
+    this.hint = await this.getPreviewHint();
 
     return files;
   }
 
-  private getPreviewHint(): string {
+  private async getPreviewHint(): Promise<string> {
     if (!this.files || this.files.length < 1) {
-      return this.field.hint;
+      return await getHint(this.field);
     }
     if (this.field.previewHint) {
       return this.field.previewHint;

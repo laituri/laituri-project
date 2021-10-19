@@ -1,27 +1,28 @@
+import { Injectable } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
   AbstractControl,
-  ValidatorFn,
   AsyncValidatorFn,
-  Validators,
+  FormBuilder,
+  FormGroup,
   ValidationErrors,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import { isDefined } from '../common/common.helpers';
 import {
-  FieldTemplate,
-  FieldOption,
-  FieldConditionValue,
-  DynamicFormInputs,
-  FormValues,
   DynamicFormFieldComponentConfig,
+  DynamicFormOptions,
+  FieldConditionValue,
+  FieldOption,
+  FieldTemplate,
+  FormValues,
+  Locale,
 } from '../dynamic-form.types';
 import { DynamicFormComponentsService } from './dynamic-form-components.service';
 
-export class DynamicFormFactory {
-  private form: FormGroup;
-  /* Refactor localisation! */
-  private locales: string[];
+@Injectable()
+export class DynamicFormFactoryService {
+  private locales: Locale[];
   private localize: boolean;
 
   constructor(
@@ -29,37 +30,34 @@ export class DynamicFormFactory {
     private componentsService: DynamicFormComponentsService,
   ) {}
 
-  contructForm({
-    fields,
-    values,
-    locales,
-    ...inputs
-  }: DynamicFormInputs): FormGroup {
+  contructForm(
+    { fields, values, locales }: DynamicFormOptions,
+    previousValues: FormValues,
+  ): FormGroup {
     this.localize = locales && locales.length > 0;
     this.locales = locales;
-    const mergedValues = this.mergeValues(values, inputs.form);
+
+    const mergedValues = this.mergeValues(values, previousValues);
     const formControls = this.formControlsFactory(
       fields as FieldTemplate[],
       mergedValues,
     );
     const form = this.fb.group(formControls);
-    this.form = form;
-
-    return this.form;
+    return form;
   }
 
   private mergeValues(
     inputValues?: FormValues, // Values from input
-    initialForm?: FormGroup, // Old form values before rebuild
+    previousValues?: FormValues, // Old form values before rebuild
   ): FormValues {
     if (inputValues && typeof inputValues === 'object') {
-      if (initialForm && initialForm.value) {
-        return { ...inputValues, ...initialForm.value };
+      if (previousValues) {
+        return { ...inputValues, ...previousValues };
       }
       return inputValues;
     }
-    if (initialForm && initialForm.value) {
-      return initialForm.value;
+    if (previousValues) {
+      return previousValues;
     }
     return null;
   }
@@ -81,6 +79,32 @@ export class DynamicFormFactory {
       }
 
       const value = this.getValueForField(field, values);
+
+      /* Localize */
+
+      if (this.localize && field.localize) {
+        const localizedFields = this.locales.map(({ key, title }) => {
+          return {
+            ...field,
+            key,
+            title,
+            wasLocalized: true,
+            localize: false,
+          };
+        });
+
+        const controls = this.formControlsFactory(
+          localizedFields as FieldTemplate[],
+          value,
+        );
+
+        return {
+          ...acc,
+          [field.key]: this.fb.group(controls),
+        };
+      }
+
+      /* End  */
 
       const validators = this._getValidators(field, fieldConfig);
 
@@ -143,27 +167,28 @@ export class DynamicFormFactory {
   }
 
   private getValueForField(
-    { key, value, defaultValue }: FieldTemplate,
+    { key, defaultValue, wasLocalized }: FieldTemplate,
     values?: any,
   ) {
     if (!values || !key) {
       return null;
     }
 
-    if (typeof values !== 'object') {
-      return null;
-    }
-
-    if (values[key]) {
-      return values[key];
-    }
-
-    if (value) {
-      return value;
+    if (typeof values === 'object') {
+      if (values[key]) {
+        return values[key];
+      }
     }
 
     if (defaultValue) {
       return defaultValue;
+    }
+
+    if (wasLocalized) {
+      const defaultLocale = this.locales.find((locale) => locale.default);
+      if (key === defaultLocale.key) {
+        return values;
+      }
     }
 
     return null;

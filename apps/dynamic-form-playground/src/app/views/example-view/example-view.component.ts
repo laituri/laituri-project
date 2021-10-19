@@ -1,8 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { DynamicForm } from 'dynamic-form';
+import { debounceTime, map, shareReplay } from 'rxjs/operators';
+import { DynamicForm } from '../../../environments/environment';
+
+const demoLocales = [
+  {
+    key: 'en',
+    title: 'English',
+    default: true,
+  },
+  {
+    key: 'fi',
+    title: 'Finnish',
+  },
+];
 
 @Component({
   selector: 'app-example-view',
@@ -20,13 +32,17 @@ export class ExampleViewComponent implements OnInit {
   ngOnInit(): void {
     this.dynamicForm = this.route.data.pipe(
       map((data) => {
-        return new DynamicForm(Object.values(data));
+        const fields = Object.values(data);
+        return new DynamicForm({
+          fields,
+          locales: demoLocales,
+        });
       }),
       shareReplay(1),
     );
 
     this.fieldsJson = this.dynamicForm.pipe(
-      map((inputs) => JSON.stringify(inputs.getFields().value, null, 2)),
+      map((inputs) => JSON.stringify(inputs.fields.value, null, 2)),
     );
   }
 
@@ -38,5 +54,9 @@ export class ExampleViewComponent implements OnInit {
     console.log('Value change:', values);
     const result = JSON.stringify(values, null, 2);
     this.result.next(result);
+  }
+
+  submitResult(values: any) {
+    console.log('Submit:', values);
   }
 }

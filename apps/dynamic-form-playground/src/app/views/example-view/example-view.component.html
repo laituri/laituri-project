@@ -20,11 +20,12 @@
   </button>
 </div>
 
-<ng-container *ngIf="display === 'form' && dynamicForm | async as inputs">
+<ng-container *ngIf="display === 'form' && dynamicForm | async as options">
   <dynamic-form
-    [inputs]="inputs"
+    [options]="options"
     (valueChange)="updateResult($event)"
-  ></dynamic-form>
+    (submit)="submitResult($event)"
+    ></dynamic-form>
 </ng-container>
 
 <ng-container *ngIf="display === 'fields' && fieldsJson | async as fieldsJson">
