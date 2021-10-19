@@ -20,12 +20,12 @@ export class FormStateService {
     this.options = options;
   }
 
-  public submitForm(
-    disableFormOnSubmit: boolean = this.options.disableFormOnSubmit || true,
-  ) {
+  public submitForm(disableFormOnSubmit: boolean = true) {
     const form = this.currentForm.value;
     if (form.valid) {
-      this.options.setDisabled(disableFormOnSubmit);
+      if (this.options.disableFormOnSubmit !== false) {
+        this.options.setDisabled(disableFormOnSubmit);
+      }
       this.submit.emit(form.value);
     }
   }
