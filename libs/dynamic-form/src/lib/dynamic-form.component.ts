@@ -7,14 +7,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription, BehaviorSubject, combineLatest } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  mergeMap,
-  shareReplay,
-  take,
-} from 'rxjs/operators';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { debounceTime, filter, shareReplay } from 'rxjs/operators';
 import { FormValues } from './dynamic-form.types';
 import { DynamicForm } from './dynamic-form.options';
 import { DynamicFormHistory } from './core/dynamic-form-history';
@@ -43,7 +37,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   @Output()
   formChange: EventEmitter<FormGroup> = this.formState.formChange;
 
-  public currentForm: BehaviorSubject<FormGroup> = this.formState.currentForm;
+  public currentForm: FormGroup = this.formState.currentForm;
   public history: DynamicFormHistory;
 
   private subscriptions: Subscription[] = [];
@@ -63,27 +57,15 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     this.formState.setOptions(this.options);
     this.disabledObservable = this.options.disabled;
 
-    this.valueChangesObservable = this.currentForm.pipe(
-      filter((form) => form !== null),
-      mergeMap((form) => {
-        return form.valueChanges;
-      }),
+    this.valueChangesObservable = this.currentForm.valueChanges.pipe(
       debounceTime(200),
       shareReplay(1),
     );
 
-    this.statusChangesObservable = this.currentForm.pipe(
-      filter((form) => form !== null),
-      mergeMap((form) => {
-        return form.statusChanges;
-      }),
+    this.statusChangesObservable = this.currentForm.statusChanges.pipe(
       debounceTime(200),
       shareReplay(1),
     );
-
-    const formSubscription = this.currentForm.subscribe((form) => {
-      this.formChange.emit(form);
-    });
 
     const statusChangesSubscription = this.statusChangesObservable.subscribe(
       (status) => {
@@ -93,28 +75,35 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     const fieldChangesSubscription = this.options.fieldChanges.subscribe(
       async (options) => {
-        const prev = await this.currentFormValues.pipe(take(1)).toPromise();
-        const newForm = this.dynamicFormFactoryService.contructForm(
+        /* Contruct new form */
+        const form = this.dynamicFormFactoryService.contructForm(
           options,
-          prev,
+          this.currentForm.value,
         );
-        this.currentForm.next(newForm);
-        return newForm;
+
+        /* Combine forms */
+        Object.entries(form.controls).forEach(([name, control]) => {
+          if (this.currentForm.contains(name)) {
+            this.currentForm.setControl(name, control);
+          } else {
+            this.currentForm.registerControl(name, control);
+          }
+        });
+
+        /* Emit event about form update */
+        this.formChange.emit(this.currentForm);
       },
     );
 
-    const disabledSubscription = combineLatest([
-      this.currentForm,
-      this.disabledObservable,
-    ])
-      .pipe(filter(([form]) => form !== null))
-      .subscribe(([form, isDisabled]) => {
+    const disabledSubscription = this.disabledObservable.subscribe(
+      (isDisabled) => {
         if (isDisabled) {
-          form.disable({ emitEvent: false });
+          this.currentForm.disable({ emitEvent: false });
         } else {
-          form.enable({ emitEvent: false });
+          this.currentForm.enable({ emitEvent: false });
         }
-      });
+      },
+    );
 
     const valueChangeSubscription = this.valueChangesObservable.subscribe(
       (values) => {
@@ -138,7 +127,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       });
 
     this.subscriptions = [
-      formSubscription,
       statusChangesSubscription,
       fieldChangesSubscription,
       disabledSubscription,

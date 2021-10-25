@@ -8,7 +8,7 @@ import { FormValues } from '../dynamic-form.types';
 @Injectable()
 export class FormStateService {
   public options: DynamicForm<FormValues>;
-  public currentForm = new BehaviorSubject<FormGroup>(null);
+  public currentForm = new FormGroup({});
   public submit: EventEmitter<FormValues> = new EventEmitter<FormValues>();
   public valueChange: EventEmitter<FormValues> = new EventEmitter<FormValues>();
   public statusChange: EventEmitter<string> = new EventEmitter<string>();
@@ -21,17 +21,17 @@ export class FormStateService {
   }
 
   public submitForm(disableFormOnSubmit: boolean = true) {
-    const form = this.currentForm.value;
-    if (form.valid) {
+    const { valid, value } = this.currentForm;
+    if (valid) {
       if (this.options.disableFormOnSubmit !== false) {
         this.options.setDisabled(disableFormOnSubmit);
       }
-      this.submit.emit(form.value);
+      this.submit.emit(value);
     }
   }
 
-  public async getDefaultLocale() {
-    const locales = await this.options.locales.pipe(take(1)).toPromise();
+  public getDefaultLocale() {
+    const locales = this.options.locales.value;
     const defaultLocale = locales.find((locale) => locale.default);
     if (!defaultLocale) {
       return locales[0];

@@ -51,9 +51,6 @@ export class DynamicFormFactoryService {
     previousValues?: FormValues, // Old form values before rebuild
   ): FormValues {
     if (inputValues && typeof inputValues === 'object') {
-      if (previousValues) {
-        return { ...inputValues, ...previousValues };
-      }
       return inputValues;
     }
     if (previousValues) {

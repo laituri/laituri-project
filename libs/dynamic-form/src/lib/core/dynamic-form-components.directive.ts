@@ -8,6 +8,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
@@ -27,7 +28,7 @@ import { FormStateService } from './form-state.service';
   providers: [FieldConditionPipe],
 })
 export class DynamicFormComponentsFactoryDirective
-  implements OnChanges, OnDestroy
+  implements OnChanges, OnDestroy, OnInit
 {
   @Input() fields: Field[];
   @Input() formGroup: FormGroup;
@@ -46,13 +47,24 @@ export class DynamicFormComponentsFactoryDirective
     private formState: FormStateService,
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.fields) {
-      const localesSubject = this.formState.options.locales;
-      const locales = localesSubject.value;
-      this.localize = locales && locales.length > 0;
-      this.locales = locales;
+  ngOnInit() {
+    const localesSubscription = this.formState.options.locales.subscribe(
+      (locales) => {
+        this.localize = locales && locales.length > 0;
+        this.locales = locales;
+        this.contructFieldElements();
+      },
+    );
 
+    const fieldChangesSubscription = this.formState.formChange.subscribe(() => {
+      this.contructFieldElements();
+    });
+
+    this.subscriptions.push(localesSubscription, fieldChangesSubscription);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.fields || changes.formGroup) {
       this.contructFieldElements();
     }
   }
@@ -190,7 +202,6 @@ export class DynamicFormComponentsFactoryDirective
       return this.formGroup;
     }
     if (fieldConfig.type === 'formArray') {
-      /* For flatGroup fields give the parent control */
       return this.formGroup.controls[field.key];
     }
     return this.formGroup.controls[field.key];
