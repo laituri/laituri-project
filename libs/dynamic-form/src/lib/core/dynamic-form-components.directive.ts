@@ -34,6 +34,8 @@ export class DynamicFormComponentsFactoryDirective
   @Input() formGroup: FormGroup;
 
   private subscriptions: Subscription[] = [];
+  private elementSubscriptions: Subscription[] = [];
+
   private locales: Locale[];
   private localize: boolean;
 
@@ -70,6 +72,8 @@ export class DynamicFormComponentsFactoryDirective
   }
 
   private contructFieldElements() {
+    this.elementSubscriptions.forEach((sub) => sub.unsubscribe());
+
     this.el.nativeElement.innerHTML = '';
     this.fields.forEach((field: FieldTemplate) => {
       if (this.localize && field.localize) {
@@ -143,7 +147,7 @@ export class DynamicFormComponentsFactoryDirective
               this.attachComponent(component, placeholderComment);
             }
           });
-        this.subscriptions.push(conditionSubscription);
+        this.elementSubscriptions.push(conditionSubscription);
       } else {
         this.attachComponent(component);
       }
@@ -154,6 +158,7 @@ export class DynamicFormComponentsFactoryDirective
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.elementSubscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   private attachComponent(
