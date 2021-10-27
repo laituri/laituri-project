@@ -44,7 +44,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   private disabledObservable: Observable<boolean>;
   private valueChangesObservable: Observable<FormValues>;
   private statusChangesObservable: Observable<string>;
-  private currentFormValues = new BehaviorSubject<FormValues>(null);
 
   constructor(
     private formState: FormStateService,
@@ -107,7 +106,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     const valueChangeSubscription = this.valueChangesObservable.subscribe(
       (values) => {
-        this.currentFormValues.next(values);
+        this.options._setCurrentFormValue(values);
         this.valueChange.emit(values);
         this.history.pushToHistory(values);
       },
@@ -142,7 +141,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   public submitValues() {
-    const { value } = this.currentFormValues;
+    const { value } = this.currentForm;
     console.log('Old submit event!', { value });
     this.onSubmit.emit(value);
   }

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
@@ -8,7 +9,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
@@ -22,13 +22,14 @@ import {
 import { FieldConditionPipe } from './field-condition.pipe';
 import { DynamicFormComponentsService } from './dynamic-form-components.service';
 import { FormStateService } from './form-state.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Directive({
   selector: '[dynaComponentsFactory]',
   providers: [FieldConditionPipe],
 })
 export class DynamicFormComponentsFactoryDirective
-  implements OnChanges, OnDestroy, OnInit
+  implements AfterViewInit, OnChanges, OnDestroy
 {
   @Input() fields: Field[];
   @Input() formGroup: FormGroup;
@@ -49,14 +50,16 @@ export class DynamicFormComponentsFactoryDirective
     private formState: FormStateService,
   ) {}
 
-  ngOnInit() {
-    const localesSubscription = this.formState.options.locales.subscribe(
-      (locales) => {
+  ngAfterViewInit() {
+    const localesSubscription = this.formState.options.locales
+      .pipe(debounceTime(100))
+      .subscribe((locales) => {
         this.localize = locales && locales.length > 0;
-        this.locales = locales;
-        this.contructFieldElements();
-      },
-    );
+        if (this.localize) {
+          this.locales = locales;
+          this.contructFieldElements();
+        }
+      });
 
     const fieldChangesSubscription = this.formState.formChange.subscribe(() => {
       this.contructFieldElements();

@@ -11,7 +11,8 @@ import {
 
 export class DynamicForm<T = FormValues> {
   private fieldsSubject = new BehaviorSubject<Field[]>(null);
-  private valuesSubject = new BehaviorSubject<T>(null);
+  private initialValuesSubject = new BehaviorSubject<T>(null);
+  private formValuesSubject = new BehaviorSubject<T>(null);
   private localesSubject = new BehaviorSubject<Locale[]>(null);
   private disabledSubject = new BehaviorSubject<boolean>(null);
 
@@ -39,6 +40,10 @@ export class DynamicForm<T = FormValues> {
     return this.options.disableFormOnSubmit;
   }
 
+  public get valueChanges(): Observable<T> {
+    return this.formValuesSubject;
+  }
+
   public get fieldChanges(): Observable<{
     fields: FieldTemplate[];
     locales: Locale[];
@@ -47,7 +52,7 @@ export class DynamicForm<T = FormValues> {
     return combineLatest([
       this.fieldsSubject,
       this.localesSubject,
-      this.valuesSubject,
+      this.initialValuesSubject,
     ]).pipe(
       map(([fields, locales, values]) => {
         return { fields, locales, values };
@@ -61,7 +66,7 @@ export class DynamicForm<T = FormValues> {
   }
 
   public setValues(values: T): void {
-    this.valuesSubject.next(values);
+    this.initialValuesSubject.next(values);
   }
 
   public setLocales(locales: Locale[]): void {
@@ -72,6 +77,10 @@ export class DynamicForm<T = FormValues> {
     this.disabledSubject.next(disabled);
   }
 
+  public _setCurrentFormValue(values: T) {
+    this.formValuesSubject.next(values);
+  }
+
   /* Internal */
   private setOptions(options: DynamicFormOptions<T>) {
     if (options) {
@@ -80,7 +89,7 @@ export class DynamicForm<T = FormValues> {
         this.fieldsSubject.next(fields);
       }
       if (values) {
-        this.valuesSubject.next(values);
+        this.initialValuesSubject.next(values);
       }
       if (locales) {
         this.localesSubject.next(locales);
