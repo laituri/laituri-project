@@ -10,15 +10,20 @@ import {
 } from '@angular/forms';
 import { isDefined } from '../common/common.helpers';
 import {
+  AppObject,
   DynamicFormFieldComponentConfig,
-  DynamicFormOptions,
+  DynamicFormOptionsFieldChanges,
+  DynamicFormOptionsFieldChangesDistinct,
   FieldConditionValue,
   FieldOption,
   FieldTemplate,
   FormValues,
   Locale,
+  ValueMergeStrategy,
+  ValueMergeStrategyOn,
 } from '../dynamic-form.types';
 import { DynamicFormComponentsService } from './dynamic-form-components.service';
+import { FormStateService } from './form-state.service';
 
 @Injectable()
 export class DynamicFormFactoryService {
@@ -28,16 +33,17 @@ export class DynamicFormFactoryService {
   constructor(
     private fb: FormBuilder,
     private componentsService: DynamicFormComponentsService,
+    private state: FormStateService,
   ) {}
 
   contructForm(
-    { fields, values, locales }: DynamicFormOptions,
+    { fields, values, locales, changes }: DynamicFormOptionsFieldChanges,
     previousValues: FormValues,
   ): FormGroup {
     this.localize = locales && locales.length > 0;
     this.locales = locales;
 
-    const mergedValues = this.mergeValues(values, previousValues);
+    const mergedValues = this.mergeValues(values, previousValues, changes);
     const formControls = this.formControlsFactory(
       fields as FieldTemplate[],
       mergedValues,
@@ -49,14 +55,89 @@ export class DynamicFormFactoryService {
   private mergeValues(
     inputValues?: FormValues, // Values from input
     previousValues?: FormValues, // Old form values before rebuild
+    changes?: DynamicFormOptionsFieldChangesDistinct,
   ): FormValues {
-    if (inputValues && typeof inputValues === 'object') {
-      return inputValues;
+    const valueMergeStrategy = this.state.options.valueMergeStrategy;
+    const valueMergeStrategyOn = this.state.options.valueMergeStrategyOn;
+
+    if (!previousValues || Object.keys(previousValues).length < 1) {
+      return inputValues || null;
     }
-    if (previousValues) {
+
+    // Never update values
+    if (
+      valueMergeStrategyOn === ValueMergeStrategyOn.NEVER ||
+      valueMergeStrategy === ValueMergeStrategy.KEEP
+    ) {
       return previousValues;
     }
-    return null;
+
+    // Values are not changed
+    if (
+      valueMergeStrategyOn === ValueMergeStrategyOn.INITIAL_VALUE_CHANGE &&
+      !changes.values
+    ) {
+      return previousValues;
+    }
+
+    switch (valueMergeStrategy) {
+      case ValueMergeStrategy.CLEAR:
+        return inputValues;
+
+      case ValueMergeStrategy.MERGE_WITH_CURRENT:
+        return this.objectMerger(previousValues, inputValues);
+
+      case ValueMergeStrategy.MERGE_WITH_INITIAL:
+        return this.objectMerger(inputValues, previousValues);
+
+      default:
+        return previousValues;
+    }
+  }
+
+  private objectMerger(root: AppObject, replacer: AppObject) {
+    if (!replacer) {
+      return root;
+    }
+    if (!root) {
+      return replacer;
+    }
+
+    if (typeof root !== 'object' || typeof replacer !== 'object') {
+      return root;
+    }
+
+    if (Array.isArray(root)) {
+      if (Array.isArray(replacer)) {
+        return root.map((item, i) => this.objectMerger(item, replacer[i]));
+      }
+      return root;
+    }
+
+    // Replacer is array when root is not
+    if (Array.isArray(replacer)) {
+      return root;
+    }
+
+    const rootWithNewValues = { ...replacer, ...root };
+
+    return Object.entries(rootWithNewValues).reduce((acc, [key, rootValue]) => {
+      const replacerValue = replacer[key];
+      if (!replacerValue) {
+        return { ...acc, [key]: rootValue };
+      }
+
+      if (!rootValue) {
+        return { ...acc, [key]: replacerValue };
+      }
+
+      if (typeof rootValue === 'object' || typeof replacerValue === 'object') {
+        const merged = this.objectMerger(rootValue, replacerValue);
+        return { ...acc, [key]: merged };
+      }
+
+      return { ...acc, [key]: replacerValue };
+    }, {});
   }
 
   public formControlsFactory(

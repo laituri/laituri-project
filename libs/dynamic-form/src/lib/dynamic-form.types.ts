@@ -1,6 +1,19 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { TemplateRef } from '@angular/core';
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
+
+export enum ValueMergeStrategy {
+  MERGE_WITH_CURRENT = 'mergeWithCurrent',
+  MERGE_WITH_INITIAL = 'mergeWithInitial',
+  KEEP = 'keep',
+  CLEAR = 'clear',
+}
+
+export enum ValueMergeStrategyOn {
+  INITIAL_VALUE_CHANGE = 'initialValueChange',
+  ANY_CHANGE = 'anyChange',
+  NEVER = 'never',
+}
 
 export interface DynamicFormOptions<T = FormValues> {
   fields: Field[];
@@ -9,6 +22,20 @@ export interface DynamicFormOptions<T = FormValues> {
   disabled?: boolean;
   errorMessages?: ErrorMessages;
   disableFormOnSubmit?: boolean;
+  valueMergeStrategy?: ValueMergeStrategy;
+  valueMergeStrategyOn?: ValueMergeStrategyOn;
+}
+
+export interface DynamicFormOptionsFieldChangesDistinct<> {
+  fields: boolean;
+  locales: boolean;
+  values: boolean;
+}
+export interface DynamicFormOptionsFieldChanges<T = FormValues> {
+  fields: FieldTemplate[];
+  locales: Locale[];
+  values: T;
+  changes: DynamicFormOptionsFieldChangesDistinct;
 }
 
 export type FieldTypes = string;
@@ -139,3 +166,7 @@ export interface DynamicFormFieldComponentConfig {
 type ObjectKeys<Type, Value> = { [Key in keyof Partial<Type>]: Value };
 
 type KeysArray<T> = (keyof T)[];
+
+export interface AppObject {
+  [key: string]: any;
+}
