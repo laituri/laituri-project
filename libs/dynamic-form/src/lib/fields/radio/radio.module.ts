@@ -7,7 +7,7 @@ import { IsCheckedPipe } from './checked.pipe';
 
 @NgModule({
   declarations: [RadioComponent, IsCheckedPipe],
-  entryComponents: [RadioComponent],
+
   exports: [RadioComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
 })

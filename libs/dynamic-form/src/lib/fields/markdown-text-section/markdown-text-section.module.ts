@@ -5,7 +5,7 @@ import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [MarkdownTextSectionComponent],
-  entryComponents: [MarkdownTextSectionComponent],
+
   imports: [CommonModule, MarkdownModule.forChild()],
   exports: [MarkdownTextSectionComponent],
 })

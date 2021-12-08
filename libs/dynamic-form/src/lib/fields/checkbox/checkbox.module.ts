@@ -7,7 +7,7 @@ import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [CheckboxComponent],
-  entryComponents: [CheckboxComponent],
+
   exports: [CheckboxComponent],
   imports: [
     CommonModule,

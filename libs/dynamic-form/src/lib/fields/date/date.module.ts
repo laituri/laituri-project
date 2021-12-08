@@ -6,7 +6,7 @@ import { DynaCommonModule } from '../../common/common.module';
 
 @NgModule({
   declarations: [DateComponent],
-  entryComponents: [DateComponent],
+
   exports: [DateComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
 })

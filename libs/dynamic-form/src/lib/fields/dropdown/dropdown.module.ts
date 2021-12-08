@@ -10,7 +10,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 @NgModule({
   declarations: [DropdownComponent, DropdownInputValuePipe],
   exports: [DropdownComponent],
-  entryComponents: [DropdownComponent],
+
   imports: [
     CommonModule,
     DynaCommonModule,

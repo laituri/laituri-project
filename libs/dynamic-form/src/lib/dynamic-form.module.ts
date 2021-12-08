@@ -22,7 +22,7 @@ import { RepeaterDisplayFieldPipe } from './fields/repeater/repeater-display-fie
     GroupComponent,
     RepeaterDisplayFieldPipe,
   ],
-  entryComponents: [RepeaterComponent, GroupComponent],
+
   imports: [
     CommonModule,
     ReactiveFormsModule,

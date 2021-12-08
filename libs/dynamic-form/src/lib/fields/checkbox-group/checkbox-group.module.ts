@@ -7,7 +7,7 @@ import { IsCheckedPipe } from './checked.pipe';
 
 @NgModule({
   declarations: [CheckboxGroupComponent, IsCheckedPipe],
-  entryComponents: [CheckboxGroupComponent],
+
   exports: [CheckboxGroupComponent],
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
 })

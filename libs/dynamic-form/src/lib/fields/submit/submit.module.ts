@@ -6,7 +6,7 @@ import { DynaCommonModule } from '../../common/common.module';
 
 @NgModule({
   declarations: [SubmitComponent],
-  entryComponents: [SubmitComponent],
+
   imports: [CommonModule, DynaCommonModule, ReactiveFormsModule],
   exports: [SubmitComponent],
 })

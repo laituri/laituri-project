@@ -6,7 +6,7 @@ import { DynaCommonModule } from '../../common/common.module';
 
 @NgModule({
   declarations: [TextComponent],
-  entryComponents: [TextComponent],
+
   exports: [TextComponent],
   imports: [CommonModule, ReactiveFormsModule, DynaCommonModule],
 })

@@ -10,6 +10,7 @@ import {
   OnChanges,
   OnDestroy,
   SimpleChanges,
+  ViewContainerRef,
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -42,9 +43,10 @@ export class DynamicFormComponentsFactoryDirective
 
   constructor(
     private el: ElementRef<HTMLFormElement>,
+    private viewContainerRef: ViewContainerRef,
     private injector: Injector,
     private applicationRef: ApplicationRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
+    // private componentFactoryResolver: ComponentFactoryResolver,
     private fieldCondition: FieldConditionPipe,
     private componentsService: DynamicFormComponentsService,
     private formState: FormStateService,
@@ -112,11 +114,17 @@ export class DynamicFormComponentsFactoryDirective
     field: FieldTemplate,
   ) {
     if (fieldConfig) {
+      /*
       const component: ComponentRef<any> = this.componentFactoryResolver
-        .resolveComponentFactory(fieldConfig.component)
-        .create(this.injector, []);
+      .resolveComponentFactory(fieldConfig.component)
+      .create(this.injector, []);
+      */
 
-      this.applicationRef.attachView(component.hostView);
+      const component = this.viewContainerRef.createComponent(
+        fieldConfig.component,
+      );
+
+      // this.applicationRef.attachView(component.hostView);
 
       const control = this.getControl(fieldConfig, field);
       /* Set inputs */
