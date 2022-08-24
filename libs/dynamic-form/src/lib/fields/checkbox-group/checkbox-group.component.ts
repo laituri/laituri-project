@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { DynamicFormFieldBase } from '../../common/dynamic-form-field-base.class';
 import { CheckboxGroupField } from './checkbox-group.types';
 
@@ -15,7 +15,7 @@ export class CheckboxGroupComponent
   @Input()
   field: CheckboxGroupField;
   @Input()
-  control: FormGroup;
+  control: UntypedFormGroup;
 
   public toggleState = false;
   public selectAllTitle: string = 'Select all';

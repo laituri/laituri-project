@@ -12,7 +12,7 @@ import {
   SimpleChanges,
   ViewContainerRef,
 } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {
   DynamicFormFieldComponentConfig,
@@ -33,7 +33,7 @@ export class DynamicFormComponentsFactoryDirective
   implements AfterViewInit, OnChanges, OnDestroy
 {
   @Input() fields: Field[];
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
 
   private subscriptions: Subscription[] = [];
   private elementSubscriptions: Subscription[] = [];

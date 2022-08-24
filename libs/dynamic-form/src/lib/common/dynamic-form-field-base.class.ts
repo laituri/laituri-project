@@ -1,5 +1,5 @@
 import { Input, HostBinding, Directive } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, AbstractControl } from '@angular/forms';
 import { hasValue, isValid } from './helpers/valid';
 
 @Directive()
@@ -8,7 +8,7 @@ export class DynamicFormFieldBase {
   @Input()
   field: any;
   @Input()
-  control: AbstractControl | FormGroup;
+  control: AbstractControl | UntypedFormGroup;
   @HostBinding('class.valid') get validClass() {
     return isValid(this.control);
   }

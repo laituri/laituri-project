@@ -7,7 +7,7 @@ import {
   ElementRef,
   QueryList,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FieldTemplate, Field } from '../../dynamic-form.types';
 import { RepeaterField } from './repeater.types';
@@ -23,14 +23,14 @@ export class RepeaterComponent implements OnInit, AfterViewInit {
   @Input()
   field: RepeaterField;
   @Input()
-  control: FormArray;
+  control: UntypedFormArray;
 
   @ViewChildren('fieldsElement') subFields: QueryList<
     ElementRef<HTMLDivElement>
   >;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dynamicFormFactory: DynamicFormFactoryService,
   ) {}
 

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { map, tap, startWith, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FieldTemplate } from '../dynamic-form.types';
@@ -10,7 +10,7 @@ import { FieldTemplate } from '../dynamic-form.types';
 export class FieldConditionPipe implements PipeTransform {
   transform(
     { condition, key }: FieldTemplate,
-    form: FormGroup,
+    form: UntypedFormGroup,
   ): Observable<boolean> {
     if (!condition || !form) {
       return null;

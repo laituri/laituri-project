@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Field } from 'dynamic-form';
 
 export const CaptionThisFields: Field[] = [
@@ -39,7 +39,7 @@ export const CaptionThisFields: Field[] = [
     type: 'submit',
     button: 'Submit',
     events: {
-      click: async (form: FormGroup) => {
+      click: async (form: UntypedFormGroup) => {
         console.log({ form, values: form.value });
         form.disable();
       },

@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DynamicForm } from '../dynamic-form.options';
@@ -8,11 +8,11 @@ import { FormValues } from '../dynamic-form.types';
 @Injectable()
 export class FormStateService {
   public options: DynamicForm<FormValues>;
-  public currentForm = new FormGroup({});
+  public currentForm = new UntypedFormGroup({});
   public submit: EventEmitter<FormValues> = new EventEmitter<FormValues>();
   public valueChange: EventEmitter<FormValues> = new EventEmitter<FormValues>();
   public statusChange: EventEmitter<string> = new EventEmitter<string>();
-  public formChange: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  public formChange: EventEmitter<UntypedFormGroup> = new EventEmitter<UntypedFormGroup>();
 
   constructor() {}
 

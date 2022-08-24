@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnDestroy,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { debounceTime, filter, shareReplay } from 'rxjs/operators';
 import { FormValues } from './dynamic-form.types';
@@ -35,9 +35,9 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   statusChange: EventEmitter<string> = this.formState.statusChange;
 
   @Output()
-  formChange: EventEmitter<FormGroup> = this.formState.formChange;
+  formChange: EventEmitter<UntypedFormGroup> = this.formState.formChange;
 
-  public currentForm: FormGroup = this.formState.currentForm;
+  public currentForm: UntypedFormGroup = this.formState.currentForm;
   public history: DynamicFormHistory;
 
   private subscriptions: Subscription[] = [];
@@ -146,7 +146,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     this.onSubmit.emit(value);
   }
 
-  public getControl(control: FormGroup, field: { key: string }): any {
+  public getControl(control: UntypedFormGroup, field: { key: string }): any {
     return control.get(field.key);
   }
 

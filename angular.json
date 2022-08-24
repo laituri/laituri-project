@@ -60,7 +60,6 @@
               "apps/dynamic-form-playground/src/prism-material-light.css"
             ],
             "scripts": [
-              "node_modules/marked/lib/marked.js",
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-json.min.js"
             ]
@@ -122,8 +121,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-          },
+          "options": {},
           "configurations": {
             "production": {
               "browserTarget": "dynamic-form-playground:build:production"
@@ -177,8 +175,7 @@
     "warnings": {
       "versionMismatch": true
     },
-    "defaultCollection": "@alusta/mint",
-    "analytics": "2f64ce2a-4544-413b-818d-8ec4449a7f76"
-  },
-  "defaultProject": "dynamic-form"
+    "analytics": "2f64ce2a-4544-413b-818d-8ec4449a7f76",
+    "schematicCollections": ["@alusta/mint"]
+  }
 }

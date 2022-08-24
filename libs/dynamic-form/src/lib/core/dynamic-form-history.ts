@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { fromEvent, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormValues } from '../dynamic-form.types';
@@ -31,7 +31,7 @@ export class DynamicFormHistory {
     }
   }
 
-  public undo(form: FormGroup) {
+  public undo(form: UntypedFormGroup) {
     if (this.currentIndex - 1 > -1) {
       const previous = this.history[this.currentIndex - 1];
       form.patchValue(previous);
@@ -39,7 +39,7 @@ export class DynamicFormHistory {
     }
   }
 
-  public redo(form: FormGroup) {
+  public redo(form: UntypedFormGroup) {
     if (this.currentIndex + 1 < this.history.length) {
       const next = this.history[this.currentIndex + 1];
       form.patchValue(next);

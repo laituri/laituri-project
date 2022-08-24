@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ContainerField, GroupField } from './group.types';
 
 @Component({
@@ -11,7 +11,7 @@ export class GroupComponent implements OnInit {
   @Input()
   field: GroupField | ContainerField;
   @Input()
-  control: FormGroup;
+  control: UntypedFormGroup;
 
   @HostBinding('class.row') get row() {
     return this.field.style && this.field.style.direction === 'row';

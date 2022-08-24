@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -31,7 +31,7 @@ export class DynamicFormFactoryService {
   private localize: boolean;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private componentsService: DynamicFormComponentsService,
     private state: FormStateService,
   ) {}
@@ -39,7 +39,7 @@ export class DynamicFormFactoryService {
   contructForm(
     { fields, values, locales, changes }: DynamicFormOptionsFieldChanges,
     previousValues: FormValues,
-  ): FormGroup {
+  ): UntypedFormGroup {
     this.localize = locales && locales.length > 0;
     this.locales = locales;
 
