@@ -26,6 +26,7 @@ export class ChipsComponent extends DynamicFormFieldBase implements OnInit {
   private chipsCopy: ChipItem[];
 
   public uniqueWarning: boolean;
+  public unAddedWarning: boolean;
 
   ngOnInit(): void {
     this.chips = this.control.valueChanges.pipe(
@@ -66,6 +67,12 @@ export class ChipsComponent extends DynamicFormFieldBase implements OnInit {
       this.control.setValue(values);
       this.clearCurrentValue();
     }
+  }
+
+  handleInputBlur() {
+    this.unAddedWarning = Boolean(this.currentInputValue?.trim())
+      ? true
+      : false;
   }
 
   onDrop(chips: ChipItem[]) {

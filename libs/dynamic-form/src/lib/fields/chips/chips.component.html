@@ -15,6 +15,7 @@
     [(ngModel)]="currentInputValue"
     (keyup.enter)="add()"
     [disabled]="this.control.disabled"
+    (blur)="handleInputBlur()"
   />
   <button
     class="dyna-button input-action plus-icon"
@@ -33,6 +34,10 @@
     </svg>
   </button>
 </div>
+
+<span class="un-added-warning" *ngIf="unAddedWarning"
+  >Don't forget to press the "+" button!
+</span>
 
 <ng-container *ngIf="chips | async as chips">
   <dyna-chip-list
