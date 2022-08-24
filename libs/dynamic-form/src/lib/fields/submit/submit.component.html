@@ -5,6 +5,17 @@
 <dyna-description *ngIf="field.description" [body]="field.description">
 </dyna-description>
 
+<dyna-description
+  class="disabled-message"
+  *ngIf="
+    field.disabledMessage &&
+    (control.disabled || control.root.invalid) &&
+    !field.alwaysEnabled
+  "
+  [body]="field.disabledMessage"
+>
+</dyna-description>
+
 <button
   class="dyna-button dyna-submit-button"
   (click)="handleClick()"

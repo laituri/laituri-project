@@ -6,6 +6,7 @@ export interface SubmitField extends FormFieldBase<string> {
   button: string;
   alwaysEnabled: boolean;
   disableFormOnSubmit: boolean;
+  disabledMessage?: string;
   events: {
     submit: (form: AbstractControl) => Promise<any>;
     error: (form: AbstractControl) => Promise<any>;
