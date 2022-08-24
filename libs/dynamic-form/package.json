@@ -3,17 +3,17 @@
   "description": "Create forms from json in Angular",
   "version": "0.4.3",
   "peerDependencies": {
-    "@angular/cdk": "13.x",
-    "@angular/common": "13.x",
-    "@angular/core": "13.x",
+    "@angular/cdk": "14.x",
+    "@angular/common": "14.x",
+    "@angular/core": "14.x",
     "@simonwep/pickr": "1.x",
     "js-datepicker": "5.x",
-    "ngx-markdown": "13.x"
+    "ngx-markdown": "14.x"
   },
   "dependencies": {
     "@simonwep/pickr": "^1.8.1",
     "js-datepicker": "^5.18.0",
-    "ngx-markdown": "^13.0.0",
+    "ngx-markdown": "^14.0.1",
     "tslib": "^2.3.1"
   },
   "private": false,
