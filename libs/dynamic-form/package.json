@@ -1,19 +1,19 @@
 {
   "name": "@laituri/dynamic-form",
   "description": "Create forms from json in Angular",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "peerDependencies": {
-    "@angular/cdk": "14.x",
-    "@angular/common": "14.x",
-    "@angular/core": "14.x",
+    "@angular/cdk": "15.x",
+    "@angular/common": "15.x",
+    "@angular/core": "15.x",
     "@simonwep/pickr": "1.x",
     "js-datepicker": "5.x",
-    "ngx-markdown": "14.x"
+    "ngx-markdown": "15.x"
   },
   "dependencies": {
     "@simonwep/pickr": "^1.8.1",
-    "js-datepicker": "^5.18.0",
-    "ngx-markdown": "^14.0.1",
+    "js-datepicker": "^5.18.1",
+    "ngx-markdown": "^15.0.0",
     "tslib": "^2.3.1"
   },
   "private": false,
