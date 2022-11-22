@@ -6,8 +6,9 @@
     "dev:dynamic-form-playground": "npm run build:dynamic-form && ng serve dynamic-form-playground",
     "build:dynamic-form-playground": "ng build --configuration production dynamic-form-playground",
     "deploy:dynamic-form-playground": "npm run build:dynamic-form && npm run build:dynamic-form-playground && firebase deploy",
-    "build:dynamic-form": "ng build dynamic-form --configuration production",
-    "publish": "publish.sh"
+    "build:dynamic-form": "ng build dynamic-form -c production",
+    "publish:dynamic-form": "npm run build:dynamic-form && cd dist/libs/dynamic-form && npm publish",
+    "publish:latest": "lerna version --force-publish -m \"chore(release): version %v\" && npm run publish:dynamic-form -- --tag latest"
   },
   "private": true,
   "dependencies": {
@@ -42,7 +43,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
-    "lerna": "^6.0.3",
+    "lerna": "^5.6.2",
     "ng-packagr": "^15.0.0",
     "typescript": "^4.4.4"
   },
