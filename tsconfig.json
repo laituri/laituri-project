@@ -11,14 +11,18 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2020",
-    "lib": ["es2018", "dom"],
+    "target": "ES2022",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "paths": {
       "dynamic-form": [
         "libs/dynamic-form/dist/dynamic-form",
         "libs/dynamic-form/dist"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
